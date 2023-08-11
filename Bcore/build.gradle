@@ -1,8 +1,7 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion "28.0.2"
+    compileSdkVersion 33
 
     defaultConfig {
         minSdkVersion 21
@@ -65,7 +64,7 @@ tasks.withType(Javadoc) {
 
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar", "*.aar"])
-    implementation 'androidx.appcompat:appcompat:1.2.0'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
 
     implementation 'me.weishu:free_reflection:3.0.1'
     implementation "com.github.CodingGay.BlackReflection:core:$rootProject.ext.blackReflection"

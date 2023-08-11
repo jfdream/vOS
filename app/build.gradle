@@ -1,11 +1,9 @@
 plugins {
     id 'com.android.application'
-    id 'kotlin-android'
 }
 
 android {
-    compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    compileSdkVersion 33
 
     defaultConfig {
         applicationId "top.niunaijun.blackboxa"
@@ -13,49 +11,8 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 12
         versionName "2.1.0"
-
-        flavorDimensions "BlackBox32"
-    }
-
-    productFlavors {
-        BlackBox32 {
-            applicationId "top.niunaijun.blackboxa32"
-            ndk {
-                abiFilters "armeabi-v7a"
-            }
-            resValue "string", "app_name", "BlackBox32"
-            manifestPlaceholders = [APP_ICON      : "@mipmap/ic_launcher",
-                                    APP_ROUND_ICON: "@mipmap/ic_launcher_round"]
-        }
-
-        BlackBox64 {
-            applicationId "top.niunaijun.blackboxa64"
-            ndk {
-                abiFilters "arm64-v8a"
-            }
-            resValue "string", "app_name", "BlackBox64"
-            manifestPlaceholders = [APP_ICON      : "@mipmap/ic_launcher",
-                                    APP_ROUND_ICON: "@mipmap/ic_launcher_round"]
-        }
-
-        BlackBox32Beta {
-            applicationId "top.niunaijun.blackboxa32_beta"
-            ndk {
-                abiFilters "armeabi-v7a"
-            }
-            resValue "string", "app_name", "BlackBox32 Beta"
-            manifestPlaceholders = [APP_ICON      : "@mipmap/ic_launcher_beta",
-                                    APP_ROUND_ICON: "@mipmap/ic_launcher_round_beta"]
-        }
-
-        BlackBox64Beta {
-            applicationId "top.niunaijun.blackboxa64_beta"
-            ndk {
-                abiFilters "arm64-v8a"
-            }
-            resValue "string", "app_name", "BlackBox64 Beta"
-            manifestPlaceholders = [APP_ICON      : "@mipmap/ic_launcher_round_beta",
-                                    APP_ROUND_ICON: "@mipmap/ic_launcher_round_beta"]
+        ndk {
+            abiFilters 'arm64-v8a', 'armeabi-v7a'
         }
     }
 
@@ -77,9 +34,6 @@ android {
         viewBinding true
     }
 
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
     dexOptions {
         preDexLibraries false
         maxProcessCount 8
@@ -105,6 +59,8 @@ android {
         textReport false
         check 'NewApi', 'InlinedApi'
     }
+    buildToolsVersion '31.0.0'
+    ndkVersion '23.2.8568313'
 }
 
 
@@ -126,23 +82,23 @@ dependencies {
     implementation project(':Bcore')
 
     //android
-    implementation 'com.google.android.material:material:1.3.0'
-    implementation 'androidx.core:core-ktx:1.3.2'
-    implementation 'androidx.appcompat:appcompat:1.3.0-rc01'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation "androidx.recyclerview:recyclerview:1.2.0"
+    implementation 'com.google.android.material:material:1.9.0'
+    implementation 'androidx.core:core-ktx:1.10.1'
+    implementation 'androidx.appcompat:appcompat:1.6.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+    implementation 'androidx.recyclerview:recyclerview:1.3.1'
     implementation 'androidx.viewpager2:viewpager2:1.0.0'
-    implementation "androidx.activity:activity-ktx:1.2.2"
-    implementation "androidx.fragment:fragment-ktx:1.3.3"
-    implementation "androidx.preference:preference-ktx:1.1.1"
+    implementation 'androidx.activity:activity-ktx:1.7.2'
+    implementation 'androidx.fragment:fragment-ktx:1.6.1'
+    implementation 'androidx.preference:preference-ktx:1.2.0'
 
     //coroutines
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.2"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3'
 
     //viewModel liveData  lifecycle
-    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1"
-    implementation "androidx.lifecycle:lifecycle-livedata-ktx:2.3.1"
-    implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.3.1"
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.6.1'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.6.1'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
 
 
     //third
@@ -162,10 +118,12 @@ dependencies {
     //图标角标
 
     // osmdroid
-    implementation 'org.osmdroid:osmdroid-android:6.1.11'
+    implementation 'org.osmdroid:osmdroid-android:6.1.16'
     //adapter
     implementation 'com.gitee.cbfg5210:RVAdapter:0.3.7'
 
     //悬浮窗
     implementation 'com.imuxuan:floatingview:1.6'
+
+    implementation(platform('org.jetbrains.kotlin:kotlin-bom:1.9.0'))
 }
