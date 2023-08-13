@@ -2,7 +2,6 @@ package top.niunaijun.blackboxa.app.rocker
 
 import android.app.Activity
 import android.app.Application
-import android.util.Log
 import android.view.Gravity
 import android.widget.FrameLayout
 import android.widget.RelativeLayout

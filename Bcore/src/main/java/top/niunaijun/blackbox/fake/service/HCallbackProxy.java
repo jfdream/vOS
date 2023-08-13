@@ -172,14 +172,18 @@ public class HCallbackProxy implements IInjectHook, Handler.Callback {
 
             int taskId = BRIActivityManager.get(BRActivityManagerNative.get().getDefault()).getTaskForActivity(token, false);
             BlackBoxCore.getBActivityManager().onActivityCreated(taskId, token, stubRecord.mActivityRecord);
-
             if (BuildCompat.isS()) {
                 Object record = BRActivityThread.get(BlackBoxCore.mainThread()).getLaunchingActivity(token);
-                ActivityThreadActivityClientRecordContext clientRecordContext = BRActivityThreadActivityClientRecord.get(record);
-                clientRecordContext._set_intent(stubRecord.mTarget);
-                clientRecordContext._set_activityInfo(activityInfo);
-                clientRecordContext._set_packageInfo(BActivityThread.currentActivityThread().getPackageInfo());
-
+                if (record != null) {
+                    ActivityThreadActivityClientRecordContext clientRecordContext = BRActivityThreadActivityClientRecord.get(record);
+                    clientRecordContext._set_intent(stubRecord.mTarget);
+                    clientRecordContext._set_activityInfo(activityInfo);
+                    clientRecordContext._set_packageInfo(BActivityThread.currentActivityThread().getPackageInfo());
+                } else {
+                    LaunchActivityItemContext launchActivityItemContext = BRLaunchActivityItem.get(r);
+                    launchActivityItemContext._set_mIntent(stubRecord.mTarget);
+                    launchActivityItemContext._set_mInfo(activityInfo);
+                }
                 checkActivityClient();
             } else if (BuildCompat.isPie()) {
                 LaunchActivityItemContext launchActivityItemContext = BRLaunchActivityItem.get(r);
