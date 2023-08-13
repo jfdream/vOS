@@ -6,5 +6,6 @@ include ':Bcore:pine-xposed'
 include ':Bcore:pine-core'
 include ':Bcore:pine-xposed-res'
 include ':android-mirror'
+include ':library'
 
 rootProject.name = "BlackBox"
