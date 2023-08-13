@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 33
+    compileSdk rootProject.ext.compileSdkVersion
 
     defaultConfig {
         minSdkVersion 21
@@ -50,7 +50,7 @@ android {
         disable "UnusedResources", 'RestrictedApi'
         textOutput "stdout"
         textReport false
-        check 'NewApi', 'InlinedApi'
+        checkOnly 'NewApi', 'InlinedApi'
     }
 }
 
