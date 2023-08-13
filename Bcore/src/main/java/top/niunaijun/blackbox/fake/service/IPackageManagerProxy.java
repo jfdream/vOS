@@ -240,14 +240,7 @@ public class IPackageManagerProxy extends BinderInvocationStub {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             String packageName = (String) args[0];
-            int flags = 0;
-            if (args[1] instanceof Long) {
-                Long xflags = (Long) args[1];
-                flags = xflags.intValue();
-            } else {
-                Integer xflags = (Integer) args[1];
-                flags = xflags.intValue();
-            }
+            int flags = args[1] instanceof Long ? ((Long) args[1]).intValue() : ((Integer) args[1]).intValue();
 //            if (ClientSystemEnv.isFakePackage(packageName)) {
 //                packageName = BlackBoxCore.getHostPkg();
 //            }
