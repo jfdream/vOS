@@ -124,7 +124,7 @@ JniHook::HookJniFun(JNIEnv *env, const char *class_name, const char *method_name
     }
     jclass clazz = env->FindClass(class_name);
     if (!clazz) {
-        ALOGD("findClass fail: %s %s", class_name, method_name);
+        ALOGE("findClass fail: %s %s", class_name, method_name);
         env->ExceptionClear();
         return;
     }
@@ -136,7 +136,7 @@ JniHook::HookJniFun(JNIEnv *env, const char *class_name, const char *method_name
     }
     if (!method) {
         env->ExceptionClear();
-        ALOGD("get method id fail: %s %s", class_name, method_name);
+        ALOGE("get method id fail: %s %s", class_name, method_name);
         return;
     }
     JNINativeMethod gMethods[] = {
