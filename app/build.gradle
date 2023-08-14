@@ -69,13 +69,6 @@ tasks.withType(Javadoc) {
     options.addStringOption('charSet', 'UTF-8')
 }
 
-
-//repositories {
-//    flatDir {
-//        dirs 'libs'
-//    }
-//}
-
 dependencies {
     implementation fileTree(dir: "libs", include: ["*.jar", "*.aar"])
     implementation project(':Bcore')

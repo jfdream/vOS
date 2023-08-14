@@ -28,6 +28,7 @@ public final class BootstrapClass {
                 Class<?> vmRuntimeClass = (Class<?>) forName.invoke(null, "dalvik.system.VMRuntime");
                 Method getRuntime = (Method) getDeclaredMethod.invoke(vmRuntimeClass, "getRuntime", null);
                 setHiddenApiExemptions = (Method)getDeclaredMethod(vmRuntimeClass, "setHiddenApiExemptions", new Class[]{String[].class});
+                assert getRuntime != null;
                 sVmRuntime = getRuntime.invoke(null);
             } catch (Throwable e) {
                 Log.w(TAG, "reflect bootstrap failed:", e);
@@ -78,5 +79,5 @@ public final class BootstrapClass {
 
     public static native Object getDeclaredField(Class cls, String field);
 
-    public static native Object getDeclaredMethod(Class cls, String method, Object... parameters);
+    public static native Object getDeclaredMethod(Class cls, String method, Class... parameters);
 }
