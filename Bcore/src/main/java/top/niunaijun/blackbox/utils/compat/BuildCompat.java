@@ -4,17 +4,6 @@ import android.os.Build;
 
 public class BuildCompat {
 
-    public static int getPreviewSDKInt() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            try {
-                return Build.VERSION.PREVIEW_SDK_INT;
-            } catch (Throwable e) {
-                // ignore
-            }
-        }
-        return 0;
-    }
-
     // 13
     public static boolean isT() {
         return Build.VERSION.SDK_INT >= 33 || (Build.VERSION.SDK_INT >= 32 && Build.VERSION.PREVIEW_SDK_INT == 1);

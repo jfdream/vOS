@@ -140,10 +140,6 @@ public class BlackBoxCore extends ClientConfiguration {
         }
         if (BlackBoxCore.get().isBlackProcess()) {
             BEnvironment.load();
-//            if (processName.endsWith("p0")) {
-//                android.os.Debug.waitForDebugger();
-//            }
-//            android.os.Debug.waitForDebugger();
         }
         if (isServerProcess()) {
             if (clientConfiguration.isEnableDaemonService()) {
@@ -175,7 +171,7 @@ public class BlackBoxCore extends ClientConfiguration {
         return BRActivityThread.get().currentActivityThread();
     }
 
-    public void startActivity(Intent intent, int userId) {
+    private void startActivity(Intent intent, int userId) {
         if (mClientConfiguration.isEnableLauncherActivity()) {
             LauncherActivity.launch(intent, userId);
         } else {
