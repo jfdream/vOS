@@ -6,6 +6,7 @@
 #ifndef ARTHOOK_ART_METHOD_H
 #define ARTHOOK_ART_METHOD_H
 
+#define __ANDROID_API_T__ 33
 #define __ANDROID_API_R__ 30
 #define __ANDROID_API_Q__ 29
 #define __ANDROID_API_P__ 28
