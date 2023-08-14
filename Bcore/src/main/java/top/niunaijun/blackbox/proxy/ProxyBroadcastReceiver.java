@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.RemoteException;
+import android.util.Log;
 
 import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.entity.am.PendingResultData;

@@ -19,6 +19,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Process;
+import android.util.Log;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -132,6 +133,7 @@ public class BlackBoxCore extends ClientConfiguration {
             mProcessType = ProcessType.Main;
             startLogcat();
         } else if (processName.endsWith(getContext().getString(R.string.black_box_service_name))) {
+            // 该进程由内容提供者提供首先启动
             mProcessType = ProcessType.Server;
         } else {
             mProcessType = ProcessType.BAppClient;
