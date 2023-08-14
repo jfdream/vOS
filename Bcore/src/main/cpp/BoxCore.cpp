@@ -126,23 +126,15 @@ int registerNativeMethods(JNIEnv *env, const char *className,
     return JNI_TRUE;
 }
 
-int registerNatives(JNIEnv *env) {
-    if (!registerNativeMethods(env, VMCORE_CLASS, gMethods,
-                               sizeof(gMethods) / sizeof(gMethods[0])))
-        return JNI_FALSE;
-    return JNI_TRUE;
-}
-
-void registerMethod(JNIEnv *jenv) {
-    registerNatives(jenv);
-}
-
 JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *reserved) {
     JNIEnv *env;
     VMEnv.vm = vm;
     if (vm->GetEnv(reinterpret_cast<void **>(&env), JNI_VERSION_1_6) != JNI_OK) {
         return JNI_EVERSION;
     }
-    registerMethod(env);
+    if (!registerNativeMethods(env, VMCORE_CLASS, gMethods,
+                               sizeof(gMethods) / sizeof(gMethods[0]))) {
+        return JNI_EVERSION;
+    }
     return JNI_VERSION_1_6;
 }
