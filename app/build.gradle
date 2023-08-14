@@ -123,6 +123,6 @@ dependencies {
     //adapter
     implementation 'com.gitee.cbfg5210:RVAdapter:0.3.7'
 
-    //悬浮窗
+    //悬浮窗 https://github.com/leotyndale/EnFloatingView.git
     implementation 'com.imuxuan:floatingview:1.6'
 }
