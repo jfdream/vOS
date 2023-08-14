@@ -171,14 +171,6 @@ public class BlackBoxCore extends ClientConfiguration {
         return BRActivityThread.get().currentActivityThread();
     }
 
-    private void startActivity(Intent intent, int userId) {
-        if (mClientConfiguration.isEnableLauncherActivity()) {
-            LauncherActivity.launch(intent, userId);
-        } else {
-            getBActivityManager().startActivity(intent, userId);
-        }
-    }
-
     public static BJobManager getBJobManager() {
         return BJobManager.get();
     }
@@ -196,11 +188,15 @@ public class BlackBoxCore extends ClientConfiguration {
     }
 
     public boolean launchApk(String packageName, int userId) {
-        Intent launchIntentForPackage = getBPackageManager().getLaunchIntentForPackage(packageName, userId);
-        if (launchIntentForPackage == null) {
+        Intent intent = getBPackageManager().getLaunchIntentForPackage(packageName, userId);
+        if (intent == null) {
             return false;
         }
-        startActivity(launchIntentForPackage, userId);
+        if (mClientConfiguration.isEnableLauncherActivity()) {
+            LauncherActivity.launch(intent, userId);
+        } else {
+            getBActivityManager().startActivity(intent, userId);
+        }
         return true;
     }
 
