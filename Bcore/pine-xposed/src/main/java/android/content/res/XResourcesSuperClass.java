@@ -1,4 +1,4 @@
-package xposed.dummy;
+package android.content.res;
 
 import android.content.res.Resources;
 
