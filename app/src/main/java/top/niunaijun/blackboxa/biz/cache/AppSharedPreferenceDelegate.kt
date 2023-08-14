@@ -32,7 +32,7 @@ open class AppSharedPreferenceDelegate<Data>(context: Context, private val defau
         putData(property.name, value)
     }
 
-    protected fun findData(key: String, default: Data): Data {
+    private fun findData(key: String, default: Data): Data {
         with(mSharedPreferences) {
             val result: Any = when (default) {
                 is Int -> getInt(key, default)

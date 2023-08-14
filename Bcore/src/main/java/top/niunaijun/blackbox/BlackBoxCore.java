@@ -138,9 +138,9 @@ public class BlackBoxCore extends ClientConfiguration {
         }
         if (BlackBoxCore.get().isBlackProcess()) {
             BEnvironment.load();
-            if (processName.endsWith("p0")) {
+//            if (processName.endsWith("p0")) {
 //                android.os.Debug.waitForDebugger();
-            }
+//            }
 //            android.os.Debug.waitForDebugger();
         }
         if (isServerProcess()) {
