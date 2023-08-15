@@ -100,8 +100,24 @@ static void *GetFieldMethod(JNIEnv *env, jobject field) {
 
 bool CheckFlags(void *artMethod) {
     char *method = static_cast<char *>(artMethod);
-    if (!HasAccessFlag(method, kAccNative)) {
-        ALOGE("not native method");
+    uint32_t flags = GetAccessFlags(method);
+    bool flagOk = (flags & kAccNative) == kAccNative;
+    if (!flagOk) {
+        if (HookEnv.api_level == __ANDROID_API_T__) {
+            flagOk = (flags & kAccFastNative) == kAccFastNative;
+            if (flagOk) {
+                ALOGI("Current method flags contain kAccFastNative");
+            } else {
+                flagOk = (flags & kAccCriticalNative_API32) == kAccCriticalNative_API32;
+                if (flagOk) {
+                    ALOGI("Current method flags contain kAccCriticalNative");
+                }
+            }
+        }
+    }
+    ALOGI("Current method flags:%x", flags);
+    if (!flagOk) {
+        ALOGE("Not a native method");
         return false;
     }
     ClearFastNativeFlag(method);
@@ -157,7 +173,7 @@ JniHook::HookJniFun(JNIEnv *env, const char *class_name, const char *method_name
     if (HookEnv.api_level == __ANDROID_API_O__ || HookEnv.api_level == __ANDROID_API_O_MR1__) {
         AddAccessFlag((char *) artMethod, kAccFastNative);
     }
-    ALOGD("register class：%s, method：%s success!", class_name, method_name);
+    ALOGI("register class：%s, method：%s success!", class_name, method_name);
 }
 
 __attribute__((section (".mytext")))  JNICALL void native_offset
