@@ -270,7 +270,7 @@ public class PackageParser {
         public String codePath;
 
         /** Path of base APK */
-        public String baseCodePath;
+        public String baseApkPath;
         /** Paths of any split APKs, ordered by parsed splitName */
         public String[] splitCodePaths;
 

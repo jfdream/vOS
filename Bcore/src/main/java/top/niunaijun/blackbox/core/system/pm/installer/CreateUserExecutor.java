@@ -29,7 +29,7 @@ public class CreateUserExecutor implements Executor {
         FileUtils.mkdirs(BEnvironment.getDeDataDir(packageName, userId));
 
 //        try {
-//            // /data/data/xx/lib -> /data/app/xx/lib
+////            // /data/data/xx/lib -> /data/app/xx/lib
 //            FileUtils.createSymlink(BEnvironment.getAppLibDir(ps.pkg.packageName).getAbsolutePath(), BEnvironment.getDataLibDir(packageName, userId).getAbsolutePath());
 //        } catch (Exception e) {
 //            e.printStackTrace();

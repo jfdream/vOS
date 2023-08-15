@@ -25,7 +25,7 @@ public class CopyExecutor implements Executor {
     public int exec(BPackageSettings ps, InstallOption option, int userId) {
         try {
             if (!option.isFlag(InstallOption.FLAG_SYSTEM)) {
-                NativeUtils.copyNativeLib(new File(ps.pkg.baseCodePath), BEnvironment.getAppLibDir(ps.pkg.packageName));
+                NativeUtils.copyNativeLib(new File(ps.pkg.baseApkPath), BEnvironment.getAppLibDir(ps.pkg.packageName));
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -33,7 +33,7 @@ public class CopyExecutor implements Executor {
         }
         if (option.isFlag(InstallOption.FLAG_STORAGE)) {
             // 外部安装
-            File origFile = new File(ps.pkg.baseCodePath);
+            File origFile = new File(ps.pkg.baseApkPath);
             File newFile = BEnvironment.getBaseApkDir(ps.pkg.packageName);
             try {
                 if (option.isFlag(InstallOption.FLAG_URI_FILE)) {
@@ -45,7 +45,7 @@ public class CopyExecutor implements Executor {
                     FileUtils.copyFile(origFile, newFile);
                 }
                 // update baseCodePath
-                ps.pkg.baseCodePath = newFile.getAbsolutePath();
+                ps.pkg.baseApkPath = newFile.getAbsolutePath();
             } catch (IOException e) {
                 e.printStackTrace();
                 return -1;

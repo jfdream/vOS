@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.Binder;
 import android.os.RemoteException;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.io.File;
 import java.io.InputStream;
@@ -691,6 +692,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
             if (packageArchiveInfo == null) {
                 return result.installError("getPackageArchiveInfo error.Please check whether APK is normal.");
             }
+            Log.i(TAG, "packageArchiveInfo:" + packageArchiveInfo);
 
             boolean support = AbiUtils.isSupport(apkFile);
             if (!support) {
