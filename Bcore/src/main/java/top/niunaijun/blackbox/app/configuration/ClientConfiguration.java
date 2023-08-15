@@ -25,11 +25,6 @@ public abstract class ClientConfiguration {
     public boolean isEnableDaemonService() {
         return true;
     }
-
-    public boolean isEnableLauncherActivity() {
-        return true;
-    }
-
     /**
      * This method is called when an internal application requests to install a new application.
      *

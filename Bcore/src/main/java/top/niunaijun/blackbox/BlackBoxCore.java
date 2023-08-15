@@ -19,7 +19,6 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Process;
-import android.util.Log;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -31,7 +30,6 @@ import black.android.app.BRActivityThread;
 import black.android.os.BRUserHandle;
 import me.weishu.reflection.Reflection;
 import top.canyie.pine.PineConfig;
-import top.niunaijun.blackbox.app.LauncherActivity;
 import top.niunaijun.blackbox.app.configuration.AppLifecycleCallback;
 import top.niunaijun.blackbox.app.configuration.ClientConfiguration;
 import top.niunaijun.blackbox.core.GmsCore;
@@ -192,11 +190,7 @@ public class BlackBoxCore extends ClientConfiguration {
         if (intent == null) {
             return false;
         }
-        if (mClientConfiguration.isEnableLauncherActivity()) {
-            LauncherActivity.launch(intent, userId);
-        } else {
-            getBActivityManager().startActivity(intent, userId);
-        }
+        getBActivityManager().startActivity(intent, userId);
         return true;
     }
 
