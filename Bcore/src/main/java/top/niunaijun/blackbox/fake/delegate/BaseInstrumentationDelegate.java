@@ -434,8 +434,7 @@ public class BaseInstrumentationDelegate extends Instrumentation {
         Class<?> cls = obj.getClass();
         while (cls != null) {
             try {
-                return Reflector.on(obj.getClass())
-                        .method("execStartActivity", args);
+                return Reflector.on(obj.getClass()).method("execStartActivity", args);
             } catch (Exception e) {
                 cls = cls.getSuperclass();
             }

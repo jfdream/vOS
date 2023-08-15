@@ -365,11 +365,6 @@
             android:exported="false"
             android:process="@string/black_box_service_name" />
 
-        <activity
-            android:name=".app.LauncherActivity"
-            android:excludeFromRecents="true"
-            android:theme="@style/LauncherTheme" />
-
         <service
             android:name="top.niunaijun.blackbox.proxy.ProxyVpnService"
             android:enabled="true"

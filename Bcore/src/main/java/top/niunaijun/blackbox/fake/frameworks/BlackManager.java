@@ -2,6 +2,8 @@ package top.niunaijun.blackbox.fake.frameworks;
 
 import android.os.IBinder;
 import android.os.IInterface;
+import android.os.Looper;
+import android.util.Log;
 
 import java.lang.reflect.ParameterizedType;
 
@@ -23,7 +25,8 @@ public abstract class BlackManager<Service extends IInterface> {
             return mService;
         }
         try {
-            mService = Reflector.on(getTClass().getName() + "$Stub").method("asInterface", IBinder.class)
+            String serviceName = getTClass().getName() + "$Stub";
+            mService = Reflector.on(serviceName).method("asInterface", IBinder.class)
                     .call(BlackBoxCore.get().getService(getServiceName()));
             mService.asBinder().linkToDeath(new IBinder.DeathRecipient() {
                 @Override
@@ -32,6 +35,7 @@ public abstract class BlackManager<Service extends IInterface> {
                     mService = null;
                 }
             }, 0);
+            Log.i(TAG, "getService serviceName:" + serviceName + " success");
             return getService();
         } catch (Throwable e) {
             e.printStackTrace();
