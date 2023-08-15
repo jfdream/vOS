@@ -11,11 +11,6 @@ object AppManager {
     }
 
     @JvmStatic
-    val mBlackBoxCore by lazy {
-        mBlackBoxLoader.getBlackBoxCore()
-    }
-
-    @JvmStatic
     val mRemarkSharedPreferences: SharedPreferences by lazy {
         App.getContext().getSharedPreferences("UserRemark",Context.MODE_PRIVATE)
     }
@@ -31,8 +26,5 @@ object AppManager {
 
     fun doOnCreate(context: Context) {
         mBlackBoxLoader.doOnCreate(context)
-        initThirdService(context)
     }
-
-    private fun initThirdService(context: Context) {}
 }
