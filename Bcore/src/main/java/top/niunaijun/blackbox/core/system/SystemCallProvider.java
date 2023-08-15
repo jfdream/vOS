@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,15 +22,12 @@ import top.niunaijun.blackbox.utils.compat.BundleCompat;
  * 此处无Bug
  */
 public class SystemCallProvider extends ContentProvider {
-    public static final String TAG = "SystemCallProvider";
+    public static final String TAG = "vApp";
 
     @Override
     public boolean onCreate() {
-        return initSystem();
-    }
-
-    private boolean initSystem() {
         BlackBoxSystem.getSystem().startup();
+        Log.i(TAG, "SystemCallProvider start up success");
         return true;
     }
 

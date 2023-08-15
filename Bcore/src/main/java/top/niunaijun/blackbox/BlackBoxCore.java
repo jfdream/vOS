@@ -19,6 +19,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Process;
+import android.util.Log;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -209,6 +210,7 @@ public class BlackBoxCore extends ClientConfiguration {
     public InstallResult installPackageAsUser(String packageName, int userId) {
         try {
             PackageInfo packageInfo = getPackageManager().getPackageInfo(packageName, 0);
+            Log.i(TAG, "getPackageInfo:" + packageName + " sourceDir:" + packageInfo.applicationInfo.sourceDir);
             return getBPackageManager().installPackageAsUser(packageInfo.applicationInfo.sourceDir, InstallOption.installBySystem(), userId);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
@@ -400,7 +402,7 @@ public class BlackBoxCore extends ClientConfiguration {
 
     private void startLogcat() {
         new Thread(() -> {
-            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), getContext().getPackageName() + "_logcat.txt");
+            File file = new File(BEnvironment.getMainApplicationLogDir(), getContext().getPackageName() + "_logcat.txt");
             FileUtils.deleteDir(file);
             ShellUtils.execCommand("logcat -c", false);
             ShellUtils.execCommand("logcat -f " + file.getAbsolutePath(), false);

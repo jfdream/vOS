@@ -28,14 +28,11 @@ public class BEnvironment {
         FileUtils.mkdirs(getSystemDir());
         FileUtils.mkdirs(getCacheDir());
         FileUtils.mkdirs(getProcDir());
+        FileUtils.mkdirs(getMainApplicationLogDir());
     }
 
-    public static File getVirtualRoot() {
-        return sVirtualRoot;
-    }
-
-    public static File getExternalVirtualRoot() {
-        return sExternalVirtualRoot;
+    public static File getMainApplicationLogDir(){
+        return new File(sExternalVirtualRoot, "log");
     }
 
     public static File getSystemDir() {
