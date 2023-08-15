@@ -46,7 +46,7 @@ open class AppSharedPreferenceDelegate<Data>(context: Context, private val defau
         }
     }
 
-    protected fun putData(key: String, value: Data?) {
+    private fun putData(key: String, value: Data?) {
         mSharedPreferences.edit {
             if (value == null) {
                 remove(key)

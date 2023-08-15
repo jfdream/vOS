@@ -1,7 +1,9 @@
 package top.niunaijun.blackboxa.data
 
 import android.content.pm.ApplicationInfo
+import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import android.util.Log
 import android.webkit.URLUtil
 import androidx.core.content.edit
@@ -25,13 +27,18 @@ import java.io.File
  */
 
 class AppsRepository {
-    val TAG: String = "AppsRepository"
+    private val TAG: String = "AppsRepository"
     private var mInstalledList = mutableListOf<AppInfo>()
 
     fun previewInstallList() {
         synchronized(mInstalledList) {
-            val installedApplications: List<ApplicationInfo> =
+            val installedApplications = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                getPackageManager().getInstalledApplications(
+                    PackageManager.ApplicationInfoFlags.of(0)
+                );
+            } else{
                 getPackageManager().getInstalledApplications(0)
+            }
             val installedList = mutableListOf<AppInfo>()
 
             for (installedApplication in installedApplications) {
