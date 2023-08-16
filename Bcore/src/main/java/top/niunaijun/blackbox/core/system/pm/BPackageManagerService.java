@@ -206,9 +206,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
                 ResolveInfo r1 = query.get(1);
                 // If the first activity has a higher priority, or a different
                 // default, then it is always desirable to pick it.
-                if (r0.priority != r1.priority
-                        || r0.preferredOrder != r1.preferredOrder
-                        || r0.isDefault != r1.isDefault) {
+                if (r0.priority != r1.priority  || r0.preferredOrder != r1.preferredOrder || r0.isDefault != r1.isDefault) {
                     return query.get(0);
                 }
             }
@@ -670,11 +668,14 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
             if (!sUserManager.exists(userId)) {
                 sUserManager.createUser(userId);
             }
+
             if (option.isFlag(InstallOption.FLAG_URI_FILE)) {
+                // 从网络安装 APK
                 apkFile = new File(BEnvironment.getCacheDir(), UUID.randomUUID().toString() + ".apk");
                 InputStream inputStream = BlackBoxCore.getContext().getContentResolver().openInputStream(Uri.parse(file));
                 FileUtils.copyFile(inputStream, apkFile);
             } else {
+                // 从本地安装 APK
                 apkFile = new File(file);
             }
 
@@ -685,12 +686,12 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
                 return new InstallResult().installError("not a XP module");
             }
 
+            // 此处的 getPackageManager 其实就是系统的 PackageManager
             PackageInfo packageArchiveInfo = BlackBoxCore.getPackageManager().getPackageArchiveInfo(apkFile.getAbsolutePath(), 0);
             if (packageArchiveInfo == null) {
                 return result.installError("getPackageArchiveInfo error.Please check whether APK is normal.");
             }
             Log.i(TAG, "packageArchiveInfo:" + packageArchiveInfo);
-
             boolean support = AbiUtils.isSupport(apkFile);
             if (!support) {
                 String msg = packageArchiveInfo.applicationInfo.loadLabel(BlackBoxCore.getPackageManager()) + "[" + packageArchiveInfo.packageName + "]";
