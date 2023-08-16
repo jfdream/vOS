@@ -39,7 +39,7 @@ public class BPackageInstallerService extends IBPackageInstallerService.Stub imp
         // 创建应用环境相关操作
         executors.add(new CreatePackageExecutor());
         // 拷贝应用相关文件
-        executors.add(new CopyExecutor(false));
+        executors.add(new CopyExecutor(true));
         InstallOption option = ps.installOption;
         for (Executor executor : executors) {
             int exec = executor.exec(ps, option, userId);
@@ -93,7 +93,7 @@ public class BPackageInstallerService extends IBPackageInstallerService.Stub imp
     public int updatePackage(BPackageSettings ps) {
         List<Executor> executors = new ArrayList<>();
         executors.add(new CreatePackageExecutor());
-        executors.add(new CopyExecutor(false));
+        executors.add(new CopyExecutor(true));
         InstallOption option = ps.installOption;
         for (Executor executor : executors) {
             int exec = executor.exec(ps, option, -1);
