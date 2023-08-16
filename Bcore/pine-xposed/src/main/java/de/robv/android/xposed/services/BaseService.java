@@ -5,12 +5,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
-import de.robv.android.xposed.SELinuxHelper;
-
 /**
  * General definition of a file access service provided by the Xposed framework.
  *
- * <p>References to a concrete subclass should generally be retrieved from {@link SELinuxHelper}.
+ * <p>References to a concrete subclass should generally be retrieved from.
  */
 public abstract class BaseService {
     /** Flag for {@link #checkFileAccess}: Read access. */
