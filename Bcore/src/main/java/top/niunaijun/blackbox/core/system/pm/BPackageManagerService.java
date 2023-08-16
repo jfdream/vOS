@@ -220,11 +220,9 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
     private List<ResolveInfo> queryIntentActivities(Intent intent,
                                                     String resolvedType, int flags, int userId) {
         ComponentName comp = intent.getComponent();
-        if (comp == null) {
-            if (intent.getSelector() != null) {
-                intent = intent.getSelector();
-                comp = intent.getComponent();
-            }
+        if (comp == null && intent.getSelector() != null) {
+            intent = intent.getSelector();
+            comp = intent.getComponent();
         }
 
         if (comp != null) {
