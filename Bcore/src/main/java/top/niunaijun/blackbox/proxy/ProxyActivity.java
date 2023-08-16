@@ -38,7 +38,6 @@ public class ProxyActivity extends Activity {
         if (record.mTarget != null) {
             record.mTarget.setExtrasClassLoader(BActivityThread.getApplication().getClassLoader());
             startActivity(record.mTarget);
-            return;
         }
     }
 
