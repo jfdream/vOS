@@ -26,6 +26,7 @@ import android.os.Looper;
 import android.os.RemoteException;
 import android.os.StrictMode;
 import android.text.TextUtils;
+import android.util.Log;
 import android.webkit.WebView;
 
 import java.io.File;
@@ -73,7 +74,6 @@ import top.niunaijun.blackbox.fake.frameworks.BXposedManager;
 import top.niunaijun.blackbox.fake.hook.HookManager;
 import top.niunaijun.blackbox.fake.service.HCallbackProxy;
 import top.niunaijun.blackbox.utils.Reflector;
-import top.niunaijun.blackbox.utils.Slog;
 import top.niunaijun.blackbox.utils.compat.ActivityManagerCompat;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
 import top.niunaijun.blackbox.utils.compat.ContextCompat;
@@ -212,7 +212,7 @@ public class BActivityThread extends IBActivityThread.Stub {
             service = (Service) classLoader.loadClass(serviceInfo.name).newInstance();
         } catch (Exception e) {
             e.printStackTrace();
-            Slog.e(TAG, "Unable to instantiate service " + serviceInfo.name
+            Log.e(TAG, "Unable to instantiate service " + serviceInfo.name
                     + ": " + e.toString());
             return null;
         }
@@ -237,7 +237,7 @@ public class BActivityThread extends IBActivityThread.Stub {
         } catch (Exception e) {
             throw new RuntimeException(
                     "Unable to create service " + serviceInfo.name
-                            + ": " + e.toString(), e);
+                            + ": " + e, e);
         }
     }
 
@@ -251,7 +251,7 @@ public class BActivityThread extends IBActivityThread.Stub {
             service = (JobService) classLoader.loadClass(serviceInfo.name).newInstance();
         } catch (Exception e) {
             e.printStackTrace();
-            Slog.e(TAG, "Unable to create JobService " + serviceInfo.name
+            Log.e(TAG, "Unable to create JobService " + serviceInfo.name
                     + ": " + e.toString());
             return null;
         }
@@ -571,7 +571,7 @@ public class BActivityThread extends IBActivityThread.Stub {
                 BlackBoxCore.getBActivityManager().finishBroadcast(data.data);
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
-                Slog.e(TAG,
+                Log.e(TAG,
                         "Error receiving broadcast " + intent
                                 + " in " + mReceiver);
             }

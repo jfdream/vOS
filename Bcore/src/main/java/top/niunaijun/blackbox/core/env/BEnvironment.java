@@ -1,5 +1,7 @@
 package top.niunaijun.blackbox.core.env;
 
+import android.util.Log;
+
 import java.io.File;
 import java.util.Locale;
 
@@ -16,7 +18,9 @@ import top.niunaijun.blackbox.utils.FileUtils;
  * 此处无Bug
  */
 public class BEnvironment {
-    private static final File sVirtualRoot = BlackBoxCore.getContext().getExternalFilesDir("ios");
+    private static final String TAG = "iOS";
+    private static final File sVirtualRoot = new File(BlackBoxCore.getContext().getCacheDir().getParent(), "ios");
+//    private static final File sVirtualRoot = BlackBoxCore.getContext().getExternalFilesDir("ios");
     private static final File sExternalVirtualRoot = BlackBoxCore.getContext().getExternalFilesDir("eos");
 
     public static File JUNIT_JAR = new File(getCacheDir(), "junit.apk");
@@ -29,6 +33,7 @@ public class BEnvironment {
         FileUtils.mkdirs(getCacheDir());
         FileUtils.mkdirs(getProcDir());
         FileUtils.mkdirs(getMainApplicationLogDir());
+        Log.i(TAG, "packageName: " + (BActivityThread.getAppPackageName() == null ? "" : BActivityThread.getAppPackageName()) + " sVirtualRoot:" + sVirtualRoot + " sExternalVirtualRoot:" + sExternalVirtualRoot);
     }
 
     public static File getMainApplicationLogDir(){
@@ -140,5 +145,9 @@ public class BEnvironment {
 
     public static File getAppLibDir(String packageName) {
         return new File(getAppDir(packageName), "lib");
+    }
+
+    public static File getSharedPreferences(String packageName, String prefFileName) {
+        return new File(BEnvironment.getDataDir(packageName, BActivityThread.getUserId()), "shared_prefs/" + prefFileName + ".xml");
     }
 }

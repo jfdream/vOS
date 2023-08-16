@@ -1,5 +1,7 @@
 package top.niunaijun.blackbox.core;
 
+import android.util.Log;
+
 import top.niunaijun.blackbox.BlackBoxCore;
 
 /**
@@ -11,6 +13,7 @@ import top.niunaijun.blackbox.BlackBoxCore;
  * 此处无Bug
  */
 public class CrashHandler implements Thread.UncaughtExceptionHandler {
+    private static final String TAG = "iOS";
     private Thread.UncaughtExceptionHandler mDefaultHandler;
 
     public static void create() {
@@ -28,5 +31,6 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
             BlackBoxCore.get().getExceptionHandler().uncaughtException(t, e);
         }
         mDefaultHandler.uncaughtException(t, e);
+        Log.i(TAG, "uncaughtException:" + e);
     }
 }

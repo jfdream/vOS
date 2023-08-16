@@ -51,7 +51,7 @@ public class BPackageManager extends BlackManager<IBPackageManagerService> {
                 userId);
 
         // Otherwise, try to find a main launcher activity.
-        if (ris == null || ris.size() <= 0) {
+        if (ris == null || ris.size() == 0) {
             // reuse the intent instance
             intentToResolve.removeCategory(Intent.CATEGORY_INFO);
             intentToResolve.addCategory(Intent.CATEGORY_LAUNCHER);

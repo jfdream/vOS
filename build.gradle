@@ -57,6 +57,5 @@ ext {
     versionName = '1.0'
     versionCode = 1
 
-    xVersion = '1.1.0'
     blackReflection = '1.1.4'
 }

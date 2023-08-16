@@ -69,7 +69,7 @@ import top.niunaijun.blackbox.utils.provider.ProviderCall;
  */
 @SuppressLint({"StaticFieldLeak", "NewApi"})
 public class BlackBoxCore extends ClientConfiguration {
-    public static final String TAG = "BlackBoxCore";
+    public static final String TAG = "iOS";
 
     private static final BlackBoxCore sBlackBoxCore = new BlackBoxCore();
     private static Context sContext;
