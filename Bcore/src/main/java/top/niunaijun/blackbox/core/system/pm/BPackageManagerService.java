@@ -43,7 +43,6 @@ import top.niunaijun.blackbox.entity.pm.InstallResult;
 import top.niunaijun.blackbox.entity.pm.InstalledPackage;
 import top.niunaijun.blackbox.utils.AbiUtils;
 import top.niunaijun.blackbox.utils.FileUtils;
-import top.niunaijun.blackbox.utils.Slog;
 import top.niunaijun.blackbox.utils.compat.PackageParserCompat;
 import top.niunaijun.blackbox.utils.compat.XposedParserCompat;
 
@@ -102,7 +101,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
             try {
                 return BlackBoxCore.getPackageManager().getApplicationInfo(packageName, flags);
             } catch (PackageManager.NameNotFoundException e) {
-                e.printStackTrace();
+                Log.e(TAG, "getApplicationInfo exception:" + e);
             }
             return null;
         }
@@ -275,7 +274,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
             try {
                 return BlackBoxCore.getPackageManager().getPackageInfo(packageName, flags);
             } catch (PackageManager.NameNotFoundException e) {
-                e.printStackTrace();
+                Log.e(TAG, "getPackageInfo exception:" + e);
             }
             return null;
         }
@@ -726,12 +725,12 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
             onPackageInstalled(bPackageSettings.pkg.packageName, userId);
             return result;
         } catch (Throwable t) {
-            t.printStackTrace();
+            Log.e(TAG, "installPackageAsUserLocked exception:" + t);
         } finally {
             if (apkFile != null && option.isFlag(InstallOption.FLAG_URI_FILE)) {
                 FileUtils.deleteDir(apkFile);
             }
-            Slog.d(TAG, "install finish: " + (System.currentTimeMillis() - l) + "ms");
+            Log.i(TAG, "install package:" + file + " finish: " + (System.currentTimeMillis() - l) + "ms");
         }
         return result;
     }
@@ -743,7 +742,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
             PackageParserCompat.collectCertificates(parser, aPackage, 0);
             return aPackage;
         } catch (Throwable t) {
-            t.printStackTrace();
+            Log.e(TAG, "parserApk exception:" + t);
         }
         return null;
     }
@@ -794,14 +793,14 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
         for (PackageMonitor packageMonitor : mPackageMonitors) {
             packageMonitor.onPackageUninstalled(packageName, isRemove, userId);
         }
-        Slog.d(TAG, "onPackageUninstalled: " + packageName + ", userId: " + userId);
+        Log.i(TAG, "onPackageUninstalled: " + packageName + ", userId: " + userId);
     }
 
     void onPackageInstalled(String packageName, int userId) {
         for (PackageMonitor packageMonitor : mPackageMonitors) {
             packageMonitor.onPackageInstalled(packageName, userId);
         }
-        Slog.d(TAG, "onPackageInstalled: " + packageName + ", userId: " + userId);
+        Log.i(TAG, "onPackageInstalled: " + packageName + ", userId: " + userId);
     }
 
     public BPackageSettings getBPackageSetting(String packageName) {
