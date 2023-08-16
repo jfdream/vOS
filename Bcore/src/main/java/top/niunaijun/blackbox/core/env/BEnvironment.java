@@ -141,8 +141,4 @@ public class BEnvironment {
     public static File getAppLibDir(String packageName) {
         return new File(getAppDir(packageName), "lib");
     }
-
-    public static File getXSharedPreferences(String packageName, String prefFileName) {
-       return new File(BEnvironment.getDataDir(packageName, BActivityThread.getUserId()), "shared_prefs/" + prefFileName + ".xml");
-    }
 }
