@@ -1,6 +1,8 @@
 package top.niunaijun.blackbox.core.system.pm.installer;
 
 
+import android.util.Log;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -20,18 +22,23 @@ import top.niunaijun.blackbox.utils.NativeUtils;
  * 拷贝文件相关
  */
 public class CopyExecutor implements Executor {
+    boolean useSystemApk;
+
+    public CopyExecutor(boolean useSystemApk){
+        this.useSystemApk = useSystemApk;
+    }
 
     @Override
     public int exec(BPackageSettings ps, InstallOption option, int userId) {
         try {
-            if (!option.isFlag(InstallOption.FLAG_SYSTEM)) {
+            if (!option.isFlag(InstallOption.FLAG_SYSTEM) || !useSystemApk) {
                 NativeUtils.copyNativeLib(new File(ps.pkg.baseCodePath), BEnvironment.getAppLibDir(ps.pkg.packageName));
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.i(TAG, "copyNativeLib exception:" + e);
             return -1;
         }
-        if (option.isFlag(InstallOption.FLAG_STORAGE)) {
+        if (option.isFlag(InstallOption.FLAG_STORAGE) || !useSystemApk) {
             // 外部安装
             File origFile = new File(ps.pkg.baseCodePath);
             File newFile = BEnvironment.getBaseApkDir(ps.pkg.packageName);
@@ -44,14 +51,15 @@ public class CopyExecutor implements Executor {
                 } else {
                     FileUtils.copyFile(origFile, newFile);
                 }
-                // update baseCodePath
+                // update baseCodePath for external usage
                 ps.pkg.baseCodePath = newFile.getAbsolutePath();
             } catch (IOException e) {
-                e.printStackTrace();
+                Log.i(TAG, "copyFile exception:" + e);
                 return -1;
             }
         } else if (option.isFlag(InstallOption.FLAG_SYSTEM)) {
-            // 系统安装
+            // 系统安装不需要拷贝任何数据，直接使用系统 packageInfo 即可启动 App
+            Log.i(TAG, "system install auto success");
         }
         return 0;
     }

@@ -1,5 +1,7 @@
 package top.niunaijun.blackbox.core.system.pm;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +13,6 @@ import top.niunaijun.blackbox.core.system.pm.installer.Executor;
 import top.niunaijun.blackbox.core.system.pm.installer.RemoveAppExecutor;
 import top.niunaijun.blackbox.core.system.pm.installer.RemoveUserExecutor;
 import top.niunaijun.blackbox.entity.pm.InstallOption;
-import top.niunaijun.blackbox.utils.Slog;
 
 /**
  * Created by Milk on 4/21/21.
@@ -38,11 +39,11 @@ public class BPackageInstallerService extends IBPackageInstallerService.Stub imp
         // 创建应用环境相关操作
         executors.add(new CreatePackageExecutor());
         // 拷贝应用相关文件
-        executors.add(new CopyExecutor());
+        executors.add(new CopyExecutor(false));
         InstallOption option = ps.installOption;
         for (Executor executor : executors) {
             int exec = executor.exec(ps, option, userId);
-            Slog.d(TAG, "installPackageAsUser: " + executor.getClass().getSimpleName() + " exec: " + exec);
+            Log.i(TAG, "installPackageAsUser: " + executor.getClass().getSimpleName() + " exec: " + exec);
             if (exec != 0) {
                 return exec;
             }
@@ -62,7 +63,7 @@ public class BPackageInstallerService extends IBPackageInstallerService.Stub imp
         InstallOption option = ps.installOption;
         for (Executor executor : executors) {
             int exec = executor.exec(ps, option, userId);
-            Slog.d(TAG, "uninstallPackageAsUser: " + executor.getClass().getSimpleName() + " exec: " + exec);
+            Log.i(TAG, "uninstallPackageAsUser: " + executor.getClass().getSimpleName() + " exec: " + exec);
             if (exec != 0) {
                 return exec;
             }
@@ -80,7 +81,7 @@ public class BPackageInstallerService extends IBPackageInstallerService.Stub imp
         InstallOption option = ps.installOption;
         for (Executor executor : executors) {
             int exec = executor.exec(ps, option, userId);
-            Slog.d(TAG, "uninstallPackageAsUser: " + executor.getClass().getSimpleName() + " exec: " + exec);
+            Log.i(TAG, "uninstallPackageAsUser: " + executor.getClass().getSimpleName() + " exec: " + exec);
             if (exec != 0) {
                 return exec;
             }
@@ -92,7 +93,7 @@ public class BPackageInstallerService extends IBPackageInstallerService.Stub imp
     public int updatePackage(BPackageSettings ps) {
         List<Executor> executors = new ArrayList<>();
         executors.add(new CreatePackageExecutor());
-        executors.add(new CopyExecutor());
+        executors.add(new CopyExecutor(false));
         InstallOption option = ps.installOption;
         for (Executor executor : executors) {
             int exec = executor.exec(ps, option, -1);
