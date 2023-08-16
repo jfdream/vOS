@@ -198,7 +198,7 @@ import top.niunaijun.blackbox.utils.compat.PackageParserCompat;
             if (bPackageSettings.installOption.isFlag(InstallOption.FLAG_SYSTEM)) {
                 PackageInfo packageInfo = BlackBoxCore.getPackageManager().getPackageInfo(packageName, PackageManager.GET_META_DATA);
                 String currPackageSourcePath = packageInfo.applicationInfo.sourceDir;
-                if (!currPackageSourcePath.equals(bPackageSettings.pkg.baseApkPath)) {
+                if (!currPackageSourcePath.equals(bPackageSettings.pkg.baseCodePath)) {
                     // update baseCodePath And Re install
                     BProcessManagerService.get().killAllByPackageName(bPackageSettings.pkg.packageName);
                     BPackageSettings newPkg = reInstallBySystem(packageInfo, bPackageSettings.installOption);

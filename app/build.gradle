@@ -5,7 +5,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "top.niunaijun.blackboxa"
+        applicationId "com.hero.vos"
         minSdkVersion 21
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 12

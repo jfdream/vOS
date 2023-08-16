@@ -286,7 +286,7 @@ public class PackageManagerCompat {
         } catch (Exception e) {
             return null;
         }
-        String sourceDir = p.baseApkPath;
+        String sourceDir = p.baseCodePath;
         if (p.applicationInfo == null) {
             p.applicationInfo = BlackBoxCore.getPackageManager()
                     .getPackageArchiveInfo(sourceDir, 0).applicationInfo;
@@ -366,7 +366,7 @@ public class PackageManagerCompat {
         BPackageSettings ps = BPackageManagerService.get().getBPackageSetting(appInfo.packageName);
         if (ps != null) {
             AssetManager assets = BRAssetManager.get()._new();
-            BRAssetManager.get(assets).addAssetPath(ps.pkg.baseApkPath);
+            BRAssetManager.get(assets).addAssetPath(ps.pkg.baseCodePath);
             Resources hostRes = context.getResources();
             return new Resources(assets, hostRes.getDisplayMetrics(), hostRes.getConfiguration());
         }

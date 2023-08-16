@@ -51,7 +51,7 @@ public class BPackage implements Parcelable {
     public int mVersionCode;
     public ApplicationInfo applicationInfo;
     public String mVersionName;
-    public String baseApkPath;
+    public String baseCodePath;
 
     public int mSharedUserLabel;
     // Applications hardware preferences
@@ -140,7 +140,7 @@ public class BPackage implements Parcelable {
         this.mVersionCode = aPackage.mVersionCode;
         this.applicationInfo = aPackage.applicationInfo;
         this.mVersionName = aPackage.mVersionName;
-        this.baseApkPath = aPackage.baseApkPath;
+        this.baseCodePath = aPackage.baseCodePath;
         this.mSharedUserLabel = aPackage.mSharedUserLabel;
         this.configPreferences = aPackage.configPreferences;
         this.reqFeatures = aPackage.reqFeatures;
@@ -230,7 +230,7 @@ public class BPackage implements Parcelable {
         this.mVersionCode = in.readInt();
         this.applicationInfo = in.readParcelable(ApplicationInfo.class.getClassLoader());
         this.mVersionName = in.readString();
-        this.baseApkPath = in.readString();
+        this.baseCodePath = in.readString();
         this.mSharedUserLabel = in.readInt();
         this.configPreferences = in.createTypedArrayList(ConfigurationInfo.CREATOR);
         this.reqFeatures = in.createTypedArrayList(FeatureInfo.CREATOR);
@@ -720,7 +720,7 @@ public class BPackage implements Parcelable {
         dest.writeInt(this.mVersionCode);
         dest.writeParcelable(this.applicationInfo, flags);
         dest.writeString(this.mVersionName);
-        dest.writeString(this.baseApkPath);
+        dest.writeString(this.baseCodePath);
         dest.writeInt(this.mSharedUserLabel);
         dest.writeTypedList(this.configPreferences);
         dest.writeTypedList(this.reqFeatures);
