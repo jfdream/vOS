@@ -52,7 +52,7 @@ import static android.content.pm.PackageManager.GET_ACTIVITIES;
  * 此处无Bug
  */
 public class ActivityStack {
-    public static final String TAG = "ActivityStack";
+    public static final String TAG = "iOS";
 
     private final ActivityManager mAms;
     private final Map<Integer, TaskRecord> mTasks = new LinkedHashMap<>();

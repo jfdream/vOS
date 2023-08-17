@@ -252,7 +252,7 @@ public class BActivityThread extends IBActivityThread.Stub {
         } catch (Exception e) {
             e.printStackTrace();
             Log.e(TAG, "Unable to create JobService " + serviceInfo.name
-                    + ": " + e.toString());
+                    + ": " + e);
             return null;
         }
 
