@@ -9,6 +9,7 @@ import android.content.pm.ProviderInfo;
 import android.content.pm.ResolveInfo;
 import android.content.pm.ServiceInfo;
 import android.os.RemoteException;
+import android.util.Log;
 
 import java.util.Collections;
 import java.util.List;
@@ -55,19 +56,19 @@ public class BPackageManager extends BlackManager<IBPackageManagerService> {
             // reuse the intent instance
             intentToResolve.removeCategory(Intent.CATEGORY_INFO);
             intentToResolve.addCategory(Intent.CATEGORY_LAUNCHER);
-            intentToResolve.setPackage(packageName);
             ris = queryIntentActivities(intentToResolve,
                     0,
                     intentToResolve.resolveTypeIfNeeded(BlackBoxCore.getContext().getContentResolver()),
                     userId);
+
         }
-        if (ris == null || ris.size() <= 0) {
+        if (ris == null || ris.size() == 0) {
             return null;
         }
         Intent intent = new Intent(intentToResolve);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        intent.setClassName(ris.get(0).activityInfo.packageName,
-                ris.get(0).activityInfo.name);
+        intent.setClassName(ris.get(0).activityInfo.packageName, ris.get(0).activityInfo.name);
+        Log.i(TAG, "getLaunchIntentForPackage:" + intent);
         return intent;
     }
 

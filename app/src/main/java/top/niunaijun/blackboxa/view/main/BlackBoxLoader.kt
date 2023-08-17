@@ -24,7 +24,7 @@ class BlackBoxLoader {
     private var mHideXposed by AppSharedPreferenceDelegate(App.getContext(), false)
     private var mDaemonEnable by AppSharedPreferenceDelegate(App.getContext(), false)
     private var mShowShortcutPermissionDialog by AppSharedPreferenceDelegate(App.getContext(),true)
-    
+
     fun hideRoot(): Boolean {
         return mHideRoot
     }

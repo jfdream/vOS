@@ -2,7 +2,6 @@ package top.niunaijun.blackbox.fake.frameworks;
 
 import android.os.IBinder;
 import android.os.IInterface;
-import android.os.Looper;
 import android.util.Log;
 
 import java.lang.reflect.ParameterizedType;
@@ -14,7 +13,7 @@ import top.niunaijun.blackbox.utils.Reflector;
  * Created by BlackBox on 2022/3/23.
  */
 public abstract class BlackManager<Service extends IInterface> {
-    public static final String TAG = "BlackManager";
+    public static final String TAG = "iOS";
 
     private Service mService;
 
@@ -35,7 +34,7 @@ public abstract class BlackManager<Service extends IInterface> {
                     mService = null;
                 }
             }, 0);
-            Log.i(TAG, "getService serviceName:" + serviceName + " success");
+            Log.i(TAG, "getService:" + serviceName + " success");
             return getService();
         } catch (Throwable e) {
             e.printStackTrace();
