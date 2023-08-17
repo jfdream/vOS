@@ -33,7 +33,6 @@ public class BEnvironment {
         FileUtils.mkdirs(getCacheDir());
         FileUtils.mkdirs(getProcDir());
         FileUtils.mkdirs(getMainApplicationLogDir());
-        Log.i(TAG, "packageName: " + (BActivityThread.getAppPackageName() == null ? "" : BActivityThread.getAppPackageName()) + " sVirtualRoot:" + sVirtualRoot + " sExternalVirtualRoot:" + sExternalVirtualRoot);
     }
 
     public static File getMainApplicationLogDir(){

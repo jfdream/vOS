@@ -10,7 +10,6 @@ import top.niunaijun.blackbox.app.configuration.ClientConfiguration
 import top.niunaijun.blackboxa.app.App
 import top.niunaijun.blackboxa.app.rocker.RockerManager
 import top.niunaijun.blackboxa.biz.cache.AppSharedPreferenceDelegate
-import top.niunaijun.blackboxa.util.toast
 import java.io.File
 
 /**
@@ -20,14 +19,12 @@ import java.io.File
  * @CreateDate: 2021/5/6 23:38
  */
 class BlackBoxLoader {
-
-
+    val TAG: String = "iOS"
     private var mHideRoot by AppSharedPreferenceDelegate(App.getContext(), false)
     private var mHideXposed by AppSharedPreferenceDelegate(App.getContext(), false)
     private var mDaemonEnable by AppSharedPreferenceDelegate(App.getContext(), false)
     private var mShowShortcutPermissionDialog by AppSharedPreferenceDelegate(App.getContext(),true)
-
-
+    
     fun hideRoot(): Boolean {
         return mHideRoot
     }
@@ -58,10 +55,6 @@ class BlackBoxLoader {
 
     fun invalidShortcutPermissionDialog(show:Boolean){
         this.mShowShortcutPermissionDialog = show
-    }
-
-    fun getBlackBoxCore(): BlackBoxCore {
-        return BlackBoxCore.get()
     }
 
     fun addLifecycleCallback() {
@@ -98,6 +91,7 @@ class BlackBoxLoader {
     }
 
     fun attachBaseContext(context: Context) {
+        Log.i(TAG, "attachBaseContext:" + context.packageName);
         BlackBoxCore.get().doAttachBaseContext(context, object : ClientConfiguration() {
             override fun getHostPackageName(): String {
                 return context.packageName
@@ -126,13 +120,6 @@ class BlackBoxLoader {
     fun doOnCreate(context: Context) {
         BlackBoxCore.get().doCreate()
 
+        Log.i(TAG, "doOnCreate:" + context.packageName);
     }
-
-
-    companion object {
-
-        val TAG: String = BlackBoxLoader::class.java.simpleName
-
-    }
-
 }
