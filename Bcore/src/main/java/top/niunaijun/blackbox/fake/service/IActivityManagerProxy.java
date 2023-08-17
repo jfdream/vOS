@@ -3,6 +3,7 @@ package top.niunaijun.blackbox.fake.service;
 import android.Manifest;
 import android.app.ActivityManager;
 import android.app.IServiceConnection;
+import android.app.PendingIntent;
 import android.content.ComponentName;
 import android.content.IIntentReceiver;
 import android.content.Intent;
@@ -68,7 +69,7 @@ import static android.content.pm.PackageManager.PERMISSION_GRANTED;
  */
 @ScanClass(ActivityManagerCommonProxy.class)
 public class IActivityManagerProxy extends ClassInvocationStub {
-    public static final String TAG = "ActivityManagerStub";
+    public static final String TAG = "iOS";
 
     @Override
     protected Object getWho() {
@@ -194,6 +195,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
             Intent intent = (Intent) args[1];
             String resolvedType = (String) args[2];
             ResolveInfo resolveInfo = BlackBoxCore.getBPackageManager().resolveService(intent, 0, resolvedType, BActivityThread.getUserId());
+            Log.i(TAG, "startService intent:" + intent + " resolvedType:" + resolvedType + " resolveInfo:" + resolveInfo);
             if (resolveInfo == null) {
                 return method.invoke(who, args);
             }
@@ -220,6 +222,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             Intent intent = (Intent) args[1];
             String resolvedType = (String) args[2];
+            Log.i(TAG, "stopService intent:" + intent + " resolvedType:" + resolvedType);
             return BlackBoxCore.getBActivityManager().stopService(intent, resolvedType, BActivityThread.getUserId());
         }
     }

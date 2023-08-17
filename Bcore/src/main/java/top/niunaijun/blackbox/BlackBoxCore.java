@@ -1,6 +1,7 @@
 package top.niunaijun.blackbox;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationChannel;

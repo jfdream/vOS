@@ -9,8 +9,6 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
-import top.niunaijun.blackbox.utils.Slog;
 import top.niunaijun.blackbox.utils.compat.BundleCompat;
 
 /**
@@ -22,7 +20,7 @@ import top.niunaijun.blackbox.utils.compat.BundleCompat;
  * 此处无Bug
  */
 public class SystemCallProvider extends ContentProvider {
-    public static final String TAG = "vApp";
+    public static final String TAG = "iOS";
 
     @Override
     public boolean onCreate() {
@@ -34,7 +32,7 @@ public class SystemCallProvider extends ContentProvider {
     @Nullable
     @Override
     public Bundle call(@NonNull String method, @Nullable String arg, @Nullable Bundle extras) {
-        Slog.d(TAG, "call: " + method + ", " + extras);
+        Log.d(TAG, "call: " + method + ", " + extras);
         if ("VM".equals(method)) {
             Bundle bundle = new Bundle();
             if (extras != null) {

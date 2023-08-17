@@ -1,14 +1,15 @@
 package top.niunaijun.blackboxa.view.main
 
+import android.app.Activity
 import android.app.Application
 import android.content.Context
+import android.os.Bundle
 import android.util.Log
 import top.niunaijun.blackbox.BlackBoxCore
 import top.niunaijun.blackbox.app.BActivityThread
 import top.niunaijun.blackbox.app.configuration.AppLifecycleCallback
 import top.niunaijun.blackbox.app.configuration.ClientConfiguration
 import top.niunaijun.blackboxa.app.App
-import top.niunaijun.blackboxa.app.rocker.RockerManager
 import top.niunaijun.blackboxa.biz.cache.AppSharedPreferenceDelegate
 import java.io.File
 
@@ -85,7 +86,14 @@ class BlackBoxLoader {
                 userId: Int
             ) {
                 Log.d(TAG, "afterApplicationOnCreate: pkg $packageName, processName $processName")
-                RockerManager.init(application,userId)
+            }
+
+            override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+                Log.i(TAG, "onActivityCreated:$activity")
+            }
+
+            override fun onActivityStarted(activity: Activity) {
+                Log.i(TAG, "onActivityStarted:$activity")
             }
         })
     }

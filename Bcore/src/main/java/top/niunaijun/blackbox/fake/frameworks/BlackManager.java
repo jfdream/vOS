@@ -34,7 +34,6 @@ public abstract class BlackManager<Service extends IInterface> {
                     mService = null;
                 }
             }, 0);
-            Log.i(TAG, "getService:" + serviceName + " success");
             return getService();
         } catch (Throwable e) {
             e.printStackTrace();

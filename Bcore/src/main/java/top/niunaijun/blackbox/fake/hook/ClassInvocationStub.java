@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import top.niunaijun.blackbox.utils.MethodParameterUtils;
 
@@ -109,7 +110,7 @@ public abstract class ClassInvocationStub implements InvocationHandler, IInjectH
             try {
                 return method.invoke(mBase, args);
             } catch (Throwable e) {
-                throw e.getCause();
+                throw Objects.requireNonNull(e.getCause());
             }
         }
 
