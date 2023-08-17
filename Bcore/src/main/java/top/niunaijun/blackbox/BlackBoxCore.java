@@ -421,7 +421,7 @@ public class BlackBoxCore extends ClientConfiguration {
             }
         }
         if (processName == null) {
-            throw new RuntimeException("processName = null");
+            return "com.hero.vos.404";
         }
         return processName;
     }
