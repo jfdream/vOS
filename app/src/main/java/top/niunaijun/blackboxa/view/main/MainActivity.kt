@@ -1,12 +1,15 @@
 package top.niunaijun.blackboxa.view.main
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.content.edit
 import androidx.viewpager2.widget.ViewPager2
 import com.afollestad.materialdialogs.MaterialDialog
@@ -42,6 +45,7 @@ class MainActivity : LoadingActivity() {
         initViewPager()
         initFab()
         initToolbarSubTitle()
+        getPrivilege()
     }
 
     private fun initToolbarSubTitle() {
@@ -64,6 +68,24 @@ class MainActivity : LoadingActivity() {
             }
         }
     }
+
+    private fun getPrivilege() {
+        ActivityCompat.requestPermissions(
+            this@MainActivity,
+            arrayOf(Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission_group.MICROPHONE, Manifest.permission.READ_EXTERNAL_STORAGE),
+            200
+        )
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<String?>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        Log.i("TAG", "grantResults:$grantResults")
+    }
+
 
     private fun initViewPager() {
 

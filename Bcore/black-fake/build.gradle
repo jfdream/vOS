@@ -53,8 +53,3 @@ tasks.withType(Javadoc) {
     options.addStringOption('encoding', 'UTF-8')
     options.addStringOption('charSet', 'UTF-8')
 }
-
-
-dependencies {
-    implementation project(':Bcore:black-hook')
-}
