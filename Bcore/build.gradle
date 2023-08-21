@@ -64,7 +64,6 @@ dependencies {
     implementation project(':library')
 
     implementation project(':Bcore:black-fake')
-    implementation project(':Bcore:black-hook')
     implementation project(':android-mirror')
 
     implementation project(':Bcore:pine-core')

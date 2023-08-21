@@ -1,11 +1,14 @@
 package top.niunaijun.blackbox.core.env;
 
 import android.content.pm.ApplicationInfo;
+import android.util.Log;
 
 import black.android.ddm.BRDdmHandleAppName;
 import black.android.os.BRProcess;
 
 public class VirtualRuntime {
+
+    private static final String TAG = "iOS";
 
     private static String sInitialPackageName;
     private static String sProcessName;
@@ -26,5 +29,6 @@ public class VirtualRuntime {
         sProcessName = processName;
         BRProcess.get().setArgV0(processName);
         BRDdmHandleAppName.get().setAppName(processName, 0);
+        Log.e(TAG, "setupRuntime application name:" + processName + " className:" + appInfo.className);
     }
 }
