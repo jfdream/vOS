@@ -153,7 +153,7 @@ public class BlackBoxCore extends ClientConfiguration {
             }
         }
         PineConfig.debug = true;
-        PineConfig.debuggable = false;
+        PineConfig.debuggable = true;
         HookManager.get().init();
     }
 
@@ -188,6 +188,7 @@ public class BlackBoxCore extends ClientConfiguration {
     }
 
     public boolean launchApk(String packageName, int userId) {
+        Log.i(TAG, "launchApk:" + packageName + " pid:" + Process.myPid());
         Intent intent = getBPackageManager().getLaunchIntentForPackage(packageName, userId);
         if (intent == null) {
             return false;
@@ -346,7 +347,6 @@ public class BlackBoxCore extends ClientConfiguration {
         bundle.putString("_B_|_server_name_", name);
         Bundle vm = ProviderCall.callSafely(ProxyManifest.getBindProvider(), "VM", null, bundle);
         binder = BundleCompat.getBinder(vm, "_B_|_server_");
-        Slog.d(TAG, "getService: " + name + ", " + binder);
         mServices.put(name, binder);
         return binder;
     }

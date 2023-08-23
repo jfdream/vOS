@@ -54,7 +54,7 @@ import static android.content.pm.PackageManager.GET_ACTIVITIES;
 public class ActivityStack {
     public static final String TAG = "iOS";
 
-    private final ActivityManager mAms;
+    private final ActivityManager mActivityManagerService;
     private final Map<Integer, TaskRecord> mTasks = new LinkedHashMap<>();
     private final Set<ActivityRecord> mLaunchingActivities = new HashSet<>();
 
@@ -76,7 +76,7 @@ public class ActivityStack {
     };
 
     public ActivityStack() {
-        mAms = (ActivityManager) BlackBoxCore.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+        mActivityManagerService = (ActivityManager) BlackBoxCore.getContext().getSystemService(Context.ACTIVITY_SERVICE);
     }
 
     public boolean containsFlag(Intent intent, int flag) {
@@ -108,7 +108,7 @@ public class ActivityStack {
         if (resolveInfo == null || resolveInfo.activityInfo == null) {
             return 0;
         }
-        Log.d(TAG, "startActivityLocked : " + resolveInfo.activityInfo);
+        Log.i(TAG, "startActivityLocked : " + resolveInfo.activityInfo);
         ActivityInfo activityInfo = resolveInfo.activityInfo;
 
         ActivityRecord sourceRecord = findActivityRecordByToken(userId, resultTo);
@@ -148,14 +148,9 @@ public class ActivityStack {
             return startActivityInNewTaskLocked(userId, intent, activityInfo, resultTo, launchModeFlags);
         }
         // 移至前台
-        mAms.moveTaskToFront(taskRecord.id, 0);
-
-        boolean notStartToFront = false;
-        if (clearTop || singleTop || clearTask) {
-            notStartToFront = true;
-        }
-
-        boolean startTaskToFront = !notStartToFront
+        mActivityManagerService.moveTaskToFront(taskRecord.id, 0);
+        boolean startToFront = !(clearTop || singleTop || clearTask);
+        boolean startTaskToFront = startToFront
                 && ComponentUtils.intentFilterEquals(taskRecord.rootIntent, intent)
                 && taskRecord.rootIntent.getFlags() == intent.getFlags();
 
@@ -166,25 +161,22 @@ public class ActivityStack {
         ActivityRecord targetActivityRecord = findActivityRecordByComponentName(userId, ComponentUtils.toComponentName(activityInfo));
         ActivityRecord newIntentRecord = null;
         boolean ignore = false;
-
-        if (clearTop) {
-            if (targetActivityRecord != null) {
-                // 目标栈上面所有activity出栈
-                synchronized (targetActivityRecord.task.activities) {
-                    for (int i = targetActivityRecord.task.activities.size() - 1; i >= 0; i--) {
-                        ActivityRecord next = targetActivityRecord.task.activities.get(i);
-                        if (next != targetActivityRecord) {
-                            next.finished = true;
-                            Log.d(TAG, "makerFinish: " + next.component.toString());
+        if (clearTop && targetActivityRecord != null) {
+            // 目标栈上面所有activity出栈
+            synchronized (targetActivityRecord.task.activities) {
+                for (int i = targetActivityRecord.task.activities.size() - 1; i >= 0; i--) {
+                    ActivityRecord next = targetActivityRecord.task.activities.get(i);
+                    if (next != targetActivityRecord) {
+                        next.finished = true;
+                        Log.d(TAG, "makerFinish: " + next.component.toString());
+                    } else {
+                        if (singleTop) {
+                            newIntentRecord = targetActivityRecord;
                         } else {
-                            if (singleTop) {
-                                newIntentRecord = targetActivityRecord;
-                            } else {
-                                // clearTop并且不是singleTop，目标也finish，重建。
-                                targetActivityRecord.finished = true;
-                            }
-                            break;
+                            // clearTop并且不是singleTop，目标也finish，重建。
+                            targetActivityRecord.finished = true;
                         }
+                        break;
                     }
                 }
             }
@@ -543,7 +535,7 @@ public class ActivityStack {
     }
 
     private void synchronizeTasks() {
-        List<ActivityManager.RecentTaskInfo> recentTasks = mAms.getRecentTasks(100, 0);
+        List<ActivityManager.RecentTaskInfo> recentTasks = mActivityManagerService.getRecentTasks(100, 0);
         Map<Integer, TaskRecord> newTacks = new LinkedHashMap<>();
         for (int i = recentTasks.size() - 1; i >= 0; i--) {
             ActivityManager.RecentTaskInfo next = recentTasks.get(i);

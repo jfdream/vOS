@@ -10,6 +10,7 @@ import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Looper;
+import android.os.Process;
 import android.os.RemoteException;
 import android.util.Log;
 
@@ -41,7 +42,7 @@ import static android.content.pm.PackageManager.GET_META_DATA;
  * 此处无Bug
  */
 public class BActivityManagerService extends IBActivityManagerService.Stub implements ISystemService {
-    public static final String TAG = "BActivityManagerService";
+    public static final String TAG = "BActivityManagerService.iOS";
     private static final BActivityManagerService sService = new BActivityManagerService();
     private final Map<Integer, UserSpace> mUserSpace = new HashMap<>();
     private final BPackageManagerService mPms = BPackageManagerService.get();
@@ -346,6 +347,7 @@ public class BActivityManagerService extends IBActivityManagerService.Stub imple
     @Override
     public void startActivity(Intent intent, int userId) {
         UserSpace userSpace = getOrCreateSpaceLocked(userId);
+        Log.i(TAG, "startActivity:" + Process.myPid());
         synchronized (userSpace.mStack) {
             userSpace.mStack.startActivityLocked(userId, intent, null, null, null, -1, -1, null);
         }
