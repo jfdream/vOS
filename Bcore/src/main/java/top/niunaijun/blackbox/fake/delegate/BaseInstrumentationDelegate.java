@@ -368,16 +368,22 @@ public class BaseInstrumentationDelegate extends Instrumentation {
     public UiAutomation getUiAutomation() {
         return mBaseInstrumentation.getUiAutomation();
     }
-
     public ActivityResult execStartActivity(Context context, IBinder binder, IBinder binder1, Activity activity, Intent intent, int i, Bundle bundle) throws Throwable {
-        return invokeExecStartActivity(mBaseInstrumentation,
+        Reflector reflector = invokeExecStartActivity(mBaseInstrumentation,
                 Context.class,
                 IBinder.class,
                 IBinder.class,
                 Activity.class,
                 Intent.class,
                 Integer.TYPE,
-                Bundle.class).callByCaller(mBaseInstrumentation, new Object[]{context, binder, binder1, activity, intent, i, bundle});
+                Bundle.class);
+
+        // 可能会报这个错误导致崩溃，这个是由找不到 FileProvider 导致的，不同的 App 配置的文件提供这不一样，此处需要单独配置一个文件提供者
+//        Caused by: android.content.ActivityNotFoundException: No Activity found to handle Intent { act=android.intent.action.VIEW
+//            dat=content://com.android.example.camera2.video.provider/files/VID_2023_08_24_14_16_56_812.mp4 flg=0x4000001 }
+//            at android.app.Instrumentation.checkStartActivityResult(Instrumentation.java:2076)
+
+        return reflector.callByCaller(mBaseInstrumentation, new Object[]{context, binder, binder1, activity, intent, i, bundle});
     }
 
     public ActivityResult execStartActivity(Context context, IBinder binder, IBinder binder1, String str, Intent intent, int i, Bundle bundle) throws Throwable {

@@ -109,7 +109,7 @@ public class IOCore {
         return new File(redirectPath(pathStr, rule));
     }
 
-    // 由于正常情况Application已完成重定向，以下重定向是怕代码写死。
+    // 由于正常情况 Application 已完成重定向，以下重定向是怕代码写死。
     public void enableRedirect(Context context) {
         Map<String, String> rule = new LinkedHashMap<>();
         Set<String> blackRule = new HashSet<>();

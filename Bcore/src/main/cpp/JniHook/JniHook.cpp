@@ -105,7 +105,8 @@ bool CheckFlags(void *artMethod) {
         ALOGE("Not a native method");
         return false;
     }
-    ClearFastNativeFlag(method);
+//    TODO: 这个属性关闭后会导致 Android-8 的某些设备崩溃
+//    ClearFastNativeFlag(method);
     return true;
 }
 
@@ -129,7 +130,7 @@ JniHook::HookJniFun(JNIEnv *env, const char *class_name, const char *method_name
         env->ExceptionClear();
         return;
     }
-    jmethodID method = nullptr;
+    jmethodID method;
     if (is_static) {
         method = env->GetStaticMethodID(clazz, method_name, sign);
     } else {
@@ -149,6 +150,7 @@ JniHook::HookJniFun(JNIEnv *env, const char *class_name, const char *method_name
         ALOGE("check flags error. class：%s, method：%s", class_name, method_name);
         return;
     }
+    ALOGE("register class:%s, method: %s begin", class_name, method_name);
     *orig_fun = reinterpret_cast<void *>(artMethod[HookEnv.art_method_native_offset]);
     if (env->RegisterNatives(clazz, gMethods, 1) < 0) {
         ALOGE("jni hook error. class：%s, method：%s", class_name, method_name);
@@ -158,7 +160,7 @@ JniHook::HookJniFun(JNIEnv *env, const char *class_name, const char *method_name
     if (HookEnv.api_level == __ANDROID_API_O__ || HookEnv.api_level == __ANDROID_API_O_MR1__) {
         AddAccessFlag((char *) artMethod, kAccFastNative);
     }
-    ALOGI("register class：%s, method：%s success!", class_name, method_name);
+    ALOGI("register class: %s, method: %s success!", class_name, method_name);
 }
 
 __attribute__((section (".mytext")))  JNICALL void native_offset

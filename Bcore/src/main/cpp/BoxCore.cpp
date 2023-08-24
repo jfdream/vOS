@@ -57,13 +57,6 @@ JavaVM *BoxCore::getJavaVM() {
     return VMEnv.vm;
 }
 
-void nativeHook(JNIEnv *env) {
-    BaseHook::init(env);
-    UnixFileSystemHook::init(env);
-//    RuntimeHook::init(env);
-    BinderHook::init(env);
-}
-
 void init(JNIEnv *env, jobject clazz, jint api_level) {
     ALOGD("NativeCore init.");
     VMEnv.api_level = api_level;
@@ -85,7 +78,11 @@ void addIORule(JNIEnv *env, jclass clazz, jstring target_path,
 
 void enableIO(JNIEnv *env, jclass clazz) {
     IO::init(env);
-    nativeHook(env);
+
+    BaseHook::init(env);
+    UnixFileSystemHook::init(env);
+//    RuntimeHook::init(env);
+    BinderHook::init(env);
 }
 
 static JNINativeMethod gMethods[] = {
