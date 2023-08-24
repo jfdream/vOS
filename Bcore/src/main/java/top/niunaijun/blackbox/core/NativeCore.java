@@ -37,17 +37,6 @@ public class NativeCore {
 
     public static native void addIORule(String targetPath, String relocatePath);
 
-    public static void dumpDex(ClassLoader classLoader, String packageName) {
-        List<Long> cookies = DexFileCompat.getCookies(classLoader);
-        for (Long cookie : cookies) {
-            if (cookie == 0)
-                continue;
-//            File file = new File(BlackBoxCore.get().getDexDumpDir(), packageName);
-//            FileUtils.mkdirs(file);
-//            dumpDex(cookie, file.getAbsolutePath());
-        }
-    }
-
     @Keep
     public static int getCallingUid(int origCallingUid) {
         // 系统uid
@@ -72,21 +61,5 @@ public class NativeCore {
     @Keep
     public static File redirectPath(File path) {
         return IOCore.get().redirectPath(path);
-    }
-
-    @Keep
-    public static long[] loadEmptyDex() {
-        try {
-            DexFile dexFile = new DexFile(EMPTY_JAR);
-            List<Long> cookies = DexFileCompat.getCookies(dexFile);
-            long[] longs = new long[cookies.size()];
-            for (int i = 0; i < cookies.size(); i++) {
-                longs[i] = cookies.get(i);
-            }
-            return longs;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return new long[]{};
     }
 }

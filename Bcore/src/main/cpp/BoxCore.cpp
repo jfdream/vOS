@@ -16,8 +16,6 @@ struct {
     jmethodID getCallingUidId;
     jmethodID redirectPathString;
     jmethodID redirectPathFile;
-    jmethodID loadEmptyDex;
-    jmethodID loadEmptyDexL;
     int api_level;
 } VMEnv;
 
@@ -51,11 +49,6 @@ jobject BoxCore::redirectPathFile(JNIEnv *env, jobject path) {
     return env->CallStaticObjectMethod(VMEnv.NativeCoreClass, VMEnv.redirectPathFile, path);
 }
 
-jlongArray BoxCore::loadEmptyDex(JNIEnv *env) {
-    env = ensureEnvCreated();
-    return (jlongArray) env->CallStaticObjectMethod(VMEnv.NativeCoreClass, VMEnv.loadEmptyDex);
-}
-
 int BoxCore::getApiLevel() {
     return VMEnv.api_level;
 }
@@ -80,8 +73,6 @@ void init(JNIEnv *env, jobject clazz, jint api_level) {
                                                       "(Ljava/lang/String;)Ljava/lang/String;");
     VMEnv.redirectPathFile = env->GetStaticMethodID(VMEnv.NativeCoreClass, "redirectPath",
                                                     "(Ljava/io/File;)Ljava/io/File;");
-    VMEnv.loadEmptyDex = env->GetStaticMethodID(VMEnv.NativeCoreClass, "loadEmptyDex",
-                                                "()[J");
 
     JniHook::InitJniHook(env, api_level);
 }
@@ -107,10 +98,7 @@ int registerNativeMethods(JNIEnv *env, const char *className,
                           JNINativeMethod *gMethods, int numMethods) {
     jclass clazz;
     clazz = env->FindClass(className);
-    if (clazz == nullptr) {
-        return JNI_FALSE;
-    }
-    if (env->RegisterNatives(clazz, gMethods, numMethods) < 0) {
+    if (clazz == nullptr || env->RegisterNatives(clazz, gMethods, numMethods) < 0) {
         return JNI_FALSE;
     }
     return JNI_TRUE;

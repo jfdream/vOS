@@ -16,7 +16,6 @@ public:
     static int getCallingUid(JNIEnv *env, int orig);
     static jstring redirectPathString(JNIEnv *env, jstring path);
     static jobject redirectPathFile(JNIEnv *env, jobject path);
-    static jlongArray loadEmptyDex(JNIEnv *env);
 };
 
 
