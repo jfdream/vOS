@@ -310,6 +310,7 @@ public class BActivityThread extends IBActivityThread.Stub {
         mProviders.addAll(Arrays.asList(packageInfo.providers));
 
         Object boundApplication = BRActivityThread.get(BlackBoxCore.mainThread()).mBoundApplication();
+        Log.e(TAG, "boundApplication:" + boundApplication);
 
         Context packageContext = createPackageContext(applicationInfo);
         Object loadedApk = BRContextImpl.get(packageContext).mPackageInfo();
@@ -367,6 +368,17 @@ public class BActivityThread extends IBActivityThread.Stub {
         Application application;
         try {
             onBeforeCreateApplication(packageName, processName, packageContext);
+//            BRLoadedApk.get(loadedApk).initializeJavaContextClassLoader();
+//            Object mActivityThread = BRLoadedApk.get(loadedApk).mActivityThread();
+//            Object appContext = BRContextImpl.get().createAppContext(mActivityThread, loadedApk);
+//            Log.e(TAG, "appContext:" + appContext + " mActivityThread:" + mActivityThread);
+//
+//            String appClass = BRLoadedApk.get(loadedApk).mApplicationInfo().className;
+//            java.lang.ClassLoader cl = BRLoadedApk.get(loadedApk).getClassLoader();
+//            Log.e(TAG, "appClass:" + appClass);
+//            Object app1 = BRActivityThread.get(mActivityThread).mInstrumentation().newApplication(
+//                    cl, appClass, (Context) appContext);
+
             application = BRLoadedApk.get(loadedApk).makeApplication(false, null);
             mInitialApplication = application;
             BRActivityThread.get(BlackBoxCore.mainThread())._set_mInitialApplication(mInitialApplication);

@@ -1,5 +1,7 @@
 package black.android.app;
 
+import android.app.ActivityThread;
+import android.app.LoadedApk;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -7,6 +9,7 @@ import android.content.pm.PackageManager;
 import top.niunaijun.blackreflection.annotation.BClassName;
 import top.niunaijun.blackreflection.annotation.BField;
 import top.niunaijun.blackreflection.annotation.BMethod;
+import top.niunaijun.blackreflection.annotation.BParamClass;
 import top.niunaijun.blackreflection.annotation.BStaticMethod;
 
 @BClassName("android.app.ContextImpl")
@@ -24,7 +27,7 @@ public interface ContextImpl {
     PackageManager mPackageManager();
 
     @BStaticMethod
-    Object createAppContext();
+    Object createAppContext(@BParamClass(ActivityThread.class) Object activityThread, @BParamClass(LoadedApk.class) Object loadedApk);
 
     @BMethod
     Context getReceiverRestrictedContext();

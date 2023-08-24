@@ -47,6 +47,9 @@ public interface LoadedApk {
     @BField
     boolean mPackageName();
 
+    @BField
+    Object mActivityThread();
+
     @BMethod
     Object getResources();
 
@@ -61,6 +64,9 @@ public interface LoadedApk {
 
     @BMethod
     Application makeApplication(boolean boolean0, Instrumentation Instrumentation1);
+
+    @BMethod
+    void initializeJavaContextClassLoader();
 
     @BClassName("android.app.LoadedApk$ServiceDispatcher")
     interface ServiceDispatcher {

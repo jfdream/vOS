@@ -2,6 +2,7 @@ package top.niunaijun.blackbox.fake.service;
 
 import android.Manifest;
 import android.app.ActivityManager;
+import android.app.Application;
 import android.app.IServiceConnection;
 import android.app.PendingIntent;
 import android.content.ComponentName;
@@ -419,7 +420,11 @@ public class IActivityManagerProxy extends ClassInvocationStub {
             String resolvedType = (String) args[intentIndex + 1];
             Intent proxyIntent = BlackBoxCore.getBActivityManager().sendBroadcast(intent, resolvedType, BActivityThread.getUserId());
             if (proxyIntent != null) {
-                proxyIntent.setExtrasClassLoader(BActivityThread.getApplication().getClassLoader());
+                // bugfix
+                // 微信 App 打开之后会发送广播，广播发送会触发该方法，此时由于应用程序并未完全初始化成功，故 application 为空，所以此处需要判断一下
+                Application application = BActivityThread.getApplication();
+                ClassLoader loader = application != null ? application.getClassLoader() : getClass().getClassLoader();
+                proxyIntent.setExtrasClassLoader(loader);
                 ProxyBroadcastRecord.saveStub(proxyIntent, intent, BActivityThread.getUserId());
                 args[intentIndex] = proxyIntent;
             }

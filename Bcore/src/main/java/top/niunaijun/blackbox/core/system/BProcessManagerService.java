@@ -28,7 +28,6 @@ import top.niunaijun.blackbox.core.system.user.BUserHandle;
 import top.niunaijun.blackbox.entity.AppConfig;
 import top.niunaijun.blackbox.proxy.ProxyManifest;
 import top.niunaijun.blackbox.utils.FileUtils;
-import top.niunaijun.blackbox.utils.Slog;
 import top.niunaijun.blackbox.utils.compat.ApplicationThreadCompat;
 import top.niunaijun.blackbox.utils.compat.BundleCompat;
 import top.niunaijun.blackbox.utils.provider.ProviderCall;
@@ -42,7 +41,7 @@ import top.niunaijun.blackbox.utils.provider.ProviderCall;
  * 此处无Bug
  */
 public class BProcessManagerService implements ISystemService {
-    public static final String TAG = "BProcessManager";
+    public static final String TAG = "BProcessManager.iOS";
 
     public static BProcessManagerService sBProcessManagerService = new BProcessManagerService();
     private final Map<Integer, Map<String, ProcessRecord>> mProcessMap = new HashMap<>();
@@ -76,7 +75,7 @@ public class BProcessManagerService implements ISystemService {
                     }
                 }
                 bpid = getUsingBPidL();
-                Slog.d(TAG, "init bUid = " + buid + ", bPid = " + bpid);
+                Log.i(TAG, "init bUid = " + buid + ", bPid = " + bpid);
             }
             if (bpid == -1) {
                 throw new RuntimeException("No processes available");

@@ -42,13 +42,12 @@ public final class AppInstrumentation extends BaseInstrumentationDelegate implem
         return sAppInstrumentation;
     }
 
-    public AppInstrumentation() {
-    }
+    public AppInstrumentation() {}
 
     @Override
     public void injectHook() {
         try {
-            Instrumentation mInstrumentation = getCurrInstrumentation();
+            Instrumentation mInstrumentation = currentInstrumentation();
             if (mInstrumentation == this || checkInstrumentation(mInstrumentation))
                 return;
             mBaseInstrumentation = (Instrumentation) mInstrumentation;
@@ -58,14 +57,14 @@ public final class AppInstrumentation extends BaseInstrumentationDelegate implem
         }
     }
 
-    private Instrumentation getCurrInstrumentation() {
+    private Instrumentation currentInstrumentation() {
         Object currentActivityThread = BlackBoxCore.mainThread();
         return BRActivityThread.get(currentActivityThread).mInstrumentation();
     }
 
     @Override
     public boolean isBadEnv() {
-        return !checkInstrumentation(getCurrInstrumentation());
+        return !checkInstrumentation(currentInstrumentation());
     }
 
     private boolean checkInstrumentation(Instrumentation instrumentation) {
