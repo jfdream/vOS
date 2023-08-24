@@ -7,12 +7,9 @@
 #include "IO.h"
 #include <jni.h>
 #include <JniHook/JniHook.h>
-#include <Hook/VMClassLoaderHook.h>
 #include <Hook/UnixFileSystemHook.h>
 #include <Hook/BinderHook.h>
 #include <Hook/RuntimeHook.h>
-#include "Utils/HexDump.h"
-
 struct {
     JavaVM *vm;
     jclass NativeCoreClass;
@@ -70,14 +67,12 @@ JavaVM *BoxCore::getJavaVM() {
 void nativeHook(JNIEnv *env) {
     BaseHook::init(env);
     UnixFileSystemHook::init(env);
-    VMClassLoaderHook::init(env);
 //    RuntimeHook::init(env);
     BinderHook::init(env);
 }
 
 void hideXposed(JNIEnv *env, jclass clazz) {
     ALOGD("set hideXposed");
-    VMClassLoaderHook::hideXposed();
 }
 
 void init(JNIEnv *env, jobject clazz, jint api_level) {

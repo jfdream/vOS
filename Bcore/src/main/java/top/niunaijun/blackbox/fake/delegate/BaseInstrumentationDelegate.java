@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.PersistableBundle;
 import android.os.UserHandle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
@@ -27,6 +28,7 @@ import top.niunaijun.blackbox.utils.Reflector;
 
 public class BaseInstrumentationDelegate extends Instrumentation {
 
+    private static final String TAG = "iOS";
     protected Instrumentation mBaseInstrumentation;
 
 
@@ -47,7 +49,8 @@ public class BaseInstrumentationDelegate extends Instrumentation {
 
     @Override
     public boolean onException(Object obj, Throwable e) {
-        return mBaseInstrumentation.onException(obj, e);
+        Log.e(TAG, "onException:" + e);
+        return false;
     }
 
     @Override
@@ -57,7 +60,9 @@ public class BaseInstrumentationDelegate extends Instrumentation {
 
     @Override
     public void addResults(Bundle results) {
-        mBaseInstrumentation.addResults(results);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mBaseInstrumentation.addResults(results);
+        }
     }
 
     @Override
