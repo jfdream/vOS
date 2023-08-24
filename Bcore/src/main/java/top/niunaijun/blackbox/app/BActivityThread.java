@@ -248,7 +248,7 @@ public class BActivityThread extends IBActivityThread.Stub {
         ClassLoader classLoader = BRLoadedApk.get(mBoundApplication.info).getClassLoader();
         JobService service;
         try {
-            service = (JobService) classLoader.loadClass(serviceInfo.name).newInstance();
+             service = (JobService) classLoader.loadClass(serviceInfo.name).newInstance();
         } catch (Exception e) {
             e.printStackTrace();
             Log.e(TAG, "Unable to create JobService " + serviceInfo.name
@@ -461,9 +461,6 @@ public class BActivityThread extends IBActivityThread.Stub {
                 PineXposed.onPackageLoad(vPackageName, vProcessName, context.getApplicationInfo(), isFirstApplication, context.getClassLoader());
             } catch (Throwable ignored) {
             }
-        }
-        if (BlackBoxCore.get().isHideXposed()) {
-            NativeCore.hideXposed();
         }
     }
 

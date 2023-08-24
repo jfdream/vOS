@@ -387,11 +387,6 @@ public class BlackBoxCore extends ClientConfiguration {
     }
 
     @Override
-    public boolean isHideXposed() {
-        return mClientConfiguration.isHideXposed();
-    }
-
-    @Override
     public String getHostPackageName() {
         return mClientConfiguration.getHostPackageName();
     }

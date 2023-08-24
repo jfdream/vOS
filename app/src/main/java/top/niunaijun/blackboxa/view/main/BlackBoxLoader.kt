@@ -22,7 +22,6 @@ import java.io.File
 class BlackBoxLoader {
     val TAG: String = "iOS"
     private var mHideRoot by AppSharedPreferenceDelegate(App.getContext(), false)
-    private var mHideXposed by AppSharedPreferenceDelegate(App.getContext(), false)
     private var mDaemonEnable by AppSharedPreferenceDelegate(App.getContext(), false)
     private var mShowShortcutPermissionDialog by AppSharedPreferenceDelegate(App.getContext(),true)
 
@@ -32,14 +31,6 @@ class BlackBoxLoader {
 
     fun invalidHideRoot(hideRoot: Boolean) {
         this.mHideRoot = hideRoot
-    }
-
-    fun hideXposed(): Boolean {
-        return mHideXposed
-    }
-
-    fun invalidHideXposed(hideXposed: Boolean) {
-        this.mHideXposed = hideXposed
     }
 
     fun daemonEnable(): Boolean {
@@ -107,10 +98,6 @@ class BlackBoxLoader {
 
             override fun isHideRoot(): Boolean {
                 return mHideRoot
-            }
-
-            override fun isHideXposed(): Boolean {
-                return mHideXposed
             }
 
             override fun isEnableDaemonService(): Boolean {

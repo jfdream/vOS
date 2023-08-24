@@ -16,10 +16,6 @@ public abstract class ClientConfiguration {
         return false;
     }
 
-    public boolean isHideXposed() {
-        return false;
-    }
-
     public abstract String getHostPackageName();
 
     public boolean isEnableDaemonService() {

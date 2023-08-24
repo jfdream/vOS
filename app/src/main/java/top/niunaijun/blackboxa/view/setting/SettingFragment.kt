@@ -44,13 +44,6 @@ class SettingFragment : PreferenceFragmentCompat() {
         initGms()
 
         invalidHideState{
-            val xpHidePreference: Preference = (findPreference("xp_hide")!!)
-            val hideXposed = AppManager.mBlackBoxLoader.hideXposed()
-            xpHidePreference.setDefaultValue(hideXposed)
-            xpHidePreference
-        }
-
-        invalidHideState{
             val rootHidePreference: Preference = (findPreference("root_hide")!!)
             val hideRoot = AppManager.mBlackBoxLoader.hideRoot()
             rootHidePreference.setDefaultValue(hideRoot)
@@ -85,10 +78,6 @@ class SettingFragment : PreferenceFragmentCompat() {
         pref.setOnPreferenceChangeListener { preference, newValue ->
             val tmpHide = (newValue == true)
             when (preference.key) {
-                "xp_hide" -> {
-                    AppManager.mBlackBoxLoader.invalidHideXposed(tmpHide)
-                }
-
                 "root_hide" -> {
 
                     AppManager.mBlackBoxLoader.invalidHideRoot(tmpHide)

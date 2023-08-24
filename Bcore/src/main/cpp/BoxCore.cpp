@@ -71,10 +71,6 @@ void nativeHook(JNIEnv *env) {
     BinderHook::init(env);
 }
 
-void hideXposed(JNIEnv *env, jclass clazz) {
-    ALOGD("set hideXposed");
-}
-
 void init(JNIEnv *env, jobject clazz, jint api_level) {
     ALOGD("NativeCore init.");
     VMEnv.api_level = api_level;
@@ -102,7 +98,6 @@ void enableIO(JNIEnv *env, jclass clazz) {
 }
 
 static JNINativeMethod gMethods[] = {
-        {"hideXposed", "()V",                                     (void *) hideXposed},
         {"addIORule",  "(Ljava/lang/String;Ljava/lang/String;)V", (void *) addIORule},
         {"enableIO",   "()V",                                     (void *) enableIO},
         {"init",       "(I)V",                                    (void *) init},
