@@ -1,4 +1,4 @@
-package top.canyie.pine.xposed;
+package de.robv.android.xposed.utils;
 
 import android.content.pm.ApplicationInfo;
 import android.util.Log;

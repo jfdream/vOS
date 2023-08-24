@@ -1,4 +1,4 @@
-package top.canyie.dreamland.utils;
+package de.robv.android.xposed.utils;
 
 import android.system.ErrnoException;
 import android.util.Log;

@@ -24,7 +24,7 @@
  */
 
 // Pine changed: Move package to top.canyie.pine.xposed
-package top.canyie.pine.xposed;
+package de.robv.android.xposed.utils;
 
 import java.util.Enumeration;
 import java.util.NoSuchElementException;
