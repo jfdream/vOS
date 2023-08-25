@@ -34,7 +34,7 @@ import top.niunaijun.blackbox.utils.compat.BuildCompat;
  */
 public class ContentProviderDelegate {
     public static final String TAG = "ContentProviderDelegate";
-    private static Set<String> sInjected = new HashSet<>();
+    private static final Set<String> sInjected = new HashSet<>();
 
     public static void update(Object holder, String auth) {
         IInterface iInterface;
@@ -47,13 +47,10 @@ public class ContentProviderDelegate {
         if (iInterface instanceof Proxy)
             return;
         IInterface bContentProvider;
-        switch (auth) {
-            case "settings":
-                bContentProvider = new SettingsProviderStub().wrapper(iInterface, BlackBoxCore.getHostPkg());
-                break;
-            default:
-                bContentProvider = new ContentProviderStub().wrapper(iInterface, BlackBoxCore.getHostPkg());
-                break;
+        if (auth.equals("settings")) {
+            bContentProvider = new SettingsProviderStub().wrapper(iInterface, BlackBoxCore.getHostPkg());
+        } else {
+            bContentProvider = new ContentProviderStub().wrapper(iInterface, BlackBoxCore.getHostPkg());
         }
         if (BuildCompat.isOreo()) {
             BRContentProviderHolderOreo.get(holder)._set_provider(bContentProvider);

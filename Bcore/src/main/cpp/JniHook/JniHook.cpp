@@ -150,7 +150,7 @@ JniHook::HookJniFun(JNIEnv *env, const char *class_name, const char *method_name
         ALOGE("check flags error. class：%s, method：%s", class_name, method_name);
         return;
     }
-    ALOGE("register class:%s, method: %s begin", class_name, method_name);
+    ALOGI("register class:%s, method: %s begin", class_name, method_name);
     *orig_fun = reinterpret_cast<void *>(artMethod[HookEnv.art_method_native_offset]);
     if (env->RegisterNatives(clazz, gMethods, 1) < 0) {
         ALOGE("jni hook error. class：%s, method：%s", class_name, method_name);
