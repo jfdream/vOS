@@ -46,9 +46,8 @@ import top.niunaijun.blackbox.utils.compat.BuildCompat;
  */
 public class HCallbackProxy implements IInjectHook, Handler.Callback {
     public static final String TAG = "HCallbackStub";
-    private Handler.Callback mOtherCallback;
-    private AtomicBoolean mBeing = new AtomicBoolean(false);
-
+    private Handler.Callback mBackCallback;
+    private final AtomicBoolean mBeing = new AtomicBoolean(false);
     private Handler.Callback getHCallback() {
         return BRHandler.get(getH()).mCallback();
     }
@@ -60,9 +59,9 @@ public class HCallbackProxy implements IInjectHook, Handler.Callback {
 
     @Override
     public void injectHook() {
-        mOtherCallback = getHCallback();
-        if (mOtherCallback != null && (mOtherCallback == this || mOtherCallback.getClass().getName().equals(this.getClass().getName()))) {
-            mOtherCallback = null;
+        mBackCallback = getHCallback();
+        if (mBackCallback != null && (mBackCallback == this || mBackCallback.getClass().getName().equals(this.getClass().getName()))) {
+            mBackCallback = null;
         }
         BRHandler.get(getH())._set_mCallback(this);
     }
@@ -95,8 +94,8 @@ public class HCallbackProxy implements IInjectHook, Handler.Callback {
                 if (msg.what == BRActivityThreadH.get().CREATE_SERVICE()) {
                     return handleCreateService(msg.obj);
                 }
-                if (mOtherCallback != null) {
-                    return mOtherCallback.handleMessage(msg);
+                if (mBackCallback != null) {
+                    return mBackCallback.handleMessage(msg);
                 }
                 return false;
             } finally {

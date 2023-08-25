@@ -31,9 +31,7 @@ public abstract class ClassInvocationStub implements InvocationHandler, IInjectH
 
     protected abstract void inject(Object baseInvocation, Object proxyInvocation);
 
-    protected void onBindMethod() {
-
-    }
+    protected void onBindMethod() {}
 
     protected Object getProxyInvocation() {
         return mProxyInvocation;
