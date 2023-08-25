@@ -1,7 +1,6 @@
 package top.niunaijun.blackbox;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -15,7 +14,6 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
@@ -30,7 +28,7 @@ import java.util.Map;
 
 import black.android.app.BRActivityThread;
 import black.android.os.BRUserHandle;
-import me.weishu.reflection.Reflection;
+import top.canyie.pine.Pine;
 import top.canyie.pine.PineConfig;
 import top.niunaijun.blackbox.app.configuration.AppLifecycleCallback;
 import top.niunaijun.blackbox.app.configuration.ClientConfiguration;
@@ -119,11 +117,19 @@ public class BlackBoxCore extends ClientConfiguration {
         mExceptionHandler = exceptionHandler;
     }
 
+    public static void initPineHooker(){
+        PineConfig.debug = true;
+        PineConfig.debuggable = true;
+        PineConfig.disableHiddenApiPolicy = true;
+        PineConfig.disableHiddenApiPolicyForPlatformDomain = true;
+        Pine.ensureInitialized();
+    }
+
     public void doAttachBaseContext(Context context, ClientConfiguration clientConfiguration) {
         if (clientConfiguration == null) {
             throw new IllegalArgumentException("ClientConfiguration is null!");
         }
-        Reflection.unseal(context);
+        initPineHooker();
         sContext = context;
         mClientConfiguration = clientConfiguration;
         initNotificationManager();
@@ -152,8 +158,6 @@ public class BlackBoxCore extends ClientConfiguration {
                 }
             }
         }
-        PineConfig.debug = true;
-        PineConfig.debuggable = true;
         HookManager.get().init();
     }
 

@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         applicationId "com.hero.vos"
-        minSdkVersion 21
+        minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 12
         versionName "2.1.0"
