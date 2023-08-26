@@ -29,6 +29,6 @@ public class VirtualRuntime {
         sProcessName = processName;
         BRProcess.get().setArgV0(processName);
         BRDdmHandleAppName.get().setAppName(processName, 0);
-        Log.e(TAG, "setupRuntime application name:" + processName + " className:" + appInfo.className);
+        Log.i(TAG, "setupRuntime application name:" + processName + " className:" + appInfo.className);
     }
 }

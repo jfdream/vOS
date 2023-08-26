@@ -72,7 +72,7 @@ public class InnerReceiverDelegate extends IIntentReceiver.Stub {
         ProxyBroadcastRecord proxyBroadcastRecord = ProxyBroadcastRecord.create(intent);
         Intent perIntent;
         if (proxyBroadcastRecord.mIntent != null) {
-            proxyBroadcastRecord.mIntent.setExtrasClassLoader(BActivityThread.getApplication().getClassLoader());
+            proxyBroadcastRecord.mIntent.setExtrasClassLoader(classLoader);
             perIntent = proxyBroadcastRecord.mIntent;
         } else {
             perIntent = intent;
