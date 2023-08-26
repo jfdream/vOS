@@ -7,8 +7,12 @@ import top.niunaijun.blackreflection.annotation.BStaticMethod;
 
 @BClassName("android.webkit.WebViewFactory")
 public interface WebViewFactory {
+
     @BStaticField
     Boolean sWebViewSupported();
+
+    @BStaticMethod
+    Boolean sWebViewDisabled();
 
     @BStaticMethod
     Object getUpdateService();

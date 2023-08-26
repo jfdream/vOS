@@ -29,8 +29,7 @@ public abstract class BinderInvocationStub extends ClassInvocationStub implement
     }
 
     @Override
-    protected void onBindMethod() {
-    }
+    protected void onBindMethod() {}
 
     @Nullable
     @Override

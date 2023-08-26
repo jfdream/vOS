@@ -1,10 +1,12 @@
 package top.niunaijun.blackbox.fake.delegate;
 
+import android.app.Application;
 import android.content.IIntentReceiver;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.util.Log;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -23,7 +25,7 @@ import top.niunaijun.blackbox.proxy.record.ProxyBroadcastRecord;
  * 此处无Bug
  */
 public class InnerReceiverDelegate extends IIntentReceiver.Stub {
-    public static final String TAG = "InnerReceiverDelegate";
+    public static final String TAG = "InnerReceiverDelegate.iOS";
 
     private static final Map<IBinder, InnerReceiverDelegate> sInnerReceiverDelegate = new HashMap<>();
     private final WeakReference<IIntentReceiver> mIntentReceiver;
@@ -62,7 +64,11 @@ public class InnerReceiverDelegate extends IIntentReceiver.Stub {
 
     @Override
     public void performReceive(Intent intent, int resultCode, String data, Bundle extras, boolean ordered, boolean sticky, int sendingUser) throws RemoteException {
-        intent.setExtrasClassLoader(BActivityThread.getApplication().getClassLoader());
+        Application application = BActivityThread.getApplication();
+//        TODO: 此处由于 App 未启动完成，所以可能会出现异常
+        Log.i(TAG, "performReceive application is created:" + (application != null));
+        ClassLoader classLoader = application != null ? application.getClassLoader() : BActivityThread.currentActivityThread().getClass().getClassLoader();
+        intent.setExtrasClassLoader(classLoader);
         ProxyBroadcastRecord proxyBroadcastRecord = ProxyBroadcastRecord.create(intent);
         Intent perIntent;
         if (proxyBroadcastRecord.mIntent != null) {

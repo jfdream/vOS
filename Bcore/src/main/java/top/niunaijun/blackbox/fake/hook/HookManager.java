@@ -1,10 +1,12 @@
 package top.niunaijun.blackbox.fake.hook;
 
 import android.util.Log;
+import android.webkit.CookieManager;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import black.android.webkit.BRWebViewFactory;
 import top.niunaijun.blackbox.BlackBoxCore;
 import top.niunaijun.blackbox.fake.delegate.AppInstrumentation;
 import top.niunaijun.blackbox.fake.service.HCallbackProxy;
@@ -154,6 +156,10 @@ public class HookManager {
                 addInjector(new IJobServiceProxy());
             }
         }
+        Boolean factory = BRWebViewFactory.get().sWebViewSupported();
+        if (factory == null || !factory) {
+            Log.i(TAG, "Chrome package not available");
+        }
         injectAll();
     }
 
@@ -182,7 +188,6 @@ public class HookManager {
     void injectAll() {
         for (IInjectHook value : mInjectors.values()) {
             try {
-                Slog.d(TAG, "hook: " + value);
                 value.injectHook();
             } catch (Exception e) {
                 Slog.d(TAG, "hook error: " + value);

@@ -222,7 +222,9 @@ public class BaseInstrumentationDelegate extends Instrumentation {
 
     @Override
     public Application newApplication(ClassLoader cl, String className, Context context) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
-        return mBaseInstrumentation.newApplication(cl, className, context);
+        Application application = mBaseInstrumentation.newApplication(cl, className, context);
+        BActivityThread.setApplication(application);
+        return application;
     }
 
     @Override

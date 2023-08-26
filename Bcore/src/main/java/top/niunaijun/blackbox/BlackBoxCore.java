@@ -19,8 +19,10 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Process;
 import android.util.Log;
+import android.webkit.CookieManager;
 
 import java.io.File;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,6 +30,9 @@ import java.util.Map;
 
 import black.android.app.BRActivityThread;
 import black.android.os.BRUserHandle;
+import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedBridge;
+import de.robv.android.xposed.XposedHelpers;
 import top.canyie.pine.Pine;
 import top.canyie.pine.PineConfig;
 import top.niunaijun.blackbox.app.configuration.AppLifecycleCallback;

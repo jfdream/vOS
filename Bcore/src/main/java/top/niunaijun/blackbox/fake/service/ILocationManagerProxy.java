@@ -54,7 +54,6 @@ public class ILocationManagerProxy extends BinderInvocationStub {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-//        Log.d(TAG, "call: " + method.getName());
         MethodParameterUtils.replaceFirstAppPkg(args);
         return super.invoke(proxy, method, args);
     }

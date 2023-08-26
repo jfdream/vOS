@@ -147,6 +147,10 @@ public class BActivityThread extends IBActivityThread.Stub {
         return currentActivityThread().mInitialApplication;
     }
 
+    public static void setApplication(Application application) {
+        currentActivityThread().mInitialApplication = application;
+    }
+
     public static int getAppPid() {
         return getAppConfig() == null ? -1 : getAppConfig().bpid;
     }
