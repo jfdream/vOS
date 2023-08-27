@@ -94,10 +94,6 @@ public class BlackBoxCore extends ClientConfiguration {
         return mHandler;
     }
 
-    public static PackageManager getPackageManager() {
-        return sContext.getPackageManager();
-    }
-
     public static String getHostPkg() {
         return get().getHostPackageName();
     }
@@ -184,6 +180,10 @@ public class BlackBoxCore extends ClientConfiguration {
         return BJobManager.get();
     }
 
+    public static PackageManager getPackageManager() {
+        return sContext.getPackageManager();
+    }
+
     public static BPackageManager getBPackageManager() {
         return BPackageManager.get();
     }
@@ -220,8 +220,10 @@ public class BlackBoxCore extends ClientConfiguration {
 
     public InstallResult installPackageAsUser(String packageName, int userId) {
         try {
+            // 通过系统 API 获取该包名对应的 PackageInfo
             PackageInfo packageInfo = getPackageManager().getPackageInfo(packageName, 0);
             Log.i(TAG, "getPackageInfo:" + packageName + " sourceDir:" + packageInfo.applicationInfo.sourceDir);
+            // 通过 BPackageManager 安装 APK
             return getBPackageManager().installPackageAsUser(packageInfo.applicationInfo.sourceDir, InstallOption.installBySystem(), userId);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();

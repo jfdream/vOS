@@ -78,8 +78,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
         filter.addAction("android.intent.action.PACKAGE_ADDED");
         filter.addAction("android.intent.action.PACKAGE_REMOVED");
         filter.addDataScheme("package");
-        BlackBoxCore.getContext()
-                .registerReceiver(mPackageChangedHandler, filter);
+        BlackBoxCore.getContext().registerReceiver(mPackageChangedHandler, filter);
     }
 
     private final BroadcastReceiver mPackageChangedHandler = new BroadcastReceiver() {
@@ -698,19 +697,19 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
                 return result.installError(packageArchiveInfo.packageName,
                         msg + (BlackBoxCore.is64Bit() ? " not support armeabi-v7a abi" : "not support arm64-v8a abi"));
             }
-            PackageParser.Package aPackage = parserApk(apkFile.getAbsolutePath());
-            if (aPackage == null) {
+            PackageParser.Package sysPackage = parserApk(apkFile.getAbsolutePath());
+            if (sysPackage == null) {
                 return result.installError("parser apk error.");
             }
-            result.packageName = aPackage.packageName;
+            result.packageName = sysPackage.packageName;
 
             if (option.isFlag(InstallOption.FLAG_SYSTEM)) {
-                aPackage.applicationInfo = BlackBoxCore.getPackageManager().getPackageInfo(aPackage.packageName, 0).applicationInfo;
+                sysPackage.applicationInfo = BlackBoxCore.getPackageManager().getPackageInfo(sysPackage.packageName, 0).applicationInfo;
             }
-            BPackageSettings bPackageSettings = mSettings.getPackageLPw(aPackage.packageName, aPackage, option);
+            BPackageSettings bPackageSettings = mSettings.getPackageLPw(sysPackage.packageName, sysPackage, option);
 
             // stop pkg
-            BProcessManagerService.get().killPackageAsUser(aPackage.packageName, userId);
+            BProcessManagerService.get().killPackageAsUser(sysPackage.packageName, userId);
 
             int i = BPackageInstallerService.get().installPackageAsUser(bPackageSettings, userId);
             if (i < 0) {
@@ -722,7 +721,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
             }
             mComponentResolver.removeAllComponents(bPackageSettings.pkg);
             mComponentResolver.addAllComponents(bPackageSettings.pkg);
-            mSettings.scanPackage(aPackage.packageName);
+            mSettings.scanPackage(sysPackage.packageName);
             onPackageInstalled(bPackageSettings.pkg.packageName, userId);
             return result;
         } catch (Throwable t) {

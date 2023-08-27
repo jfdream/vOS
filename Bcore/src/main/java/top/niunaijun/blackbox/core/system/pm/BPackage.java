@@ -61,9 +61,9 @@ public class BPackage implements Parcelable {
 
     public InstallOption installOption;
 
-    public BPackage(PackageParser.Package aPackage) {
-        this.activities = new ArrayList<>(aPackage.activities.size());
-        for (PackageParser.Activity activity : aPackage.activities) {
+    public BPackage(PackageParser.Package sysPackage) {
+        this.activities = new ArrayList<>(sysPackage.activities.size());
+        for (PackageParser.Activity activity : sysPackage.activities) {
             Activity selfActivity = new Activity(activity);
             for (ActivityIntentInfo intent : selfActivity.intents) {
                 intent.activity = selfActivity;
@@ -72,8 +72,8 @@ public class BPackage implements Parcelable {
             this.activities.add(selfActivity);
         }
 
-        this.receivers = new ArrayList<>(aPackage.receivers.size());
-        for (PackageParser.Activity receiver : aPackage.receivers) {
+        this.receivers = new ArrayList<>(sysPackage.receivers.size());
+        for (PackageParser.Activity receiver : sysPackage.receivers) {
             Activity selfReceiver = new Activity(receiver);
             for (ActivityIntentInfo intent : selfReceiver.intents) {
                 intent.activity = selfReceiver;
@@ -82,8 +82,8 @@ public class BPackage implements Parcelable {
             this.receivers.add(selfReceiver);
         }
 
-        this.providers = new ArrayList<>(aPackage.providers.size());
-        for (PackageParser.Provider provider : aPackage.providers) {
+        this.providers = new ArrayList<>(sysPackage.providers.size());
+        for (PackageParser.Provider provider : sysPackage.providers) {
             Provider selfProvider = new Provider(provider);
             for (ProviderIntentInfo intent : selfProvider.intents) {
                 intent.provider = selfProvider;
@@ -92,8 +92,8 @@ public class BPackage implements Parcelable {
             this.providers.add(selfProvider);
         }
 
-        this.services = new ArrayList<>(aPackage.services.size());
-        for (PackageParser.Service service : aPackage.services) {
+        this.services = new ArrayList<>(sysPackage.services.size());
+        for (PackageParser.Service service : sysPackage.services) {
             Service selfService = new Service(service);
             for (ServiceIntentInfo intent : selfService.intents) {
                 intent.service = selfService;
@@ -102,48 +102,48 @@ public class BPackage implements Parcelable {
             this.services.add(selfService);
         }
 
-        this.instrumentation = new ArrayList<>(aPackage.instrumentation.size());
-        for (PackageParser.Instrumentation instrumentation1 : aPackage.instrumentation) {
+        this.instrumentation = new ArrayList<>(sysPackage.instrumentation.size());
+        for (PackageParser.Instrumentation instrumentation1 : sysPackage.instrumentation) {
             Instrumentation selfInstrumentation = new Instrumentation(instrumentation1);
             selfInstrumentation.owner = this;
             this.instrumentation.add(selfInstrumentation);
         }
 
-        this.permissions = new ArrayList<>(aPackage.permissions.size());
-        for (PackageParser.Permission permission : aPackage.permissions) {
+        this.permissions = new ArrayList<>(sysPackage.permissions.size());
+        for (PackageParser.Permission permission : sysPackage.permissions) {
             Permission selfPermission = new Permission(permission);
             selfPermission.owner = this;
             this.permissions.add(selfPermission);
         }
 
-        this.permissionGroups = new ArrayList<>(aPackage.permissionGroups.size());
-        for (PackageParser.PermissionGroup permissionGroup : aPackage.permissionGroups) {
+        this.permissionGroups = new ArrayList<>(sysPackage.permissionGroups.size());
+        for (PackageParser.PermissionGroup permissionGroup : sysPackage.permissionGroups) {
             PermissionGroup selfPermissionGroup = new PermissionGroup(permissionGroup);
             selfPermissionGroup.owner = this;
             this.permissionGroups.add(selfPermissionGroup);
         }
 
-        this.requestedPermissions = aPackage.requestedPermissions;
+        this.requestedPermissions = sysPackage.requestedPermissions;
         if (BuildCompat.isPie()) {
-            this.mSigningDetails = new SigningDetails(aPackage.mSigningDetails);
+            this.mSigningDetails = new SigningDetails(sysPackage.mSigningDetails);
             this.mSignatures = this.mSigningDetails.signatures;
         } else {
-            this.mSignatures = aPackage.mSignatures;
+            this.mSignatures = sysPackage.mSignatures;
         }
-        this.mAppMetaData = aPackage.mAppMetaData;
-        // this.mExtras = new BPackageSettings((PackageSetting) aPackage.mExtras);
-        this.packageName = aPackage.packageName;
-        this.mPreferredOrder = aPackage.mPreferredOrder;
-        this.mSharedUserId = aPackage.mSharedUserId;
-        this.usesLibraries = aPackage.usesLibraries;
-        this.usesOptionalLibraries = aPackage.usesOptionalLibraries;
-        this.mVersionCode = aPackage.mVersionCode;
-        this.applicationInfo = aPackage.applicationInfo;
-        this.mVersionName = aPackage.mVersionName;
-        this.baseCodePath = aPackage.baseCodePath;
-        this.mSharedUserLabel = aPackage.mSharedUserLabel;
-        this.configPreferences = aPackage.configPreferences;
-        this.reqFeatures = aPackage.reqFeatures;
+        this.mAppMetaData = sysPackage.mAppMetaData;
+//         this.mExtras = new BPackageSettings((PackageSetting) aPackage.mExtras);
+        this.packageName = sysPackage.packageName;
+        this.mPreferredOrder = sysPackage.mPreferredOrder;
+        this.mSharedUserId = sysPackage.mSharedUserId;
+        this.usesLibraries = sysPackage.usesLibraries;
+        this.usesOptionalLibraries = sysPackage.usesOptionalLibraries;
+        this.mVersionCode = sysPackage.mVersionCode;
+        this.applicationInfo = sysPackage.applicationInfo;
+        this.mVersionName = sysPackage.mVersionName;
+        this.baseCodePath = sysPackage.baseCodePath;
+        this.mSharedUserLabel = sysPackage.mSharedUserLabel;
+        this.configPreferences = sysPackage.configPreferences;
+        this.reqFeatures = sysPackage.reqFeatures;
     }
 
     protected BPackage(Parcel in) {

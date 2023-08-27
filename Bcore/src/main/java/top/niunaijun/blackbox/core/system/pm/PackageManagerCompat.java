@@ -288,8 +288,10 @@ public class PackageManagerCompat {
         }
         String sourceDir = p.baseCodePath;
         if (p.applicationInfo == null) {
-            p.applicationInfo = BlackBoxCore.getPackageManager()
-                    .getPackageArchiveInfo(sourceDir, 0).applicationInfo;
+            PackageInfo packageInfo = BlackBoxCore.getPackageManager()
+                    .getPackageArchiveInfo(sourceDir, 0);
+            assert packageInfo != null;
+            p.applicationInfo = packageInfo.applicationInfo;
         }
         ApplicationInfo ai = new ApplicationInfo(p.applicationInfo);
         if ((flags & PackageManager.GET_META_DATA) != 0) {

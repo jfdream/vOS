@@ -29,9 +29,9 @@ public class PackageParserCompat {
     public static PackageParser createParser(File packageFile) {
         if (API_LEVEL >= M) {
             return BRPackageParserMarshmallow.get()._new();
-        } else if (API_LEVEL >= LOLLIPOP_MR1) {
+        } else if (API_LEVEL == LOLLIPOP_MR1) {
             return BRPackageParserLollipop22.get()._new();
-        } else if (API_LEVEL >= LOLLIPOP) {
+        } else if (API_LEVEL == LOLLIPOP) {
             return BRPackageParserLollipop.get()._new();
         }
         return null;
@@ -55,11 +55,11 @@ public class PackageParserCompat {
             BRPackageParserPie.getWithException().collectCertificates(p, true/*skipVerify*/);
         } else if (API_LEVEL >= N) {
             BRPackageParserNougat.getWithException().collectCertificates(p, flags);
-        } else if (API_LEVEL >= M) {
+        } else if (API_LEVEL == M) {
             BRPackageParserMarshmallow.getWithException(parser).collectCertificates(p, flags);
-        } else if (API_LEVEL >= LOLLIPOP_MR1) {
+        } else if (API_LEVEL == LOLLIPOP_MR1) {
             BRPackageParserLollipop22.getWithException(parser).collectCertificates(p, flags);
-        } else if (API_LEVEL >= LOLLIPOP) {
+        } else if (API_LEVEL == LOLLIPOP) {
             BRPackageParserLollipop.getWithException(parser).collectCertificates(p, flags);
         } else {
             BRPackageParser.get(parser).collectCertificates(p, flags);

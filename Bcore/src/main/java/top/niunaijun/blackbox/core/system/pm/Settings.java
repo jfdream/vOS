@@ -47,10 +47,10 @@ import top.niunaijun.blackbox.utils.compat.PackageParserCompat;
         }
     }
 
-    BPackageSettings getPackageLPw(String name, PackageParser.Package aPackage, InstallOption installOption) {
+    BPackageSettings getPackageLPw(String name, PackageParser.Package sysPackage, InstallOption installOption) {
         BPackageSettings pkgSettings;
         BPackageSettings origSettings = new BPackageSettings();
-        origSettings.pkg = new BPackage(aPackage);
+        origSettings.pkg = new BPackage(sysPackage);
         origSettings.pkg.installOption = installOption;
         origSettings.installOption = installOption;
         origSettings.pkg.mExtras = origSettings;
@@ -70,7 +70,7 @@ import top.niunaijun.blackbox.utils.compat.PackageParserCompat;
         return origSettings;
     }
 
-    boolean registerAppIdLPw(BPackageSettings p) {
+    private boolean registerAppIdLPw(BPackageSettings p) {
         boolean createdNew = false;
         String sharedUserId = p.pkg.mSharedUserId;
         SharedUserSetting sharedUserSetting = null;
