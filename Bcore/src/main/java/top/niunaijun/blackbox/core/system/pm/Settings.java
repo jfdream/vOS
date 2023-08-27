@@ -157,7 +157,7 @@ import top.niunaijun.blackbox.utils.compat.PackageParserCompat;
                 mAppIds.putAll(hashMap);
             }
         } catch (Exception e) {
-//            e.printStackTrace();
+            e.printStackTrace();
         } finally {
             parcel.recycle();
         }
