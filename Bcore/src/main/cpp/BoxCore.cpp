@@ -28,7 +28,7 @@ JNIEnv *getEnv() {
 
 JNIEnv *ensureEnvCreated() {
     JNIEnv *env = getEnv();
-    if (env == NULL) {
+    if (env == nullptr) {
         VMEnv.vm->AttachCurrentThread(&env, NULL);
     }
     return env;
