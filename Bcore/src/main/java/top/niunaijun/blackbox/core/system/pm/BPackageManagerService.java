@@ -15,6 +15,7 @@ import android.content.pm.ResolveInfo;
 import android.content.pm.ServiceInfo;
 import android.net.Uri;
 import android.os.Binder;
+import android.os.Process;
 import android.os.RemoteException;
 import android.text.TextUtils;
 import android.util.Log;
@@ -695,7 +696,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
             if (!support) {
                 String msg = packageArchiveInfo.applicationInfo.loadLabel(BlackBoxCore.getPackageManager()) + "[" + packageArchiveInfo.packageName + "]";
                 return result.installError(packageArchiveInfo.packageName,
-                        msg + (BlackBoxCore.is64Bit() ? " not support armeabi-v7a abi" : "not support arm64-v8a abi"));
+                        msg + (Process.is64Bit() ? " not support armeabi-v7a abi" : "not support arm64-v8a abi"));
             }
             PackageParser.Package sysPackage = parserApk(apkFile.getAbsolutePath());
             if (sysPackage == null) {

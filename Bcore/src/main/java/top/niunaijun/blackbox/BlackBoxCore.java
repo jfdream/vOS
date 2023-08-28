@@ -432,14 +432,6 @@ public class BlackBoxCore extends ClientConfiguration {
         return processName;
     }
 
-    public static boolean is64Bit() {
-        if (BuildCompat.isM()) {
-            return Process.is64Bit();
-        } else {
-            return Build.CPU_ABI.equals("arm64-v8a");
-        }
-    }
-
     private void initNotificationManager() {
         NotificationManager nm = (NotificationManager) BlackBoxCore.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
         String CHANNEL_ONE_ID = BlackBoxCore.getContext().getPackageName() + ".blackbox_core";

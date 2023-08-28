@@ -1,5 +1,7 @@
 package top.niunaijun.blackbox.utils;
 
+import android.os.Process;
+
 import java.io.File;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -33,7 +35,7 @@ public class AbiUtils {
             return true;
         }
 
-        if (BlackBoxCore.is64Bit()) {
+        if (Process.is64Bit()) {
             return abiUtils.is64Bit();
         } else {
             return abiUtils.is32Bit();
