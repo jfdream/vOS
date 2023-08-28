@@ -100,7 +100,6 @@ public final class Pine {
         if (sdkLevel < Build.VERSION_CODES.KITKAT)
             throw new RuntimeException("Unsupported android sdk level " + sdkLevel);
         else if (sdkLevel > Build.VERSION_CODES.R) {
-            Log.w(TAG, "Android version too high, not tested now...");
             if (sdkLevel >= 32 && isAtLeastPreReleaseCodename("Tiramisu")) {
                 // Android 13 (Tiramisu) Preview
                 sdkLevel = 32 + 1;
