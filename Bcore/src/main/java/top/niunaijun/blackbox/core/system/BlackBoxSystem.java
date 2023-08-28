@@ -36,7 +36,7 @@ public class BlackBoxSystem {
     private final List<ISystemService> mServices = new ArrayList<>();
     private final static AtomicBoolean isStartup = new AtomicBoolean(false);
 
-    public static BlackBoxSystem getSystem() {
+    public static BlackBoxSystem get() {
         if (sBlackBoxSystem == null) {
             synchronized (BlackBoxSystem.class) {
                 if (sBlackBoxSystem == null) {

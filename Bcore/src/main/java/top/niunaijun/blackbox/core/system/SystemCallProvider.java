@@ -24,7 +24,7 @@ public class SystemCallProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        BlackBoxSystem.getSystem().startup();
+        BlackBoxSystem.get().startup();
         Log.i(TAG, "SystemCallProvider start up success");
         return true;
     }
