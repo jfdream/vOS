@@ -2,6 +2,8 @@ package top.niunaijun.blackbox.core.system;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -9,6 +11,26 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.core.env.AppSystemEnv;
+import top.niunaijun.blackbox.core.env.BEnvironment;
+import top.niunaijun.blackbox.core.system.accounts.BAccountManagerService;
+import top.niunaijun.blackbox.core.system.am.BActivityManagerService;
+import top.niunaijun.blackbox.core.system.am.BJobManagerService;
+import top.niunaijun.blackbox.core.system.location.BLocationManagerService;
+import top.niunaijun.blackbox.core.system.notification.BNotificationManagerService;
+import top.niunaijun.blackbox.core.system.os.BStorageManagerService;
+import top.niunaijun.blackbox.core.system.pm.BPackageInstallerService;
+import top.niunaijun.blackbox.core.system.pm.BPackageManagerService;
+import top.niunaijun.blackbox.core.system.pm.BXposedManagerService;
+import top.niunaijun.blackbox.core.system.user.BUserHandle;
+import top.niunaijun.blackbox.core.system.user.BUserManagerService;
+import top.niunaijun.blackbox.entity.pm.InstallOption;
 import top.niunaijun.blackbox.utils.compat.BundleCompat;
 
 /**
@@ -22,9 +44,12 @@ import top.niunaijun.blackbox.utils.compat.BundleCompat;
 public class SystemCallProvider extends ContentProvider {
     public static final String TAG = "iOS";
 
+    private final List<ISystemService> mServices = new ArrayList<>();
+    private final static AtomicBoolean isStartup = new AtomicBoolean(false);
+
     @Override
     public boolean onCreate() {
-        BlackBoxSystem.get().startup();
+        startServiceUp();
         Log.i(TAG, "SystemCallProvider start up success");
         return true;
     }
@@ -70,5 +95,39 @@ public class SystemCallProvider extends ContentProvider {
     @Override
     public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
         return 0;
+    }
+
+
+    private void startServiceUp() {
+        if (isStartup.getAndSet(true))
+            return;
+        BEnvironment.load();
+
+        mServices.add(BPackageManagerService.get());
+        mServices.add(BUserManagerService.get());
+        mServices.add(BActivityManagerService.get());
+        mServices.add(BJobManagerService.get());
+        mServices.add(BStorageManagerService.get());
+        mServices.add(BPackageInstallerService.get());
+        mServices.add(BXposedManagerService.get());
+        mServices.add(BProcessManagerService.get());
+        mServices.add(BAccountManagerService.get());
+        mServices.add(BLocationManagerService.get());
+        mServices.add(BNotificationManagerService.get());
+
+        for (ISystemService service : mServices) {
+            service.systemReady();
+        }
+
+        List<String> preInstallPackages = AppSystemEnv.getPreInstallPackages();
+        for (String preInstallPackage : preInstallPackages) {
+            try {
+                if (!BPackageManagerService.get().isInstalled(preInstallPackage, BUserHandle.USER_ALL)) {
+                    PackageInfo packageInfo = BlackBoxCore.getPackageManager().getPackageInfo(preInstallPackage, 0);
+                    BPackageManagerService.get().installPackageAsUser(packageInfo.applicationInfo.sourceDir, InstallOption.installBySystem(), BUserHandle.USER_ALL);
+                }
+            } catch (PackageManager.NameNotFoundException ignored) {
+            }
+        }
     }
 }
