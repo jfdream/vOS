@@ -10,7 +10,6 @@ import top.niunaijun.blackboxa.R
 import top.niunaijun.blackboxa.app.AppManager
 import top.niunaijun.blackboxa.util.toast
 import top.niunaijun.blackboxa.view.gms.GmsManagerActivity
-import top.niunaijun.blackboxa.view.xp.XpActivity
 
 /**
  *

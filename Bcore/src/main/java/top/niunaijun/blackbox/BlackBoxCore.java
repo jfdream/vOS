@@ -231,39 +231,6 @@ public class BlackBoxCore extends ClientConfiguration {
         return getBPackageManager().installPackageAsUser(apk.toString(), InstallOption.installByStorage().makeUriFile(), userId);
     }
 
-    public InstallResult installXPModule(File apk) {
-        return getBPackageManager().installPackageAsUser(apk.getAbsolutePath(), InstallOption.installByStorage().makeXposed(), BUserHandle.USER_XPOSED);
-    }
-
-    public InstallResult installXPModule(Uri apk) {
-        return getBPackageManager().installPackageAsUser(apk.toString(), InstallOption.installByStorage()
-                .makeXposed()
-                .makeUriFile(), BUserHandle.USER_XPOSED);
-    }
-
-    public InstallResult installXPModule(String packageName) {
-        try {
-            PackageInfo packageInfo = getPackageManager().getPackageInfo(packageName, 0);
-            String path = packageInfo.applicationInfo.sourceDir;
-            return getBPackageManager().installPackageAsUser(path, InstallOption.installBySystem().makeXposed(), BUserHandle.USER_XPOSED);
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-            return new InstallResult().installError(e.getMessage());
-        }
-    }
-
-    public void uninstallXPModule(String packageName) {
-        uninstallPackage(packageName);
-    }
-
-    public boolean isXposedModule(File file) {
-        return XposedParserCompat.isXPModule(file.getAbsolutePath());
-    }
-
-    public boolean isInstalledXposedModule(String packageName) {
-        return isInstalled(packageName, BUserHandle.USER_XPOSED);
-    }
-
     public List<ApplicationInfo> getInstalledApplications(int flags, int userId) {
         return getBPackageManager().getInstalledApplications(flags, userId);
     }

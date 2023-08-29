@@ -48,7 +48,7 @@ class AppsRepository {
 
                 if (!AbiUtils.isSupport(file)) continue
 
-                val isXpModule = BlackBoxCore.get().isXposedModule(file)
+                val isXpModule = false
 
                 val info = AppInfo(
                     installedApplication.loadLabel(getPackageManager()).toString(),
@@ -99,7 +99,6 @@ class AppsRepository {
 
         loadingLiveData.postValue(true)
         synchronized(mInstalledList) {
-            val blackBoxCore = BlackBoxCore.get()
             val moduleList = mInstalledList.filter {
                 it.isXpModule
             }.map {
@@ -108,7 +107,7 @@ class AppsRepository {
                     it.icon,
                     it.packageName,
                     it.sourceDir,
-                    blackBoxCore.isInstalledXposedModule(it.packageName)
+                    false
                 )
             }
             appsLiveData.postValue(moduleList)
@@ -138,7 +137,7 @@ class AppsRepository {
                 it.loadIcon(getPackageManager()),
                 it.packageName,
                 it.sourceDir,
-                isInstalledXpModule(it.packageName)
+                false
             )
 
             appInfoList.add(info)
@@ -146,10 +145,6 @@ class AppsRepository {
 
 
         appsLiveData.postValue(appInfoList)
-    }
-
-    private fun isInstalledXpModule(packageName: String): Boolean {
-        return false
     }
 
 
