@@ -45,7 +45,7 @@ class MainActivity : LoadingActivity() {
         initViewPager()
         initFab()
         initToolbarSubTitle()
-        getPrivilege();
+        getPrivilege()
     }
 
     private fun initToolbarSubTitle() {
