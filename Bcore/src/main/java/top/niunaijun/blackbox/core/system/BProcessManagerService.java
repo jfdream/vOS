@@ -179,7 +179,7 @@ public class BProcessManagerService implements ISystemService {
             appThread.linkToDeath(new IBinder.DeathRecipient() {
                 @Override
                 public void binderDied() {
-                    Log.d(TAG, "App Died: " + app.processName);
+                    Log.i(TAG, "App Died: " + app.processName);
                     appThread.unlinkToDeath(this, 0);
                     onProcessDie(app);
                 }

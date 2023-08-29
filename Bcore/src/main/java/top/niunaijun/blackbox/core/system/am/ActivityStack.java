@@ -143,7 +143,7 @@ public class ActivityStack {
                 break;
         }
 
-        // 如果还没有task则新启动一个task
+        // 如果还没有 Task 则新启动一个 Task
         if (taskRecord == null || taskRecord.needNewTask()) {
             return startActivityInNewTaskLocked(userId, intent, activityInfo, resultTo, launchModeFlags);
         }
