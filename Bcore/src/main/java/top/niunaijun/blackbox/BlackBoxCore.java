@@ -130,7 +130,6 @@ public class BlackBoxCore extends ClientConfiguration {
         String processName = getProcessName(getContext());
         if (processName.equals(BlackBoxCore.getHostPkg())) {
             mProcessType = ProcessType.Main;
-            startLogcat();
         } else if (processName.endsWith(getContext().getString(R.string.black_box_service_name))) {
             // 该进程由内容提供者提供首先启动
             mProcessType = ProcessType.Server;
@@ -344,15 +343,6 @@ public class BlackBoxCore extends ClientConfiguration {
     @Override
     public boolean requestInstallPackage(File file) {
         return mClientConfiguration.requestInstallPackage(file);
-    }
-
-    private void startLogcat() {
-        new Thread(() -> {
-            File file = new File(BEnvironment.getMainApplicationLogDir(), getContext().getPackageName() + "_logcat.txt");
-            FileUtils.deleteDir(file);
-            ShellUtils.execCommand("logcat -c", false);
-            ShellUtils.execCommand("logcat -f " + file.getAbsolutePath(), false);
-        }).start();
     }
 
     private static String getProcessName(Context context) {

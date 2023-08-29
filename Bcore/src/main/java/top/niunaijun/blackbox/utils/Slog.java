@@ -16,7 +16,12 @@
 
 package top.niunaijun.blackbox.utils;
 
+import android.content.Context;
 import android.util.Log;
+
+import java.io.File;
+
+import top.niunaijun.blackbox.core.env.BEnvironment;
 
 /**
  * @hide
@@ -85,6 +90,15 @@ public final class Slog {
 
     public static int println(int priority, String tag, String msg) {
         return Log.println(priority, tag, msg);
+    }
+
+    public static void startLogcat(Context context) {
+        new Thread(() -> {
+            File file = new File(BEnvironment.getMainApplicationLogDir(), context.getPackageName() + "_logcat.txt");
+            FileUtils.deleteDir(file);
+            ShellUtils.execCommand("logcat -c", false);
+            ShellUtils.execCommand("logcat -f " + file.getAbsolutePath(), false);
+        }).start();
     }
 }
 
