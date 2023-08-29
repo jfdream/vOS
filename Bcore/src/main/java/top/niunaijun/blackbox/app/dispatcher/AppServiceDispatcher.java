@@ -80,8 +80,6 @@ public class AppServiceDispatcher {
         if (stubRecord.mServiceIntent == null || stubRecord.mServiceInfo == null) {
             return START_NOT_STICKY;
         }
-
-//        Log.d(TAG, "onStartCommand: " + component.toString());
         Service service = getOrCreateService(stubRecord);
         if (service == null)
             return START_NOT_STICKY;

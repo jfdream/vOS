@@ -16,4 +16,7 @@ public interface WebViewFactory {
 
     @BStaticMethod
     Object getUpdateService();
+
+    @BStaticMethod
+    Object getProvider();
 }
