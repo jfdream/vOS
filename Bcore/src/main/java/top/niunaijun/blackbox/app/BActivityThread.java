@@ -70,7 +70,6 @@ import top.niunaijun.blackbox.entity.am.ReceiverData;
 import top.niunaijun.blackbox.entity.pm.InstalledModule;
 import top.niunaijun.blackbox.fake.delegate.AppInstrumentation;
 import top.niunaijun.blackbox.fake.delegate.ContentProviderDelegate;
-import top.niunaijun.blackbox.fake.frameworks.BXposedManager;
 import top.niunaijun.blackbox.fake.hook.HookManager;
 import top.niunaijun.blackbox.fake.service.HCallbackProxy;
 import top.niunaijun.blackbox.utils.Reflector;
@@ -438,33 +437,6 @@ public class BActivityThread extends IBActivityThread.Stub {
         if (installProvider != null) {
             installProvider.setAccessible(true);
             installProvider.invoke(mainThread, context, holder, providerInfo, false, true, true);
-        }
-    }
-
-    public void loadXposed(Context context) {
-        String vPackageName = getAppPackageName();
-        String vProcessName = getAppProcessName();
-        if (!TextUtils.isEmpty(vPackageName) && !TextUtils.isEmpty(vProcessName) && BXposedManager.get().isXPEnable()) {
-            assert vPackageName != null;
-            assert vProcessName != null;
-
-            boolean isFirstApplication = vPackageName.equals(vProcessName);
-
-            List<InstalledModule> installedModules = BXposedManager.get().getInstalledModules();
-            for (InstalledModule installedModule : installedModules) {
-                if (!installedModule.enable) {
-                    continue;
-                }
-                try {
-                    PineXposed.loadModule(new File(installedModule.getApplication().sourceDir));
-                } catch (Throwable e) {
-                    e.printStackTrace();
-                }
-            }
-            try {
-                PineXposed.onPackageLoad(vPackageName, vProcessName, context.getApplicationInfo(), isFirstApplication, context.getClassLoader());
-            } catch (Throwable ignored) {
-            }
         }
     }
 

@@ -73,7 +73,6 @@ class XpActivity : LoadingActivity() {
             mAdapter = RVAdapter<XpModuleInfo>(this, XpAdapter()).bind(viewBinding.recyclerView)
                 .setItemClickListener { view, item, position ->
                     item.enable = !item.enable
-                    BlackBoxCore.get().setModuleEnable(item.packageName, item.enable)
                     mAdapter.replaceAt(position, item)
                     toast(R.string.restart_module)
                 }.setItemLongClickListener { _, item, _ ->

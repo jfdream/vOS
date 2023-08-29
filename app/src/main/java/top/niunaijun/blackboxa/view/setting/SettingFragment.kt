@@ -28,19 +28,7 @@ class SettingFragment : PreferenceFragmentCompat() {
         setPreferencesFromResource(R.xml.setting, rootKey)
 
         xpEnable = findPreference("xp_enable")!!
-        xpEnable.isChecked = BlackBoxCore.get().isXPEnable
-
-        xpEnable.setOnPreferenceChangeListener { _, newValue ->
-            BlackBoxCore.get().isXPEnable = (newValue == true)
-            true
-        }
-        //xp模块跳转
-        xpModule = findPreference("xp_module")!!
-        xpModule.setOnPreferenceClickListener {
-            val intent = Intent(requireActivity(), XpActivity::class.java)
-            requireContext().startActivity(intent)
-            true
-        }
+        xpEnable.isChecked = false;
         initGms()
 
         invalidHideState{

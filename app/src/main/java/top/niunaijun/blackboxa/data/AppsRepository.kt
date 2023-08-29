@@ -149,12 +149,6 @@ class AppsRepository {
     }
 
     private fun isInstalledXpModule(packageName: String): Boolean {
-        BlackBoxCore.get().installedXPModules.forEach {
-            if (packageName == it.packageName) {
-                return@isInstalledXpModule true
-            }
-        }
-
         return false
     }
 

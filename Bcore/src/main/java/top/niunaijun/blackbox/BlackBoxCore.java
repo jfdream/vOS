@@ -12,17 +12,14 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
 import android.os.Process;
 import android.util.Log;
-import android.webkit.CookieManager;
 
 import java.io.File;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,9 +27,6 @@ import java.util.Map;
 
 import black.android.app.BRActivityThread;
 import black.android.os.BRUserHandle;
-import de.robv.android.xposed.XC_MethodHook;
-import de.robv.android.xposed.XposedBridge;
-import de.robv.android.xposed.XposedHelpers;
 import top.canyie.pine.Pine;
 import top.canyie.pine.PineConfig;
 import top.niunaijun.blackbox.app.configuration.AppLifecycleCallback;
@@ -52,12 +46,10 @@ import top.niunaijun.blackbox.fake.frameworks.BJobManager;
 import top.niunaijun.blackbox.fake.frameworks.BPackageManager;
 import top.niunaijun.blackbox.fake.frameworks.BStorageManager;
 import top.niunaijun.blackbox.fake.frameworks.BUserManager;
-import top.niunaijun.blackbox.fake.frameworks.BXposedManager;
 import top.niunaijun.blackbox.fake.hook.HookManager;
 import top.niunaijun.blackbox.proxy.ProxyManifest;
 import top.niunaijun.blackbox.utils.FileUtils;
 import top.niunaijun.blackbox.utils.ShellUtils;
-import top.niunaijun.blackbox.utils.Slog;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
 import top.niunaijun.blackbox.utils.compat.BundleCompat;
 import top.niunaijun.blackbox.utils.compat.XposedParserCompat;
@@ -264,32 +256,12 @@ public class BlackBoxCore extends ClientConfiguration {
         uninstallPackage(packageName);
     }
 
-    public boolean isXPEnable() {
-        return BXposedManager.get().isXPEnable();
-    }
-
-    public void setXPEnable(boolean enable) {
-        BXposedManager.get().setXPEnable(enable);
-    }
-
     public boolean isXposedModule(File file) {
         return XposedParserCompat.isXPModule(file.getAbsolutePath());
     }
 
     public boolean isInstalledXposedModule(String packageName) {
         return isInstalled(packageName, BUserHandle.USER_XPOSED);
-    }
-
-    public boolean isModuleEnable(String packageName) {
-        return BXposedManager.get().isModuleEnable(packageName);
-    }
-
-    public void setModuleEnable(String packageName, boolean enable) {
-        BXposedManager.get().setModuleEnable(packageName, enable);
-    }
-
-    public List<InstalledModule> getInstalledXPModules() {
-        return BXposedManager.get().getInstalledModules();
     }
 
     public List<ApplicationInfo> getInstalledApplications(int flags, int userId) {
