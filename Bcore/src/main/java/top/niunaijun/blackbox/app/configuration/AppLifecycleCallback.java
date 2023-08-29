@@ -14,9 +14,6 @@ import android.os.Bundle;
  * 此处无Bug
  */
 public class AppLifecycleCallback implements Application.ActivityLifecycleCallbacks {
-    public static AppLifecycleCallback EMPTY = new AppLifecycleCallback() {
-
-    };
 
     public void beforeCreateApplication(String packageName, String processName, Context context, int userId) {
 

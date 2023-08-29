@@ -14,8 +14,7 @@ public class PendingIntentRecord {
         if (this == o) return true;
         if (!(o instanceof PendingIntentRecord)) return false;
         PendingIntentRecord that = (PendingIntentRecord) o;
-        return uid == that.uid &&
-                Objects.equals(packageName, that.packageName);
+        return uid == that.uid && Objects.equals(packageName, that.packageName);
     }
 
     @Override

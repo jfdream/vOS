@@ -25,6 +25,7 @@ public class BEnvironment {
 
     public static void load() {
         FileUtils.mkdirs(sVirtualRoot);
+        assert sExternalVirtualRoot != null;
         FileUtils.mkdirs(sExternalVirtualRoot);
         FileUtils.mkdirs(getSystemDir());
         FileUtils.mkdirs(getCacheDir());
