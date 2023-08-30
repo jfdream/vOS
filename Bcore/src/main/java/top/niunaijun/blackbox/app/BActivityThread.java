@@ -215,8 +215,7 @@ public class BActivityThread extends IBActivityThread.Stub {
             service = (Service) classLoader.loadClass(serviceInfo.name).newInstance();
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e(TAG, "Unable to instantiate service " + serviceInfo.name
-                    + ": " + e.toString());
+            Log.e(TAG, "Unable to instantiate service " + serviceInfo.name + ": " + e);
             return null;
         }
 
@@ -313,7 +312,7 @@ public class BActivityThread extends IBActivityThread.Stub {
         mProviders.addAll(Arrays.asList(packageInfo.providers));
 
         Object boundApplication = BRActivityThread.get(BlackBoxCore.mainThread()).mBoundApplication();
-        Log.e(TAG, "boundApplication:" + boundApplication);
+        Log.w(TAG, "boundApplication:" + boundApplication);
 
         Context packageContext = createPackageContext(applicationInfo);
         Object loadedApk = BRContextImpl.get(packageContext).mPackageInfo();
@@ -383,6 +382,7 @@ public class BActivityThread extends IBActivityThread.Stub {
 //                    cl, appClass, (Context) appContext);
 
             application = BRLoadedApk.get(loadedApk).makeApplication(false, null);
+            Log.w(TAG, "makeApplication:" + application);
             mInitialApplication = application;
             BRActivityThread.get(BlackBoxCore.mainThread())._set_mInitialApplication(mInitialApplication);
             ContextCompat.fix((Context) BRActivityThread.get(BlackBoxCore.mainThread()).getSystemContext());

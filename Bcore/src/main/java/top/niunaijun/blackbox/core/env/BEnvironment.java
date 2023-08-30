@@ -19,10 +19,8 @@ import top.niunaijun.blackbox.utils.FileUtils;
  */
 public class BEnvironment {
     private static final String TAG = "iOS";
-    private static final File sVirtualRoot = new File(BlackBoxCore.getContext().getCacheDir().getParent(), "ios");
-//    private static final File sVirtualRoot = BlackBoxCore.getContext().getExternalFilesDir("ios");
-    private static final File sExternalVirtualRoot = BlackBoxCore.getContext().getExternalFilesDir("eos");
-
+    private static final File sVirtualRoot = new File(BlackBoxCore.getContext().getCacheDir().getParent(), "rootfs");
+    private static final File sExternalVirtualRoot = BlackBoxCore.getContext().getExternalFilesDir("sdcard");
     public static void load() {
         FileUtils.mkdirs(sVirtualRoot);
         assert sExternalVirtualRoot != null;
