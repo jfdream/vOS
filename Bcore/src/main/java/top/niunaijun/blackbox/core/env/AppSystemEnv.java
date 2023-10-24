@@ -1,13 +1,11 @@
 package top.niunaijun.blackbox.core.env;
 
 import android.content.ComponentName;
-import android.os.Build;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import top.niunaijun.blackbox.BlackBoxCore;
-import top.niunaijun.blackbox.utils.compat.BuildCompat;
+import top.niunaijun.blackbox.BBCore;
 
 /**
  * Created by Milk on 4/21/21.
@@ -33,7 +31,7 @@ public class AppSystemEnv {
 
         // google Gboard
         sSystemPackages.add("com.google.android.inputmethod.latin");
-        sSystemPackages.add(BlackBoxCore.getHostPkg());
+        sSystemPackages.add(BBCore.getHostPkg());
 
         // 华为
         sSystemPackages.add("com.huawei.webview");
@@ -60,7 +58,7 @@ public class AppSystemEnv {
     }
 
     public static boolean isBlackPackage(String packageName) {
-        if (BlackBoxCore.get().isHideRoot() && sSuPackages.contains(packageName)) {
+        if (BBCore.get().isHideRoot() && sSuPackages.contains(packageName)) {
             return true;
         }
         return false;

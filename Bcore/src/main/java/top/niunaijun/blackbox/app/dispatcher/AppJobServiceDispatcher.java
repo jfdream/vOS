@@ -7,7 +7,7 @@ import android.content.res.Configuration;
 import java.util.HashMap;
 import java.util.Map;
 
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.app.BActivityThread;
 import top.niunaijun.blackbox.entity.JobRecord;
 
@@ -90,7 +90,7 @@ public class AppJobServiceDispatcher {
                 return jobRecord.mJobService;
             }
             try {
-                JobRecord record = BlackBoxCore.getBJobManager().queryJobRecord(BActivityThread.getAppProcessName(), jobId);
+                JobRecord record = BBCore.getBJobManager().queryJobRecord(BActivityThread.getAppProcessName(), jobId);
                 if (record == null) return null;
                 record.mJobService = BActivityThread.currentActivityThread().createJobService(record.mServiceInfo);
                 if (record.mJobService == null)

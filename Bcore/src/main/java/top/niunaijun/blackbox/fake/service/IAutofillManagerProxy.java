@@ -6,7 +6,7 @@ import java.lang.reflect.Method;
 
 import black.android.os.BRServiceManager;
 import black.android.view.BRIAutoFillManagerStub;
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.app.BActivityThread;
 import top.niunaijun.blackbox.fake.hook.BinderInvocationStub;
 import top.niunaijun.blackbox.fake.hook.MethodHook;
@@ -53,7 +53,7 @@ public class IAutofillManagerProxy extends BinderInvocationStub {
                     if (args[i] == null)
                         continue;
                     if (args[i] instanceof ComponentName) {
-                        args[i] = new ComponentName(BlackBoxCore.getHostPkg(), ProxyManifest.getProxyActivity(BActivityThread.getAppPid()));
+                        args[i] = new ComponentName(BBCore.getHostPkg(), ProxyManifest.getProxyActivity(BActivityThread.getAppPid()));
                     }
                 }
             }

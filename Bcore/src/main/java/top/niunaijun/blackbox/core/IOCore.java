@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
-import android.os.Environment;
 import android.os.Process;
 import android.text.TextUtils;
 
@@ -16,7 +15,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.app.BActivityThread;
 import top.niunaijun.blackbox.core.env.BEnvironment;
 import top.niunaijun.blackbox.utils.FileUtils;
@@ -116,15 +115,15 @@ public class IOCore {
         String packageName = context.getPackageName();
 
         try {
-            ApplicationInfo packageInfo = BlackBoxCore.getBPackageManager().getApplicationInfo(packageName, PackageManager.GET_META_DATA, BActivityThread.getUserId());
-            int systemUserId = BlackBoxCore.getHostUserId();
+            ApplicationInfo packageInfo = BBCore.getBPackageManager().getApplicationInfo(packageName, PackageManager.GET_META_DATA, BActivityThread.getUserId());
+            int systemUserId = BBCore.getHostUserId();
             rule.put(String.format("/data/data/%s/lib", packageName), packageInfo.nativeLibraryDir);
             rule.put(String.format("/data/user/%d/%s/lib", systemUserId, packageName), packageInfo.nativeLibraryDir);
 
             rule.put(String.format("/data/data/%s", packageName), packageInfo.dataDir);
             rule.put(String.format("/data/user/%d/%s", systemUserId, packageName), packageInfo.dataDir);
 
-            if (BlackBoxCore.getContext().getExternalCacheDir() != null && context.getExternalCacheDir() != null) {
+            if (BBCore.getContext().getExternalCacheDir() != null && context.getExternalCacheDir() != null) {
                 File external = BEnvironment.getExternalUserDir(BActivityThread.getUserId());
 
                 // sdcard
@@ -134,7 +133,7 @@ public class IOCore {
                 blackRule.add("/sdcard/Pictures");
                 blackRule.add(String.format("/storage/emulated/%d/Pictures", systemUserId));
             }
-            if (BlackBoxCore.get().isHideRoot()) {
+            if (BBCore.get().isHideRoot()) {
                 hideRoot(rule);
             }
             proc(rule);

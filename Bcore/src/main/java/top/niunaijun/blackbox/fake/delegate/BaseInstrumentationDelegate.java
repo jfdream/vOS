@@ -21,7 +21,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.app.BActivityThread;
 import top.niunaijun.blackbox.app.configuration.AppLifecycleCallback;
 import top.niunaijun.blackbox.utils.Reflector;
@@ -245,7 +245,7 @@ public class BaseInstrumentationDelegate extends Instrumentation {
     @Override
     public void callActivityOnCreate(Activity activity, Bundle icicle) {
         mBaseInstrumentation.callActivityOnCreate(activity, icicle);
-        for (AppLifecycleCallback appLifecycleCallback : BlackBoxCore.get().getAppLifecycleCallbacks()) {
+        for (AppLifecycleCallback appLifecycleCallback : BBCore.get().getAppLifecycleCallbacks()) {
             appLifecycleCallback.onActivityCreated(activity, icicle);
         }
     }
@@ -253,7 +253,7 @@ public class BaseInstrumentationDelegate extends Instrumentation {
     @Override
     public void callActivityOnCreate(Activity activity, Bundle icicle, PersistableBundle persistentState) {
         mBaseInstrumentation.callActivityOnCreate(activity, icicle, persistentState);
-        for (AppLifecycleCallback appLifecycleCallback : BlackBoxCore.get().getAppLifecycleCallbacks()) {
+        for (AppLifecycleCallback appLifecycleCallback : BBCore.get().getAppLifecycleCallbacks()) {
             appLifecycleCallback.onActivityCreated(activity, icicle);
         }
     }
@@ -261,7 +261,7 @@ public class BaseInstrumentationDelegate extends Instrumentation {
     @Override
     public void callActivityOnDestroy(Activity activity) {
         mBaseInstrumentation.callActivityOnDestroy(activity);
-        for (AppLifecycleCallback appLifecycleCallback : BlackBoxCore.get().getAppLifecycleCallbacks()) {
+        for (AppLifecycleCallback appLifecycleCallback : BBCore.get().getAppLifecycleCallbacks()) {
             appLifecycleCallback.onActivityDestroyed(activity);
         }
     }
@@ -294,7 +294,7 @@ public class BaseInstrumentationDelegate extends Instrumentation {
     @Override
     public void callActivityOnStart(Activity activity) {
         mBaseInstrumentation.callActivityOnStart(activity);
-        for (AppLifecycleCallback appLifecycleCallback : BlackBoxCore.get().getAppLifecycleCallbacks()) {
+        for (AppLifecycleCallback appLifecycleCallback : BBCore.get().getAppLifecycleCallbacks()) {
             appLifecycleCallback.onActivityStarted(activity);
         }
     }
@@ -307,7 +307,7 @@ public class BaseInstrumentationDelegate extends Instrumentation {
     @Override
     public void callActivityOnResume(Activity activity) {
         mBaseInstrumentation.callActivityOnResume(activity);
-        for (AppLifecycleCallback appLifecycleCallback : BlackBoxCore.get().getAppLifecycleCallbacks()) {
+        for (AppLifecycleCallback appLifecycleCallback : BBCore.get().getAppLifecycleCallbacks()) {
             appLifecycleCallback.onActivityResumed(activity);
         }
     }
@@ -315,7 +315,7 @@ public class BaseInstrumentationDelegate extends Instrumentation {
     @Override
     public void callActivityOnStop(Activity activity) {
         mBaseInstrumentation.callActivityOnStop(activity);
-        for (AppLifecycleCallback appLifecycleCallback : BlackBoxCore.get().getAppLifecycleCallbacks()) {
+        for (AppLifecycleCallback appLifecycleCallback : BBCore.get().getAppLifecycleCallbacks()) {
             appLifecycleCallback.onActivityStopped(activity);
         }
     }
@@ -328,7 +328,7 @@ public class BaseInstrumentationDelegate extends Instrumentation {
     @Override
     public void callActivityOnSaveInstanceState(Activity activity, Bundle outState, PersistableBundle outPersistentState) {
         mBaseInstrumentation.callActivityOnSaveInstanceState(activity, outState, outPersistentState);
-        for (AppLifecycleCallback appLifecycleCallback : BlackBoxCore.get().getAppLifecycleCallbacks()) {
+        for (AppLifecycleCallback appLifecycleCallback : BBCore.get().getAppLifecycleCallbacks()) {
             appLifecycleCallback.onActivitySaveInstanceState(activity, outState);
         }
     }
@@ -336,7 +336,7 @@ public class BaseInstrumentationDelegate extends Instrumentation {
     @Override
     public void callActivityOnPause(Activity activity) {
         mBaseInstrumentation.callActivityOnPause(activity);
-        for (AppLifecycleCallback appLifecycleCallback : BlackBoxCore.get().getAppLifecycleCallbacks()) {
+        for (AppLifecycleCallback appLifecycleCallback : BBCore.get().getAppLifecycleCallbacks()) {
             appLifecycleCallback.onActivityPaused(activity);
         }
     }

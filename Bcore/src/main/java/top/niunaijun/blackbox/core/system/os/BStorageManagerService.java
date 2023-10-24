@@ -9,7 +9,7 @@ import java.io.File;
 
 import black.android.os.storage.BRStorageManager;
 import black.android.os.storage.BRStorageVolume;
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.core.env.BEnvironment;
 import top.niunaijun.blackbox.core.system.ISystemService;
 import top.niunaijun.blackbox.core.system.user.BUserHandle;
@@ -59,7 +59,7 @@ public class BStorageManagerService extends IBStorageManagerService.Stub impleme
 
     @Override
     public Uri getUriForFile(String file) throws RemoteException {
-        return FileProvider.getUriForFile(BlackBoxCore.getContext(), ProxyManifest.getProxyFileProvider(), new File(file));
+        return FileProvider.getUriForFile(BBCore.getContext(), ProxyManifest.getProxyFileProvider(), new File(file));
     }
 
     @Override

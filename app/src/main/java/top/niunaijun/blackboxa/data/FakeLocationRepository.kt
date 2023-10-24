@@ -3,7 +3,7 @@ package top.niunaijun.blackboxa.data
 import android.content.pm.ApplicationInfo
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import top.niunaijun.blackbox.BlackBoxCore
+import top.niunaijun.blackbox.BBCore
 import top.niunaijun.blackbox.entity.location.BLocation
 import top.niunaijun.blackbox.fake.frameworks.BLocationManager
 import top.niunaijun.blackboxa.bean.FakeLocationBean
@@ -43,7 +43,7 @@ class FakeLocationRepository {
     ) {
         val installedList = mutableListOf<FakeLocationBean>()
         val installedApplications: List<ApplicationInfo> =
-            BlackBoxCore.get().getInstalledApplications(0, userID)
+            BBCore.get().getInstalledApplications(0, userID)
         // List<ApplicationInfo> -> List<FakeLocationBean>
         for (installedApplication in installedApplications) {
 //            val file = File(installedApplication.sourceDir)
@@ -56,8 +56,8 @@ class FakeLocationRepository {
 
             val info = FakeLocationBean(
                 userID,
-                installedApplication.loadLabel(BlackBoxCore.getPackageManager()).toString(),
-                installedApplication.loadIcon(BlackBoxCore.getPackageManager()),
+                installedApplication.loadLabel(BBCore.getPackageManager()).toString(),
+                installedApplication.loadIcon(BBCore.getPackageManager()),
                 installedApplication.packageName,
                 getPattern(userID, installedApplication.packageName),
                 getLocation(userID, installedApplication.packageName)

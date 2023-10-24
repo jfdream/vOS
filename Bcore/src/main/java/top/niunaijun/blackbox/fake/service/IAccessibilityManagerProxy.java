@@ -7,7 +7,7 @@ import java.lang.reflect.Method;
 
 import black.android.os.BRServiceManager;
 import black.android.view.accessibility.BRIAccessibilityManagerStub;
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.core.system.user.BUserHandle;
 import top.niunaijun.blackbox.fake.hook.BinderInvocationStub;
 import top.niunaijun.blackbox.fake.hook.MethodHook;
@@ -52,7 +52,7 @@ public class IAccessibilityManagerProxy extends BinderInvocationStub {
                 int index = args.length - 1;
                 Object arg = args[index];
                 if (arg instanceof Integer) {
-                    ApplicationInfo applicationInfo = BlackBoxCore.getContext().getApplicationInfo();
+                    ApplicationInfo applicationInfo = BBCore.getContext().getApplicationInfo();
                     args[index] = BUserHandle.getUserId(applicationInfo.uid);
                 }
             }

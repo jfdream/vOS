@@ -2,7 +2,7 @@ package top.niunaijun.blackbox.proxy;
 
 import java.util.Locale;
 
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 
 /**
  * Created by Milk on 4/1/21.
@@ -20,11 +20,11 @@ public class ProxyManifest {
     }
 
     public static String getBindProvider() {
-        return BlackBoxCore.getHostPkg() + ".blackbox.SystemCallProvider";
+        return BBCore.getHostPkg() + ".blackbox.SystemCallProvider";
     }
 
     public static String getProxyAuthorities(int index) {
-        return String.format(Locale.CHINA, "%s.proxy_content_provider_%d", BlackBoxCore.getHostPkg(), index);
+        return String.format(Locale.CHINA, "%s.proxy_content_provider_%d", BBCore.getHostPkg(), index);
     }
 
     public static String getProxyPendingActivity(int index) {
@@ -48,14 +48,14 @@ public class ProxyManifest {
     }
 
     public static String getProxyFileProvider() {
-        return BlackBoxCore.getHostPkg() + ".blackbox.FileProvider";
+        return BBCore.getHostPkg() + ".blackbox.FileProvider";
     }
 
     public static String getProxyReceiver() {
-        return BlackBoxCore.getHostPkg() + ".stub_receiver";
+        return BBCore.getHostPkg() + ".stub_receiver";
     }
 
     public static String getProcessName(int bPid) {
-        return BlackBoxCore.getHostPkg() + ":p" + bPid;
+        return BBCore.getHostPkg() + ":p" + bPid;
     }
 }

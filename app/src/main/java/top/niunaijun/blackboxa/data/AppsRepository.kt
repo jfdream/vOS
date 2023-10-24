@@ -8,8 +8,8 @@ import android.util.Log
 import android.webkit.URLUtil
 import androidx.core.content.edit
 import androidx.lifecycle.MutableLiveData
-import top.niunaijun.blackbox.BlackBoxCore
-import top.niunaijun.blackbox.BlackBoxCore.getPackageManager
+import top.niunaijun.blackbox.BBCore
+import top.niunaijun.blackbox.BBCore.getPackageManager
 import top.niunaijun.blackbox.utils.AbiUtils
 import top.niunaijun.blackboxa.R
 import top.niunaijun.blackboxa.app.AppManager
@@ -73,7 +73,7 @@ class AppsRepository {
     ) {
         loadingLiveData.postValue(true)
         synchronized(mInstalledList) {
-            val blackBoxCore = BlackBoxCore.get()
+            val BBCore = BBCore.get()
             Log.d(TAG, mInstalledList.joinToString(","))
             val newInstalledList = mInstalledList.map {
                 InstalledAppBean(
@@ -81,7 +81,7 @@ class AppsRepository {
                     it.icon,
                     it.packageName,
                     it.sourceDir,
-                    blackBoxCore.isInstalled(it.packageName, userID)
+                    BBCore.isInstalled(it.packageName, userID)
                 )
             }
             appsLiveData.postValue(newInstalledList)
@@ -122,7 +122,7 @@ class AppsRepository {
             AppManager.mRemarkSharedPreferences.getString("AppList$userId", "")
         val sortList = sortListData?.split(",")
 
-        val applicationList = BlackBoxCore.get().getInstalledApplications(0, userId)
+        val applicationList = BBCore.get().getInstalledApplications(0, userId)
 
         val appInfoList = mutableListOf<AppInfo>()
         applicationList.also {
@@ -149,12 +149,12 @@ class AppsRepository {
 
 
     fun installApk(source: String, userId: Int, resultLiveData: MutableLiveData<String>) {
-        val blackBoxCore = BlackBoxCore.get()
+        val BBCore = BBCore.get()
         val installResult = if (URLUtil.isValidUrl(source)) {
             val uri = Uri.parse(source)
-            blackBoxCore.installPackageAsUser(uri, userId)
+            BBCore.installPackageAsUser(uri, userId)
         } else {
-            blackBoxCore.installPackageAsUser(source, userId)
+            BBCore.installPackageAsUser(source, userId)
         }
 
         if (installResult.success) {
@@ -167,7 +167,7 @@ class AppsRepository {
     }
 
     fun unInstall(packageName: String, userID: Int, resultLiveData: MutableLiveData<String>) {
-        BlackBoxCore.get().uninstallPackageAsUser(packageName, userID)
+        BBCore.get().uninstallPackageAsUser(packageName, userID)
         updateAppSortList(userID, packageName, false)
         scanUser()
         resultLiveData.postValue(getString(R.string.uninstall_success))
@@ -175,13 +175,13 @@ class AppsRepository {
 
 
     fun launchApk(packageName: String, userId: Int, launchLiveData: MutableLiveData<Boolean>) {
-        val result = BlackBoxCore.get().launchApk(packageName, userId)
+        val result = BBCore.get().launchApk(packageName, userId)
         launchLiveData.postValue(result)
     }
 
 
     fun clearApkData(packageName: String, userID: Int, resultLiveData: MutableLiveData<String>) {
-        BlackBoxCore.get().clearPackage(packageName, userID)
+        BBCore.get().clearPackage(packageName, userID)
         resultLiveData.postValue(getString(R.string.clear_success))
     }
 
@@ -190,8 +190,8 @@ class AppsRepository {
      * 如果用户是空的，就删除用户，删除用户备注，删除应用排序列表
      */
     private fun scanUser() {
-        val blackBoxCore = BlackBoxCore.get()
-        val userList = blackBoxCore.users
+        val BBCore = BBCore.get()
+        val userList = BBCore.users
 
         if (userList.isEmpty()) {
             return
@@ -199,8 +199,8 @@ class AppsRepository {
 
         val id = userList.last().id
 
-        if (blackBoxCore.getInstalledApplications(0, id).isEmpty()) {
-            blackBoxCore.deleteUser(id)
+        if (BBCore.getInstalledApplications(0, id).isEmpty()) {
+            BBCore.deleteUser(id)
             AppManager.mRemarkSharedPreferences.edit {
                 remove("Remark$id")
                 remove("AppList$id")

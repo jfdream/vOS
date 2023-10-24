@@ -9,7 +9,7 @@ import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
 
 
@@ -23,7 +23,7 @@ import top.niunaijun.blackbox.utils.compat.BuildCompat;
  */
 public class DaemonService extends Service {
     public static final String TAG = "DaemonService";
-    private static final int NOTIFY_ID = BlackBoxCore.getHostPkg().hashCode();
+    private static final int NOTIFY_ID = BBCore.getHostPkg().hashCode();
 
     @Override
     public IBinder onBind(Intent intent) {

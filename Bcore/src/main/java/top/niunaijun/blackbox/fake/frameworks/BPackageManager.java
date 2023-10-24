@@ -14,7 +14,7 @@ import android.util.Log;
 import java.util.Collections;
 import java.util.List;
 
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.app.BActivityThread;
 import top.niunaijun.blackbox.core.system.ServiceManager;
 import top.niunaijun.blackbox.core.system.pm.IBPackageManagerService;
@@ -48,7 +48,7 @@ public class BPackageManager extends BlackManager<IBPackageManagerService> {
         intentToResolve.setPackage(packageName);
         List<ResolveInfo> ris = queryIntentActivities(intentToResolve,
                 0,
-                intentToResolve.resolveTypeIfNeeded(BlackBoxCore.getContext().getContentResolver()),
+                intentToResolve.resolveTypeIfNeeded(BBCore.getContext().getContentResolver()),
                 userId);
 
         // Otherwise, try to find a main launcher activity.
@@ -58,7 +58,7 @@ public class BPackageManager extends BlackManager<IBPackageManagerService> {
             intentToResolve.addCategory(Intent.CATEGORY_LAUNCHER);
             ris = queryIntentActivities(intentToResolve,
                     0,
-                    intentToResolve.resolveTypeIfNeeded(BlackBoxCore.getContext().getContentResolver()),
+                    intentToResolve.resolveTypeIfNeeded(BBCore.getContext().getContentResolver()),
                     userId);
 
         }

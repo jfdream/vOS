@@ -6,12 +6,9 @@ import android.os.Process;
 import androidx.annotation.Keep;
 
 import java.io.File;
-import java.util.List;
 
-import dalvik.system.DexFile;
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.app.BActivityThread;
-import top.niunaijun.blackbox.utils.compat.DexFileCompat;
 
 /**
  * Created by Milk on 4/9/21.
@@ -44,7 +41,7 @@ public class NativeCore {
         if (origCallingUid > Process.LAST_APPLICATION_UID)
             return origCallingUid;
 
-        if (origCallingUid == BlackBoxCore.getHostUid()) {
+        if (origCallingUid == BBCore.getHostUid()) {
 //            Log.d(TAG, "origCallingUid: " + origCallingUid + " => " + BActivityThread.getCallingBUid());
             return BActivityThread.getCallingBUid();
         }

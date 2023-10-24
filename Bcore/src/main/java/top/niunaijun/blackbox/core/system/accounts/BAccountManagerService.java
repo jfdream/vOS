@@ -56,7 +56,7 @@ import java.util.Objects;
 
 import black.com.android.internal.BRRstyleable;
 import black.com.android.internal.RstyleableStatic;
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.core.env.BEnvironment;
 import top.niunaijun.blackbox.core.system.BProcessManagerService;
 import top.niunaijun.blackbox.core.system.ISystemService;
@@ -100,7 +100,7 @@ public class BAccountManagerService extends IBAccountManagerService.Stub impleme
     }
 
     public BAccountManagerService() {
-        mContext = BlackBoxCore.getContext();
+        mContext = BBCore.getContext();
         mPms = BPackageManagerService.get();
     }
 

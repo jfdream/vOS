@@ -13,7 +13,7 @@ import androidx.core.content.edit
 import androidx.viewpager2.widget.ViewPager2
 import com.afollestad.materialdialogs.MaterialDialog
 import com.afollestad.materialdialogs.input.input
-import top.niunaijun.blackbox.BlackBoxCore
+import top.niunaijun.blackbox.BBCore
 import top.niunaijun.blackboxa.R
 import top.niunaijun.blackboxa.app.App
 import top.niunaijun.blackboxa.app.AppManager
@@ -70,7 +70,7 @@ class MainActivity : LoadingActivity() {
 
     private fun initViewPager() {
 
-        val userList = BlackBoxCore.get().users
+        val userList = BBCore.get().users
         userList.forEach {
             fragmentList.add(AppsFragment.newInstance(it.id))
         }
@@ -116,7 +116,7 @@ class MainActivity : LoadingActivity() {
     }
 
     fun scanUser() {
-        val userList = BlackBoxCore.get().users
+        val userList = BBCore.get().users
 
         if (fragmentList.size == userList.size) {
             fragmentList.add(AppsFragment.newInstance(fragmentList.size))

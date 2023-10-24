@@ -1,7 +1,7 @@
 package top.niunaijun.blackboxa.data
 
 import androidx.lifecycle.MutableLiveData
-import top.niunaijun.blackbox.BlackBoxCore
+import top.niunaijun.blackbox.BBCore
 import top.niunaijun.blackboxa.R
 import top.niunaijun.blackboxa.app.AppManager
 import top.niunaijun.blackboxa.bean.GmsBean
@@ -20,11 +20,11 @@ class GmsRepository {
     fun getGmsInstalledList(mInstalledLiveData: MutableLiveData<List<GmsBean>>) {
         val userList = arrayListOf<GmsBean>()
 
-        BlackBoxCore.get().users.forEach {
+        BBCore.get().users.forEach {
             val userId = it.id
             val userName =
                 AppManager.mRemarkSharedPreferences.getString("Remark$userId", "User $userId") ?: ""
-            val isInstalled = BlackBoxCore.get().isInstallGms(userId)
+            val isInstalled = BBCore.get().isInstallGms(userId)
             val bean = GmsBean(userId, userName, isInstalled)
             userList.add(bean)
         }
@@ -36,7 +36,7 @@ class GmsRepository {
         userID: Int,
         mUpdateInstalledLiveData: MutableLiveData<GmsInstallBean>
     ) {
-        val installResult = BlackBoxCore.get().installGms(userID)
+        val installResult = BBCore.get().installGms(userID)
 
         val result = if (installResult.success) {
             getString(R.string.install_success)
@@ -53,8 +53,8 @@ class GmsRepository {
         mUpdateInstalledLiveData: MutableLiveData<GmsInstallBean>
     ) {
         var isSuccess = false
-        if (BlackBoxCore.get().isInstallGms(userID)) {
-            isSuccess = BlackBoxCore.get().uninstallGms(userID)
+        if (BBCore.get().isInstallGms(userID)) {
+            isSuccess = BBCore.get().uninstallGms(userID)
         }
 
         val result = if (isSuccess) {

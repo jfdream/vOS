@@ -7,7 +7,7 @@ import android.net.Uri;
 import java.io.File;
 import java.util.List;
 
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.app.BActivityThread;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
 
@@ -26,7 +26,7 @@ public class FileProviderHandler {
             File file = convertFile(context, uri);
             if (file == null)
                 return null;
-            return BlackBoxCore.getBStorageManager().getUriForFile(file.getAbsolutePath());
+            return BBCore.getBStorageManager().getUriForFile(file.getAbsolutePath());
         }
         return uri;
     }

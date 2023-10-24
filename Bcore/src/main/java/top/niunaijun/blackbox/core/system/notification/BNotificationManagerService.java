@@ -22,7 +22,7 @@ import black.android.app.BRNotificationO;
 import black.android.app.NotificationChannelContext;
 import black.android.app.NotificationChannelGroupContext;
 import black.android.app.NotificationOContext;
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.core.system.BProcessManagerService;
 import top.niunaijun.blackbox.core.system.ISystemService;
 import top.niunaijun.blackbox.core.system.ProcessRecord;
@@ -40,7 +40,7 @@ public class BNotificationManagerService extends IBNotificationManagerService.St
     private final Map<String, NotificationRecord> mNotificationRecords = new HashMap<>();
 
     private final NotificationManager mRealNotificationManager =
-            (NotificationManager) BlackBoxCore.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+            (NotificationManager) BBCore.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
 
     public static BNotificationManagerService get() {
         return sService;

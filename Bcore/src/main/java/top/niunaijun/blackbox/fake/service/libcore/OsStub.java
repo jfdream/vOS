@@ -6,7 +6,7 @@ import java.lang.reflect.Method;
 import java.util.Objects;
 
 import black.libcore.io.BRLibcore;
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.app.BActivityThread;
 import top.niunaijun.blackbox.core.IOCore;
 import top.niunaijun.blackbox.fake.hook.ClassInvocationStub;
@@ -99,7 +99,7 @@ public class OsStub extends ClassInvocationStub {
         if (BActivityThread.isThreadInit() && BActivityThread.currentActivityThread().isInit()) {
             return BActivityThread.getBAppId();
         } else {
-            return BlackBoxCore.getHostUid();
+            return BBCore.getHostUid();
         }
     }
 }

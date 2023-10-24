@@ -5,7 +5,7 @@ import android.os.IInterface;
 import java.lang.reflect.Method;
 
 import black.android.content.BRAttributionSource;
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.fake.hook.ClassInvocationStub;
 import top.niunaijun.blackbox.utils.compat.ContextCompat;
 
@@ -55,9 +55,9 @@ public class SettingsProviderStub extends ClassInvocationStub implements BConten
         if (args != null && args.length > 0) {
             Object arg = args[0];
             if (arg instanceof String) {
-                args[0] = BlackBoxCore.getHostPkg();
+                args[0] = BBCore.getHostPkg();
             } else if (arg.getClass().getName().equals(BRAttributionSource.getRealClass().getName())) {
-                ContextCompat.fixAttributionSourceState(arg, BlackBoxCore.getHostUid());
+                ContextCompat.fixAttributionSourceState(arg, BBCore.getHostUid());
             }
         }
         return method.invoke(mBase, args);

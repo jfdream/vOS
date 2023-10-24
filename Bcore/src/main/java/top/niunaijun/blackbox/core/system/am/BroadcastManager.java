@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.core.system.pm.BPackage;
 import top.niunaijun.blackbox.core.system.pm.BPackageManagerService;
 import top.niunaijun.blackbox.core.system.pm.BPackageSettings;
@@ -85,7 +85,7 @@ public class BroadcastManager implements PackageMonitor {
                 List<BPackage.ActivityIntentInfo> intents = receiver.intents;
                 for (BPackage.ActivityIntentInfo intent : intents) {
                     ProxyBroadcastReceiver proxyBroadcastReceiver = new ProxyBroadcastReceiver();
-                    BlackBoxCore.getContext().registerReceiver(proxyBroadcastReceiver, intent.intentFilter);
+                    BBCore.getContext().registerReceiver(proxyBroadcastReceiver, intent.intentFilter);
                     addReceiver(bPackage.packageName, proxyBroadcastReceiver);
                 }
             }
@@ -126,7 +126,7 @@ public class BroadcastManager implements PackageMonitor {
                     Slog.d(TAG, "unregisterReceiver Package: " + packageName + ", size: " + broadcastReceivers.size());
                     for (BroadcastReceiver broadcastReceiver : broadcastReceivers) {
                         try {
-                            BlackBoxCore.getContext().unregisterReceiver(broadcastReceiver);
+                            BBCore.getContext().unregisterReceiver(broadcastReceiver);
                         } catch (Throwable ignored) {
                         }
                     }

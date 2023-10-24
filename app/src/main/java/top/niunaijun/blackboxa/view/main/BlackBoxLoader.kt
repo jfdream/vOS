@@ -5,7 +5,7 @@ import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import android.util.Log
-import top.niunaijun.blackbox.BlackBoxCore
+import top.niunaijun.blackbox.BBCore
 import top.niunaijun.blackbox.app.BActivityThread
 import top.niunaijun.blackbox.app.configuration.AppLifecycleCallback
 import top.niunaijun.blackbox.app.configuration.ClientConfiguration
@@ -50,7 +50,7 @@ class BlackBoxLoader {
     }
 
     fun addLifecycleCallback() {
-        BlackBoxCore.get().addAppLifecycleCallback(object : AppLifecycleCallback() {
+        BBCore.get().addAppLifecycleCallback(object : AppLifecycleCallback() {
             override fun beforeCreateApplication(
                 packageName: String?,
                 processName: String?,
@@ -91,7 +91,7 @@ class BlackBoxLoader {
 
     fun attachBaseContext(context: Context) {
         Log.i(TAG, "attachBaseContext:" + context.packageName);
-        BlackBoxCore.get().doAttachBaseContext(context, object : ClientConfiguration() {
+        BBCore.get().doAttachBaseContext(context, object : ClientConfiguration() {
             override fun getHostPackageName(): String {
                 return context.packageName
             }
@@ -113,7 +113,7 @@ class BlackBoxLoader {
     }
 
     fun doOnCreate(context: Context) {
-        BlackBoxCore.get().doCreate()
+        BBCore.get().doCreate()
 
         Log.i(TAG, "doOnCreate:" + context.packageName);
     }

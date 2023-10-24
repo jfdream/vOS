@@ -8,7 +8,7 @@ import android.os.Parcelable;
 
 import java.util.Objects;
 
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 
 /**
  * Created by Milk on 4/20/21.
@@ -23,11 +23,11 @@ public class InstalledPackage implements Parcelable {
     public String packageName;
 
     public ApplicationInfo getApplication() {
-        return BlackBoxCore.getBPackageManager().getApplicationInfo(packageName, PackageManager.GET_META_DATA, userId);
+        return BBCore.getBPackageManager().getApplicationInfo(packageName, PackageManager.GET_META_DATA, userId);
     }
 
     public PackageInfo getPackageInfo() {
-        return BlackBoxCore.getBPackageManager().getPackageInfo(packageName, PackageManager.GET_META_DATA, userId);
+        return BBCore.getBPackageManager().getPackageInfo(packageName, PackageManager.GET_META_DATA, userId);
     }
 
     @Override

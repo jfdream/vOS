@@ -4,9 +4,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.RemoteException;
-import android.util.Log;
 
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.entity.am.PendingResultData;
 import top.niunaijun.blackbox.proxy.record.ProxyBroadcastRecord;
 
@@ -25,7 +24,7 @@ public class ProxyBroadcastReceiver extends BroadcastReceiver {
         }
         PendingResult pendingResult = goAsync();
         try {
-            BlackBoxCore.getBActivityManager().scheduleBroadcastReceiver(record.mIntent, new PendingResultData(pendingResult), record.mUserId);
+            BBCore.getBActivityManager().scheduleBroadcastReceiver(record.mIntent, new PendingResultData(pendingResult), record.mUserId);
         } catch (RemoteException e) {
             pendingResult.finish();
         }

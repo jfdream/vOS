@@ -9,7 +9,7 @@ import java.lang.reflect.Method;
 import black.android.app.BRAppOpsManager;
 import black.android.os.BRServiceManager;
 import black.com.android.internal.app.BRIAppOpsServiceStub;
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.fake.hook.BinderInvocationStub;
 import top.niunaijun.blackbox.fake.hook.MethodHook;
 import top.niunaijun.blackbox.fake.hook.ProxyMethod;
@@ -37,7 +37,7 @@ public class IAppOpsManagerProxy extends BinderInvocationStub {
     @Override
     protected void inject(Object baseInvocation, Object proxyInvocation) {
         if (BRAppOpsManager.get(null)._check_mService() != null) {
-            AppOpsManager appOpsManager = (AppOpsManager) BlackBoxCore.getContext().getSystemService(Context.APP_OPS_SERVICE);
+            AppOpsManager appOpsManager = (AppOpsManager) BBCore.getContext().getSystemService(Context.APP_OPS_SERVICE);
             try {
                 BRAppOpsManager.get(appOpsManager)._set_mService(getProxyInvocation());
             } catch (Exception e) {

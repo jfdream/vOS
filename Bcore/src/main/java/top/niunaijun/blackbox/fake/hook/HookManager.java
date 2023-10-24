@@ -1,13 +1,12 @@
 package top.niunaijun.blackbox.fake.hook;
 
 import android.util.Log;
-import android.webkit.CookieManager;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import black.android.webkit.BRWebViewFactory;
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.fake.delegate.AppInstrumentation;
 import top.niunaijun.blackbox.fake.service.HCallbackProxy;
 import top.niunaijun.blackbox.fake.service.IAccessibilityManagerProxy;
@@ -76,7 +75,7 @@ public class HookManager {
     }
 
     public void init() {
-        if (BlackBoxCore.get().isBlackProcess() || BlackBoxCore.get().isServerProcess()) {
+        if (BBCore.get().isBlackProcess() || BBCore.get().isServerProcess()) {
             addInjector(new IDisplayManagerProxy());
             addInjector(new OsStub());
             addInjector(new IActivityManagerProxy());

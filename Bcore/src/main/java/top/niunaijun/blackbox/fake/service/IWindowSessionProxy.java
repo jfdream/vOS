@@ -5,7 +5,7 @@ import android.view.WindowManager;
 
 import java.lang.reflect.Method;
 
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.fake.hook.BinderInvocationStub;
 import top.niunaijun.blackbox.fake.hook.MethodHook;
 import top.niunaijun.blackbox.fake.hook.ProxyMethod;
@@ -58,7 +58,7 @@ public class IWindowSessionProxy extends BinderInvocationStub {
                     continue;
                 }
                 if (arg instanceof WindowManager.LayoutParams) {
-                    ((WindowManager.LayoutParams) arg).packageName = BlackBoxCore.getHostPkg();
+                    ((WindowManager.LayoutParams) arg).packageName = BBCore.getHostPkg();
                 }
             }
             return method.invoke(who, args);

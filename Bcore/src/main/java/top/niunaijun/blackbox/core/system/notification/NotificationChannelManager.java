@@ -9,7 +9,7 @@ import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 
 /**
  * Created by BlackBox on 2022/3/18.
@@ -31,8 +31,8 @@ public class NotificationChannelManager {
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void registerAppChannel() {
-        NotificationManager nm = (NotificationManager) BlackBoxCore.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        String CHANNEL_ONE_ID = BlackBoxCore.getContext().getPackageName();
+        NotificationManager nm = (NotificationManager) BBCore.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        String CHANNEL_ONE_ID = BBCore.getContext().getPackageName();
         String CHANNEL_ONE_NAME = "black-box-app";
         APP_CHANNEL = new NotificationChannel(CHANNEL_ONE_ID,
                 CHANNEL_ONE_NAME, NotificationManager.IMPORTANCE_HIGH);

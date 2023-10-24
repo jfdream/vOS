@@ -9,7 +9,7 @@ import black.android.content.AttributionSourceStateContext;
 import black.android.content.BRAttributionSource;
 import black.android.content.BRAttributionSourceState;
 import black.android.content.BRContentResolver;
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.app.BActivityThread;
 
 /**
@@ -29,7 +29,7 @@ public class ContextCompat {
             mAttributionSourceState = BRAttributionSource.get(obj).mAttributionSourceState();
 
             AttributionSourceStateContext attributionSourceStateContext = BRAttributionSourceState.get(mAttributionSourceState);
-            attributionSourceStateContext._set_packageName(BlackBoxCore.getHostPkg());
+            attributionSourceStateContext._set_packageName(BBCore.getHostPkg());
             attributionSourceStateContext._set_uid(uid);
             fixAttributionSourceState(BRAttributionSource.get(obj).getNext(), uid);
         }
@@ -52,9 +52,9 @@ public class ContextCompat {
                 e.printStackTrace();
             }
 
-            BRContextImpl.get(context)._set_mBasePackageName(BlackBoxCore.getHostPkg());
-            BRContextImplKitkat.get(context)._set_mOpPackageName(BlackBoxCore.getHostPkg());
-            BRContentResolver.get(context.getContentResolver())._set_mPackageName(BlackBoxCore.getHostPkg());
+            BRContextImpl.get(context)._set_mBasePackageName(BBCore.getHostPkg());
+            BRContextImplKitkat.get(context)._set_mOpPackageName(BBCore.getHostPkg());
+            BRContentResolver.get(context.getContentResolver())._set_mPackageName(BBCore.getHostPkg());
 
             if (BuildCompat.isS()) {
                 fixAttributionSourceState(BRContextImpl.get(context).getAttributionSource(), BActivityThread.getBUid());

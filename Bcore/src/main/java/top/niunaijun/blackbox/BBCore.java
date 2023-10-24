@@ -35,11 +35,9 @@ import top.niunaijun.blackbox.core.GmsCore;
 import top.niunaijun.blackbox.core.env.BEnvironment;
 import top.niunaijun.blackbox.core.system.DaemonService;
 import top.niunaijun.blackbox.core.system.ServiceManager;
-import top.niunaijun.blackbox.core.system.user.BUserHandle;
 import top.niunaijun.blackbox.core.system.user.BUserInfo;
 import top.niunaijun.blackbox.entity.pm.InstallOption;
 import top.niunaijun.blackbox.entity.pm.InstallResult;
-import top.niunaijun.blackbox.entity.pm.InstalledModule;
 import top.niunaijun.blackbox.fake.delegate.ContentProviderDelegate;
 import top.niunaijun.blackbox.fake.frameworks.BActivityManager;
 import top.niunaijun.blackbox.fake.frameworks.BJobManager;
@@ -48,11 +46,8 @@ import top.niunaijun.blackbox.fake.frameworks.BStorageManager;
 import top.niunaijun.blackbox.fake.frameworks.BUserManager;
 import top.niunaijun.blackbox.fake.hook.HookManager;
 import top.niunaijun.blackbox.proxy.ProxyManifest;
-import top.niunaijun.blackbox.utils.FileUtils;
-import top.niunaijun.blackbox.utils.ShellUtils;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
 import top.niunaijun.blackbox.utils.compat.BundleCompat;
-import top.niunaijun.blackbox.utils.compat.XposedParserCompat;
 import top.niunaijun.blackbox.utils.provider.ProviderCall;
 
 /**
@@ -64,10 +59,10 @@ import top.niunaijun.blackbox.utils.provider.ProviderCall;
  * 此处无Bug
  */
 @SuppressLint({"StaticFieldLeak", "NewApi"})
-public class BlackBoxCore extends ClientConfiguration {
+public class BBCore extends ClientConfiguration {
     public static final String TAG = "iOS";
 
-    private static final BlackBoxCore sBlackBoxCore = new BlackBoxCore();
+    private static final BBCore S_BB_CORE = new BBCore();
     private static Context sContext;
     private ProcessType mProcessType;
     private final Map<String, IBinder> mServices = new HashMap<>();
@@ -78,8 +73,8 @@ public class BlackBoxCore extends ClientConfiguration {
     private final int mHostUid = Process.myUid();
     private final int mHostUserId = BRUserHandle.get().myUserId();
 
-    public static BlackBoxCore get() {
-        return sBlackBoxCore;
+    public static BBCore get() {
+        return S_BB_CORE;
     }
 
     public Handler getHandler() {
@@ -128,7 +123,7 @@ public class BlackBoxCore extends ClientConfiguration {
         initNotificationManager();
 
         String processName = getProcessName(getContext());
-        if (processName.equals(BlackBoxCore.getHostPkg())) {
+        if (processName.equals(BBCore.getHostPkg())) {
             mProcessType = ProcessType.Main;
         } else if (processName.endsWith(getContext().getString(R.string.black_box_service_name))) {
             // 该进程由内容提供者提供首先启动
@@ -136,7 +131,7 @@ public class BlackBoxCore extends ClientConfiguration {
         } else {
             mProcessType = ProcessType.BAppClient;
         }
-        if (BlackBoxCore.get().isBlackProcess()) {
+        if (BBCore.get().isBlackProcess()) {
             BEnvironment.load();
         }
         if (isServerProcess()) {
@@ -362,8 +357,8 @@ public class BlackBoxCore extends ClientConfiguration {
     }
 
     private void initNotificationManager() {
-        NotificationManager nm = (NotificationManager) BlackBoxCore.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        String CHANNEL_ONE_ID = BlackBoxCore.getContext().getPackageName() + ".blackbox_core";
+        NotificationManager nm = (NotificationManager) BBCore.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        String CHANNEL_ONE_ID = BBCore.getContext().getPackageName() + ".blackbox_core";
         String CHANNEL_ONE_NAME = "blackbox_core";
         if (BuildCompat.isOreo()) {
             NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ONE_ID,

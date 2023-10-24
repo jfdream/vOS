@@ -11,7 +11,7 @@ import java.io.InputStreamReader;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.entity.pm.InstalledModule;
 import top.niunaijun.blackbox.utils.CloseUtils;
 
@@ -27,7 +27,7 @@ public class XposedParserCompat {
 
     public static InstalledModule parseModule(ApplicationInfo applicationInfo) {
         try {
-            PackageManager packageManager = BlackBoxCore.getPackageManager();
+            PackageManager packageManager = BBCore.getPackageManager();
             InstalledModule module = new InstalledModule();
             module.packageName = applicationInfo.packageName;
             module.enable = false;

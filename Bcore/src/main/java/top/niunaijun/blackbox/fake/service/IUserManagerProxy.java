@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import black.android.content.pm.BRUserInfo;
 import black.android.os.BRIUserManagerStub;
 import black.android.os.BRServiceManager;
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.app.BActivityThread;
 import top.niunaijun.blackbox.fake.hook.BinderInvocationStub;
 import top.niunaijun.blackbox.fake.hook.MethodHook;
@@ -46,7 +46,7 @@ public class IUserManagerProxy extends BinderInvocationStub {
     public static class GetApplicationRestrictions extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            args[0] = BlackBoxCore.getHostPkg();
+            args[0] = BBCore.getHostPkg();
             return method.invoke(who, args);
         }
     }

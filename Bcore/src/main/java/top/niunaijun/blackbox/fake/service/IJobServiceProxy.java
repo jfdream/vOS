@@ -8,7 +8,7 @@ import java.lang.reflect.Method;
 
 import black.android.app.job.BRIJobSchedulerStub;
 import black.android.os.BRServiceManager;
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.app.BActivityThread;
 import top.niunaijun.blackbox.fake.hook.BinderInvocationStub;
 import top.niunaijun.blackbox.fake.hook.MethodHook;
@@ -45,7 +45,7 @@ public class IJobServiceProxy extends BinderInvocationStub {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             JobInfo jobInfo = (JobInfo) args[0];
-            JobInfo proxyJobInfo = BlackBoxCore.getBJobManager().schedule(jobInfo);
+            JobInfo proxyJobInfo = BBCore.getBJobManager().schedule(jobInfo);
             args[0] = proxyJobInfo;
             return method.invoke(who, args);
         }
@@ -55,7 +55,7 @@ public class IJobServiceProxy extends BinderInvocationStub {
     public static class Cancel extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            args[0] = BlackBoxCore.getBJobManager()
+            args[0] = BBCore.getBJobManager()
                     .cancel(BActivityThread.getAppConfig().processName, (Integer) args[0]);
             return method.invoke(who, args);
         }
@@ -65,7 +65,7 @@ public class IJobServiceProxy extends BinderInvocationStub {
     public static class CancelAll extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            BlackBoxCore.getBJobManager().cancelAll(BActivityThread.getAppConfig().processName);
+            BBCore.getBJobManager().cancelAll(BActivityThread.getAppConfig().processName);
             return method.invoke(who, args);
         }
     }
@@ -76,7 +76,7 @@ public class IJobServiceProxy extends BinderInvocationStub {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             JobInfo jobInfo = (JobInfo) args[0];
-            JobInfo proxyJobInfo = BlackBoxCore.getBJobManager()
+            JobInfo proxyJobInfo = BBCore.getBJobManager()
                     .schedule(jobInfo);
             args[0] = proxyJobInfo;
             return method.invoke(who, args);

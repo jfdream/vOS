@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.ItemTouchHelper
 import cbfg.rvadapter.RVAdapter
 import com.afollestad.materialdialogs.MaterialDialog
-import top.niunaijun.blackbox.BlackBoxCore
+import top.niunaijun.blackbox.BBCore
 import top.niunaijun.blackboxa.R
 import top.niunaijun.blackboxa.bean.AppInfo
 import top.niunaijun.blackboxa.databinding.FragmentAppsBinding
@@ -263,7 +263,7 @@ class AppsFragment : Fragment() {
             title(R.string.app_stop)
             message(text = getString(R.string.app_stop_hint,info.name))
             positiveButton(R.string.done) {
-                BlackBoxCore.get().stopPackage(info.packageName, userID)
+                BBCore.get().stopPackage(info.packageName, userID)
                 toast(getString(R.string.is_stop,info.name))
             }
             negativeButton(R.string.cancel)

@@ -2,7 +2,7 @@ package top.niunaijun.blackbox.core;
 
 import android.util.Log;
 
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 
 /**
  * Created by Milk on 4/30/21.
@@ -27,8 +27,8 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
 
     @Override
     public void uncaughtException(Thread t, Throwable e) {
-        if (BlackBoxCore.get().getExceptionHandler() != null) {
-            BlackBoxCore.get().getExceptionHandler().uncaughtException(t, e);
+        if (BBCore.get().getExceptionHandler() != null) {
+            BBCore.get().getExceptionHandler().uncaughtException(t, e);
         }
         mDefaultHandler.uncaughtException(t, e);
         Log.i(TAG, "uncaughtException:" + e);

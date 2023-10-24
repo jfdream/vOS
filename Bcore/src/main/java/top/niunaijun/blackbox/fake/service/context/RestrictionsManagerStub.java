@@ -6,7 +6,7 @@ import java.lang.reflect.Method;
 
 import black.android.content.BRIRestrictionsManagerStub;
 import black.android.os.BRServiceManager;
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.fake.hook.BinderInvocationStub;
 import top.niunaijun.blackbox.fake.hook.MethodHook;
 import top.niunaijun.blackbox.fake.hook.ProxyMethod;
@@ -44,7 +44,7 @@ public class RestrictionsManagerStub extends BinderInvocationStub {
     public static class GetApplicationRestrictions extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            args[0] = BlackBoxCore.getHostPkg();
+            args[0] = BBCore.getHostPkg();
             return method.invoke(who, args);
         }
     }

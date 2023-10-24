@@ -5,7 +5,7 @@ import android.os.IBinder;
 import java.util.HashMap;
 import java.util.Map;
 
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.core.system.accounts.BAccountManagerService;
 import top.niunaijun.blackbox.core.system.am.BActivityManagerService;
 import top.niunaijun.blackbox.core.system.am.BJobManagerService;
@@ -70,14 +70,14 @@ public class ServiceManager {
     }
 
     public static void initBlackManager() {
-        BlackBoxCore.get().getService(ACTIVITY_MANAGER);
-        BlackBoxCore.get().getService(JOB_MANAGER);
-        BlackBoxCore.get().getService(PACKAGE_MANAGER);
-        BlackBoxCore.get().getService(STORAGE_MANAGER);
-        BlackBoxCore.get().getService(USER_MANAGER);
-        BlackBoxCore.get().getService(XPOSED_MANAGER);
-        BlackBoxCore.get().getService(ACCOUNT_MANAGER);
-        BlackBoxCore.get().getService(LOCATION_MANAGER);
-        BlackBoxCore.get().getService(NOTIFICATION_MANAGER);
+        BBCore.get().getService(ACTIVITY_MANAGER);
+        BBCore.get().getService(JOB_MANAGER);
+        BBCore.get().getService(PACKAGE_MANAGER);
+        BBCore.get().getService(STORAGE_MANAGER);
+        BBCore.get().getService(USER_MANAGER);
+        BBCore.get().getService(XPOSED_MANAGER);
+        BBCore.get().getService(ACCOUNT_MANAGER);
+        BBCore.get().getService(LOCATION_MANAGER);
+        BBCore.get().getService(NOTIFICATION_MANAGER);
     }
 }

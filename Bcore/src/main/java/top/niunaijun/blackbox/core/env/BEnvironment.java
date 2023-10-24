@@ -1,11 +1,9 @@
 package top.niunaijun.blackbox.core.env;
 
-import android.util.Log;
-
 import java.io.File;
 import java.util.Locale;
 
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.app.BActivityThread;
 import top.niunaijun.blackbox.utils.FileUtils;
 
@@ -19,8 +17,8 @@ import top.niunaijun.blackbox.utils.FileUtils;
  */
 public class BEnvironment {
     private static final String TAG = "iOS";
-    private static final File sVirtualRoot = new File(BlackBoxCore.getContext().getCacheDir().getParent(), "rootfs");
-    private static final File sExternalVirtualRoot = BlackBoxCore.getContext().getExternalFilesDir("sdcard");
+    private static final File sVirtualRoot = new File(BBCore.getContext().getCacheDir().getParent(), "rootfs");
+    private static final File sExternalVirtualRoot = BBCore.getContext().getExternalFilesDir("sdcard");
     public static void load() {
         FileUtils.mkdirs(sVirtualRoot);
         assert sExternalVirtualRoot != null;

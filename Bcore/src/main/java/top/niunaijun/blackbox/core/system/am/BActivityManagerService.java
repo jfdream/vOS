@@ -9,7 +9,6 @@ import android.content.pm.ResolveInfo;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.IBinder;
-import android.os.Looper;
 import android.os.Process;
 import android.os.RemoteException;
 import android.util.Log;
@@ -18,7 +17,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.core.system.BProcessManagerService;
 import top.niunaijun.blackbox.core.system.ISystemService;
 import top.niunaijun.blackbox.core.system.ProcessRecord;
@@ -100,7 +99,7 @@ public class BActivityManagerService extends IBActivityManagerService.Stub imple
             }
         }
         Intent shadow = new Intent();
-        shadow.setPackage(BlackBoxCore.getHostPkg());
+        shadow.setPackage(BBCore.getHostPkg());
         shadow.setComponent(null);
         shadow.setAction(intent.getAction());
         return shadow;
@@ -170,7 +169,7 @@ public class BActivityManagerService extends IBActivityManagerService.Stub imple
     @Override
     public RunningAppProcessInfo getRunningAppProcesses(String callerPackage, int userId) throws RemoteException {
         ActivityManager manager = (ActivityManager)
-                BlackBoxCore.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+                BBCore.getContext().getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningAppProcessInfo> runningAppProcesses = manager.getRunningAppProcesses();
         Map<Integer, ActivityManager.RunningAppProcessInfo> runningProcessMap = new HashMap<>();
         for (ActivityManager.RunningAppProcessInfo runningProcess : runningAppProcesses) {

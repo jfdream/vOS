@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.core.IBActivityThread;
 import top.niunaijun.blackbox.core.env.BEnvironment;
 import top.niunaijun.blackbox.core.system.notification.BNotificationManagerService;
@@ -97,14 +97,14 @@ public class BProcessManagerService implements ISystemService {
                 mPidsSelfLocked.remove(app);
                 app = null;
             } else {
-                app.pid = getPid(BlackBoxCore.getContext(), ProxyManifest.getProcessName(app.bpid));
+                app.pid = getPid(BBCore.getContext(), ProxyManifest.getProcessName(app.bpid));
             }
         }
         return app;
     }
 
     private int getUsingBPidL() {
-        ActivityManager manager = (ActivityManager) BlackBoxCore.getContext().getSystemService(Context.ACTIVITY_SERVICE);
+        ActivityManager manager = (ActivityManager) BBCore.getContext().getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningAppProcessInfo> runningAppProcesses = manager.getRunningAppProcesses();
         Set<Integer> usingPs = new HashSet<>();
         for (ActivityManager.RunningAppProcessInfo runningAppProcess : runningAppProcesses) {
@@ -129,7 +129,7 @@ public class BProcessManagerService implements ISystemService {
                 app = findProcessByPid(callingPid);
             }
             if (app == null) {
-                String stubProcessName = getProcessName(BlackBoxCore.getContext(), callingPid);
+                String stubProcessName = getProcessName(BBCore.getContext(), callingPid);
                 int bpid = parseBPid(stubProcessName);
                 startProcessLocked(packageName, processName, userId, bpid, callingPid);
             }
@@ -141,7 +141,7 @@ public class BProcessManagerService implements ISystemService {
         if (stubProcessName == null) {
             return -1;
         } else {
-            prefix = BlackBoxCore.getHostPkg() + ":p";
+            prefix = BBCore.getHostPkg() + ":p";
         }
         if (stubProcessName.startsWith(prefix)) {
             try {

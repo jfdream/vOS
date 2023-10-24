@@ -25,11 +25,9 @@ import android.os.IInterface;
 import android.os.Looper;
 import android.os.RemoteException;
 import android.os.StrictMode;
-import android.text.TextUtils;
 import android.util.Log;
 import android.webkit.WebView;
 
-import java.io.File;
 import java.lang.reflect.Method;
 import java.security.Security;
 import java.util.ArrayList;
@@ -55,8 +53,7 @@ import black.android.graphics.BRCompatibility;
 import black.android.security.net.config.BRNetworkSecurityConfigProvider;
 import black.com.android.internal.content.BRReferrerIntent;
 import black.dalvik.system.BRVMRuntime;
-import de.robv.android.xposed.utils.PineXposed;
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.app.configuration.AppLifecycleCallback;
 import top.niunaijun.blackbox.app.dispatcher.AppServiceDispatcher;
 import top.niunaijun.blackbox.core.CrashHandler;
@@ -67,7 +64,6 @@ import top.niunaijun.blackbox.core.env.VirtualRuntime;
 import top.niunaijun.blackbox.core.system.user.BUserHandle;
 import top.niunaijun.blackbox.entity.AppConfig;
 import top.niunaijun.blackbox.entity.am.ReceiverData;
-import top.niunaijun.blackbox.entity.pm.InstalledModule;
 import top.niunaijun.blackbox.fake.delegate.AppInstrumentation;
 import top.niunaijun.blackbox.fake.delegate.ContentProviderDelegate;
 import top.niunaijun.blackbox.fake.hook.HookManager;
@@ -94,7 +90,7 @@ public class BActivityThread extends IBActivityThread.Stub {
     private Application mInitialApplication;
     private AppConfig mAppConfig;
     private final List<ProviderInfo> mProviders = new ArrayList<>();
-    private final Handler mH = BlackBoxCore.get().getHandler();
+    private final Handler mH = BBCore.get().getHandler();
     private static final Object mConfigLock = new Object();
 
     public static boolean isThreadInit() {
@@ -163,7 +159,7 @@ public class BActivityThread extends IBActivityThread.Stub {
     }
 
     public static int getCallingBUid() {
-        return getAppConfig() == null ? BlackBoxCore.getHostUid() : getAppConfig().callingBUid;
+        return getAppConfig() == null ? BBCore.getHostUid() : getAppConfig().callingBUid;
     }
 
     public static int getUid() {
@@ -220,14 +216,14 @@ public class BActivityThread extends IBActivityThread.Stub {
         }
 
         try {
-            Context context = BlackBoxCore.getContext().createPackageContext(
+            Context context = BBCore.getContext().createPackageContext(
                     serviceInfo.packageName,
                     Context.CONTEXT_INCLUDE_CODE | Context.CONTEXT_IGNORE_SECURITY
             );
             BRContextImpl.get(context).setOuterContext(service);
             BRService.get(service).attach(
                     context,
-                    BlackBoxCore.mainThread(),
+                    BBCore.mainThread(),
                     serviceInfo.name,
                     token,
                     mInitialApplication,
@@ -259,14 +255,14 @@ public class BActivityThread extends IBActivityThread.Stub {
         }
 
         try {
-            Context context = BlackBoxCore.getContext().createPackageContext(
+            Context context = BBCore.getContext().createPackageContext(
                     serviceInfo.packageName,
                     Context.CONTEXT_INCLUDE_CODE | Context.CONTEXT_IGNORE_SECURITY
             );
             BRContextImpl.get(context).setOuterContext(service);
             BRService.get(service).attach(
                     context,
-                    BlackBoxCore.mainThread(),
+                    BBCore.mainThread(),
                     serviceInfo.name,
                     BActivityThread.currentActivityThread().getActivityThread(),
                     mInitialApplication,
@@ -286,7 +282,7 @@ public class BActivityThread extends IBActivityThread.Stub {
     public void bindApplication(final String packageName, final String processName) {
         if (Looper.myLooper() != Looper.getMainLooper()) {
             final ConditionVariable conditionVariable = new ConditionVariable();
-            BlackBoxCore.get().getHandler().post(() -> {
+            BBCore.get().getHandler().post(() -> {
                 handleBindApplication(packageName, processName);
                 conditionVariable.open();
             });
@@ -304,14 +300,14 @@ public class BActivityThread extends IBActivityThread.Stub {
         } catch (Throwable ignored) {
         }
 
-        PackageInfo packageInfo = BlackBoxCore.getBPackageManager().getPackageInfo(packageName, PackageManager.GET_PROVIDERS, BActivityThread.getUserId());
+        PackageInfo packageInfo = BBCore.getBPackageManager().getPackageInfo(packageName, PackageManager.GET_PROVIDERS, BActivityThread.getUserId());
         ApplicationInfo applicationInfo = packageInfo.applicationInfo;
         if (packageInfo.providers == null) {
             packageInfo.providers = new ProviderInfo[]{};
         }
         mProviders.addAll(Arrays.asList(packageInfo.providers));
 
-        Object boundApplication = BRActivityThread.get(BlackBoxCore.mainThread()).mBoundApplication();
+        Object boundApplication = BRActivityThread.get(BBCore.mainThread()).mBoundApplication();
         Log.w(TAG, "boundApplication:" + boundApplication);
 
         Context packageContext = createPackageContext(applicationInfo);
@@ -384,8 +380,8 @@ public class BActivityThread extends IBActivityThread.Stub {
             application = BRLoadedApk.get(loadedApk).makeApplication(false, null);
             Log.w(TAG, "makeApplication:" + application);
             mInitialApplication = application;
-            BRActivityThread.get(BlackBoxCore.mainThread())._set_mInitialApplication(mInitialApplication);
-            ContextCompat.fix((Context) BRActivityThread.get(BlackBoxCore.mainThread()).getSystemContext());
+            BRActivityThread.get(BBCore.mainThread())._set_mInitialApplication(mInitialApplication);
+            ContextCompat.fix((Context) BRActivityThread.get(BBCore.mainThread()).getSystemContext());
             ContextCompat.fix(mInitialApplication);
             installProviders(mInitialApplication, bindData.processName, bindData.providers);
 
@@ -402,7 +398,7 @@ public class BActivityThread extends IBActivityThread.Stub {
 
     public static Context createPackageContext(ApplicationInfo info) {
         try {
-            return BlackBoxCore.getContext().createPackageContext(info.packageName,
+            return BBCore.getContext().createPackageContext(info.packageName,
                     Context.CONTEXT_INCLUDE_CODE | Context.CONTEXT_IGNORE_SECURITY);
         } catch (Exception e) {
             e.printStackTrace();
@@ -417,7 +413,7 @@ public class BActivityThread extends IBActivityThread.Stub {
                 try {
                     if (processName.equals(providerInfo.processName) ||
                             providerInfo.processName.equals(context.getPackageName()) || providerInfo.multiprocess) {
-                        installProvider(BlackBoxCore.mainThread(), context, providerInfo, null);
+                        installProvider(BBCore.mainThread(), context, providerInfo, null);
                     }
                 } catch (Throwable ignored) {
                 }
@@ -442,7 +438,7 @@ public class BActivityThread extends IBActivityThread.Stub {
 
     @Override
     public IBinder getActivityThread() {
-        return BRActivityThread.get(BlackBoxCore.mainThread()).getApplicationThread();
+        return BRActivityThread.get(BBCore.mainThread()).getApplicationThread();
     }
 
     @Override
@@ -469,7 +465,7 @@ public class BActivityThread extends IBActivityThread.Stub {
         }
         String[] split = providerInfo.authority.split(";");
         for (String auth : split) {
-            ContentProviderClient contentProviderClient = BlackBoxCore.getContext()
+            ContentProviderClient contentProviderClient = BBCore.getContext()
                     .getContentResolver().acquireContentProviderClient(auth);
             IInterface iInterface = BRContentProviderClient.get(contentProviderClient).mContentProvider();
             if (iInterface == null)
@@ -487,7 +483,7 @@ public class BActivityThread extends IBActivityThread.Stub {
     @Override
     public void finishActivity(final IBinder token) {
         mH.post(() -> {
-            Map<IBinder, Object> activities = BRActivityThread.get(BlackBoxCore.mainThread()).mActivities();
+            Map<IBinder, Object> activities = BRActivityThread.get(BBCore.mainThread()).mActivities();
             if (activities.isEmpty())
                 return;
             Object clientRecord = activities.get(token);
@@ -511,12 +507,12 @@ public class BActivityThread extends IBActivityThread.Stub {
         mH.post(() -> {
             Intent newIntent;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
-                newIntent = BRReferrerIntent.get()._new(intent, BlackBoxCore.getHostPkg());
+                newIntent = BRReferrerIntent.get()._new(intent, BBCore.getHostPkg());
             } else {
                 newIntent = intent;
             }
-            Object mainThread = BlackBoxCore.mainThread();
-            if (BRActivityThread.get(BlackBoxCore.mainThread())._check_performNewIntents(null, null) != null) {
+            Object mainThread = BBCore.mainThread();
+            if (BRActivityThread.get(BBCore.mainThread())._check_performNewIntents(null, null) != null) {
                 BRActivityThread.get(mainThread).performNewIntents(
                         token,
                         Collections.singletonList(newIntent)
@@ -555,7 +551,7 @@ public class BActivityThread extends IBActivityThread.Stub {
                 if (finish != null) {
                     finish.finish();
                 }
-                BlackBoxCore.getBActivityManager().finishBroadcast(data.data);
+                BBCore.getBActivityManager().finishBroadcast(data.data);
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
                 Log.e(TAG,
@@ -567,24 +563,24 @@ public class BActivityThread extends IBActivityThread.Stub {
 
     public static Activity getActivityByToken(IBinder token) {
         Map<IBinder, Object> iBinderObjectMap =
-                BRActivityThread.get(BlackBoxCore.mainThread()).mActivities();
+                BRActivityThread.get(BBCore.mainThread()).mActivities();
         return BRActivityThreadActivityClientRecord.get(iBinderObjectMap.get(token)).activity();
     }
 
     private void onBeforeCreateApplication(String packageName, String processName, Context context) {
-        for (AppLifecycleCallback appLifecycleCallback : BlackBoxCore.get().getAppLifecycleCallbacks()) {
+        for (AppLifecycleCallback appLifecycleCallback : BBCore.get().getAppLifecycleCallbacks()) {
             appLifecycleCallback.beforeCreateApplication(packageName, processName, context, BActivityThread.getUserId());
         }
     }
 
     private void onBeforeApplicationOnCreate(String packageName, String processName, Application application) {
-        for (AppLifecycleCallback appLifecycleCallback : BlackBoxCore.get().getAppLifecycleCallbacks()) {
+        for (AppLifecycleCallback appLifecycleCallback : BBCore.get().getAppLifecycleCallbacks()) {
             appLifecycleCallback.beforeApplicationOnCreate(packageName, processName, application, BActivityThread.getUserId());
         }
     }
 
     private void onAfterApplicationOnCreate(String packageName, String processName, Application application) {
-        for (AppLifecycleCallback appLifecycleCallback : BlackBoxCore.get().getAppLifecycleCallbacks()) {
+        for (AppLifecycleCallback appLifecycleCallback : BBCore.get().getAppLifecycleCallbacks()) {
             appLifecycleCallback.afterApplicationOnCreate(packageName, processName, application, BActivityThread.getUserId());
         }
     }

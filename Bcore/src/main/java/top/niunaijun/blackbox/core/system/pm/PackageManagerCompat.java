@@ -25,7 +25,7 @@ import black.android.content.pm.BRApplicationInfoN;
 import black.android.content.pm.BRPackageParserSigningDetails;
 import black.android.content.pm.BRSigningInfo;
 import black.android.content.res.BRAssetManager;
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.core.env.AppSystemEnv;
 import top.niunaijun.blackbox.core.env.BEnvironment;
 import top.niunaijun.blackbox.entity.pm.InstallOption;
@@ -189,7 +189,7 @@ public class PackageManagerCompat {
         }
         PackageInfo base = null;
         try {
-            base = BlackBoxCore.getContext().getPackageManager().getPackageInfo(p.packageName, flags);
+            base = BBCore.getContext().getPackageManager().getPackageInfo(p.packageName, flags);
         } catch (PackageManager.NameNotFoundException ignored) {
         }
         if ((flags & PackageManager.GET_SIGNATURES) != 0) {
@@ -282,13 +282,13 @@ public class PackageManagerCompat {
         }
         ApplicationInfo baseApplication;
         try {
-            baseApplication = BlackBoxCore.getPackageManager().getApplicationInfo(BlackBoxCore.getHostPkg(), flags);
+            baseApplication = BBCore.getPackageManager().getApplicationInfo(BBCore.getHostPkg(), flags);
         } catch (Exception e) {
             return null;
         }
         String sourceDir = p.baseCodePath;
         if (p.applicationInfo == null) {
-            PackageInfo packageInfo = BlackBoxCore.getPackageManager()
+            PackageInfo packageInfo = BBCore.getPackageManager()
                     .getPackageArchiveInfo(sourceDir, 0);
             assert packageInfo != null;
             p.applicationInfo = packageInfo.applicationInfo;

@@ -30,7 +30,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.core.GmsCore;
 import top.niunaijun.blackbox.core.env.BEnvironment;
 import top.niunaijun.blackbox.core.system.BProcessManagerService;
@@ -79,7 +79,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
         filter.addAction("android.intent.action.PACKAGE_ADDED");
         filter.addAction("android.intent.action.PACKAGE_REMOVED");
         filter.addDataScheme("package");
-        BlackBoxCore.getContext().registerReceiver(mPackageChangedHandler, filter);
+        BBCore.getContext().registerReceiver(mPackageChangedHandler, filter);
     }
 
     private final BroadcastReceiver mPackageChangedHandler = new BroadcastReceiver() {
@@ -97,9 +97,9 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
     @Override
     public ApplicationInfo getApplicationInfo(String packageName, int flags, int userId) {
         if (!sUserManager.exists(userId)) return null;
-        if (Objects.equals(packageName, BlackBoxCore.getHostPkg())) {
+        if (Objects.equals(packageName, BBCore.getHostPkg())) {
             try {
-                return BlackBoxCore.getPackageManager().getApplicationInfo(packageName, flags);
+                return BBCore.getPackageManager().getApplicationInfo(packageName, flags);
             } catch (PackageManager.NameNotFoundException e) {
                 Log.e(TAG, "getApplicationInfo exception:" + e);
             }
@@ -246,7 +246,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
     @Override
     public List<ResolveInfo> queryIntentServices(
             Intent intent, int flags, int userId) {
-        final String resolvedType = intent.resolveTypeIfNeeded(BlackBoxCore.getContext().getContentResolver());
+        final String resolvedType = intent.resolveTypeIfNeeded(BBCore.getContext().getContentResolver());
         return this.queryIntentServicesInternal(intent, resolvedType, flags, userId);
     }
 
@@ -268,9 +268,9 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
     @Override
     public PackageInfo getPackageInfo(String packageName, int flags, int userId) {
         if (!sUserManager.exists(userId)) return null;
-        if (Objects.equals(packageName, BlackBoxCore.getHostPkg())) {
+        if (Objects.equals(packageName, BBCore.getHostPkg())) {
             try {
-                return BlackBoxCore.getPackageManager().getPackageInfo(packageName, flags);
+                return BBCore.getPackageManager().getPackageInfo(packageName, flags);
             } catch (PackageManager.NameNotFoundException e) {
                 Log.e(TAG, "getPackageInfo exception:" + e);
             }
@@ -672,7 +672,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
             if (option.isFlag(InstallOption.FLAG_URI_FILE)) {
                 // 从网络安装 APK
                 apkFile = new File(BEnvironment.getCacheDir(), UUID.randomUUID().toString() + ".apk");
-                InputStream inputStream = BlackBoxCore.getContext().getContentResolver().openInputStream(Uri.parse(file));
+                InputStream inputStream = BBCore.getContext().getContentResolver().openInputStream(Uri.parse(file));
                 FileUtils.copyFile(inputStream, apkFile);
             } else {
                 // 从本地安装 APK
@@ -687,14 +687,14 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
             }
 
             // 此处的 getPackageManager 其实就是系统的 PackageManager
-            PackageInfo packageArchiveInfo = BlackBoxCore.getPackageManager().getPackageArchiveInfo(apkFile.getAbsolutePath(), 0);
+            PackageInfo packageArchiveInfo = BBCore.getPackageManager().getPackageArchiveInfo(apkFile.getAbsolutePath(), 0);
             if (packageArchiveInfo == null) {
                 return result.installError("getPackageArchiveInfo error.Please check whether APK is normal.");
             }
             Log.i(TAG, "packageArchiveInfo:" + packageArchiveInfo);
             boolean support = AbiUtils.isSupport(apkFile);
             if (!support) {
-                String msg = packageArchiveInfo.applicationInfo.loadLabel(BlackBoxCore.getPackageManager()) + "[" + packageArchiveInfo.packageName + "]";
+                String msg = packageArchiveInfo.applicationInfo.loadLabel(BBCore.getPackageManager()) + "[" + packageArchiveInfo.packageName + "]";
                 return result.installError(packageArchiveInfo.packageName,
                         msg + (Process.is64Bit() ? " not support armeabi-v7a abi" : "not support arm64-v8a abi"));
             }
@@ -705,7 +705,7 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
             result.packageName = sysPackage.packageName;
 
             if (option.isFlag(InstallOption.FLAG_SYSTEM)) {
-                sysPackage.applicationInfo = BlackBoxCore.getPackageManager().getPackageInfo(sysPackage.packageName, 0).applicationInfo;
+                sysPackage.applicationInfo = BBCore.getPackageManager().getPackageInfo(sysPackage.packageName, 0).applicationInfo;
             }
             BPackageSettings bPackageSettings = mSettings.getPackageLPw(sysPackage.packageName, sysPackage, option);
 

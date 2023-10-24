@@ -19,7 +19,7 @@ import black.android.providers.BRSettingsNameValueCache;
 import black.android.providers.BRSettingsNameValueCacheOreo;
 import black.android.providers.BRSettingsSecure;
 import black.android.providers.BRSettingsSystem;
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.fake.service.context.providers.ContentProviderStub;
 import top.niunaijun.blackbox.fake.service.context.providers.SettingsProviderStub;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
@@ -48,9 +48,9 @@ public class ContentProviderDelegate {
             return;
         IInterface bContentProvider;
         if (auth.equals("settings")) {
-            bContentProvider = new SettingsProviderStub().wrapper(iInterface, BlackBoxCore.getHostPkg());
+            bContentProvider = new SettingsProviderStub().wrapper(iInterface, BBCore.getHostPkg());
         } else {
-            bContentProvider = new ContentProviderStub().wrapper(iInterface, BlackBoxCore.getHostPkg());
+            bContentProvider = new ContentProviderStub().wrapper(iInterface, BBCore.getHostPkg());
         }
         if (BuildCompat.isOreo()) {
             BRContentProviderHolderOreo.get(holder)._set_provider(bContentProvider);
@@ -62,8 +62,8 @@ public class ContentProviderDelegate {
     public static void init() {
         clearSettingProvider();
 
-        BlackBoxCore.getContext().getContentResolver().call(Uri.parse("content://settings"), "", null, null);
-        Object activityThread = BlackBoxCore.mainThread();
+        BBCore.getContext().getContentResolver().call(Uri.parse("content://settings"), "", null, null);
+        Object activityThread = BBCore.mainThread();
         ArrayMap<Object, Object> map = (ArrayMap<Object, Object>) BRActivityThread.get(activityThread).mProviderMap();
 
         for (Object value : map.values()) {
@@ -75,7 +75,7 @@ public class ContentProviderDelegate {
             if (!sInjected.contains(providerName)) {
                 sInjected.add(providerName);
                 final IInterface iInterface = BRActivityThreadProviderClientRecordP.get(value).mProvider();
-                BRActivityThreadProviderClientRecordP.get(value)._set_mProvider(new ContentProviderStub().wrapper(iInterface, BlackBoxCore.getHostPkg()));
+                BRActivityThreadProviderClientRecordP.get(value)._set_mProvider(new ContentProviderStub().wrapper(iInterface, BBCore.getHostPkg()));
                 BRActivityThreadProviderClientRecordP.get(value)._set_mNames(new String[]{providerName});
             }
         }

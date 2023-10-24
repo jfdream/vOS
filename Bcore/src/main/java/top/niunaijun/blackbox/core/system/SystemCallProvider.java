@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import top.niunaijun.blackbox.BlackBoxCore;
+import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.core.env.AppSystemEnv;
 import top.niunaijun.blackbox.core.env.BEnvironment;
 import top.niunaijun.blackbox.core.system.accounts.BAccountManagerService;
@@ -123,7 +123,7 @@ public class SystemCallProvider extends ContentProvider {
         for (String preInstallPackage : preInstallPackages) {
             try {
                 if (!BPackageManagerService.get().isInstalled(preInstallPackage, BUserHandle.USER_ALL)) {
-                    PackageInfo packageInfo = BlackBoxCore.getPackageManager().getPackageInfo(preInstallPackage, 0);
+                    PackageInfo packageInfo = BBCore.getPackageManager().getPackageInfo(preInstallPackage, 0);
                     BPackageManagerService.get().installPackageAsUser(packageInfo.applicationInfo.sourceDir, InstallOption.installBySystem(), BUserHandle.USER_ALL);
                 }
             } catch (PackageManager.NameNotFoundException ignored) {

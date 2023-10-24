@@ -1,11 +1,10 @@
 package top.niunaijun.blackboxa.view.setting
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
-import top.niunaijun.blackbox.BlackBoxCore
+import top.niunaijun.blackbox.BBCore
 import top.niunaijun.blackboxa.R
 import top.niunaijun.blackboxa.app.AppManager
 import top.niunaijun.blackboxa.util.toast
@@ -48,7 +47,7 @@ class SettingFragment : PreferenceFragmentCompat() {
     private fun initGms() {
         val gmsManagerPreference: Preference = (findPreference("gms_manager")!!)
 
-        if (BlackBoxCore.get().isSupportGms) {
+        if (BBCore.get().isSupportGms) {
 
             gmsManagerPreference.setOnPreferenceClickListener {
                 GmsManagerActivity.start(requireContext())
