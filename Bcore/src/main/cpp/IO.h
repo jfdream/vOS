@@ -9,7 +9,7 @@
 
 #include <list>
 #include <iostream>
-#include "BoxCore.h"
+#include "BBCore.h"
 
 using namespace std;
 

@@ -146,10 +146,13 @@ import top.niunaijun.blackbox.utils.compat.PackageParserCompat;
     private void loadUidLP() {
         Parcel parcel = Parcel.obtain();
         try {
-            byte[] uidBytes = FileUtils.toByteArray(BEnvironment.getUidConf());
+            File uidFile = BEnvironment.getUidConf();
+            if (!uidFile.exists()) {
+                return;
+            }
+            byte[] uidBytes = FileUtils.toByteArray(uidFile);
             parcel.unmarshall(uidBytes, 0, uidBytes.length);
             parcel.setDataPosition(0);
-
             mCurrUid = parcel.readInt();
             HashMap hashMap = parcel.readHashMap(HashMap.class.getClassLoader());
             synchronized (mAppIds) {

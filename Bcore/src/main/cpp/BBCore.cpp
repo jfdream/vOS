@@ -2,7 +2,7 @@
 // Created by Milk on 4/9/21.
 //
 
-#include "BoxCore.h"
+#include "BBCore.h"
 #include "Log.h"
 #include "IO.h"
 #include <jni.h>
@@ -34,26 +34,26 @@ JNIEnv *ensureEnvCreated() {
     return env;
 }
 
-int BoxCore::getCallingUid(JNIEnv *env, int orig) {
+int BBCore::GetCallingUid(JNIEnv *env, int orig) {
     env = ensureEnvCreated();
     return env->CallStaticIntMethod(VMEnv.NativeCoreClass, VMEnv.getCallingUidId, orig);
 }
 
-jstring BoxCore::redirectPathString(JNIEnv *env, jstring path) {
+jstring BBCore::Redirect(JNIEnv *env, jstring path) {
     env = ensureEnvCreated();
     return (jstring) env->CallStaticObjectMethod(VMEnv.NativeCoreClass, VMEnv.redirectPathString, path);
 }
 
-jobject BoxCore::redirectPathFile(JNIEnv *env, jobject path) {
+jobject BBCore::Redirect(JNIEnv *env, jobject path) {
     env = ensureEnvCreated();
     return env->CallStaticObjectMethod(VMEnv.NativeCoreClass, VMEnv.redirectPathFile, path);
 }
 
-int BoxCore::getApiLevel() {
+int BBCore::GetApiLevel() {
     return VMEnv.api_level;
 }
 
-JavaVM *BoxCore::getJavaVM() {
+JavaVM *BBCore::GetJavaVM() {
     return VMEnv.vm;
 }
 

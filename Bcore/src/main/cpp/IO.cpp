@@ -52,7 +52,7 @@ jstring IO::redirectPath(JNIEnv *env, jstring path) {
 //    const char *redirect = redirectPath(pathC);
 //    env->ReleaseStringUTFChars(path, pathC);
 //    return env->NewStringUTF(redirect);
-    return BoxCore::redirectPathString(env, path);
+    return BBCore::Redirect(env, path);
 }
 
 jobject IO::redirectPath(JNIEnv *env, jobject path) {
@@ -62,7 +62,7 @@ jobject IO::redirectPath(JNIEnv *env, jobject path) {
 //    jobject file = env->NewObject(fileClazz, fileNew, redirect);
 //    env->DeleteLocalRef(pathStr);
 //    env->DeleteLocalRef(redirect);
-    return BoxCore::redirectPathFile(env, path);
+    return BBCore::Redirect(env, path);
 }
 
 void IO::addRule(const char *targetPath, const char *relocatePath) {
