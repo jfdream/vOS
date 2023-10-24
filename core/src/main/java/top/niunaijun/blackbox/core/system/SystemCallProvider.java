@@ -27,7 +27,6 @@ import top.niunaijun.blackbox.core.system.notification.BNotificationManagerServi
 import top.niunaijun.blackbox.core.system.os.BStorageManagerService;
 import top.niunaijun.blackbox.core.system.pm.BPackageInstallerService;
 import top.niunaijun.blackbox.core.system.pm.BPackageManagerService;
-import top.niunaijun.blackbox.core.system.pm.BXposedManagerService;
 import top.niunaijun.blackbox.core.system.user.BUserHandle;
 import top.niunaijun.blackbox.core.system.user.BUserManagerService;
 import top.niunaijun.blackbox.entity.pm.InstallOption;
@@ -54,10 +53,24 @@ public class SystemCallProvider extends ContentProvider {
         return true;
     }
 
+
+    public String description(Bundle bundle) {
+        if (bundle == null) {
+            return "";
+        }
+        StringBuilder v = new StringBuilder("{\n");
+        for (String key: bundle.keySet())
+        {
+            v.append("  ").append(key).append(":").append(bundle.getString(key)).append(",").append("\n");
+        }
+        v.append("}");
+        return v.toString();
+    }
+
     @Nullable
     @Override
     public Bundle call(@NonNull String method, @Nullable String arg, @Nullable Bundle extras) {
-        Log.d(TAG, "call: " + method + ", " + extras);
+        Log.d(TAG, "call: " + method + ", arg:" + arg + " bundle:" + description(extras));
         if ("VM".equals(method)) {
             Bundle bundle = new Bundle();
             if (extras != null) {
@@ -109,7 +122,6 @@ public class SystemCallProvider extends ContentProvider {
         mServices.add(BJobManagerService.get());
         mServices.add(BStorageManagerService.get());
         mServices.add(BPackageInstallerService.get());
-        mServices.add(BXposedManagerService.get());
         mServices.add(BProcessManagerService.get());
         mServices.add(BAccountManagerService.get());
         mServices.add(BLocationManagerService.get());

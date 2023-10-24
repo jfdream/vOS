@@ -61,10 +61,6 @@ public class BEnvironment {
         return new File(getSystemDir(), "shared-user.conf");
     }
 
-    public static File getXPModuleConf() {
-        return new File(getSystemDir(), "xposed-module.conf");
-    }
-
     public static File getFakeLocationConf() {
         return new File(getSystemDir(), "fake-location.conf");
     }

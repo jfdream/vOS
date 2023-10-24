@@ -114,9 +114,6 @@ public class BBCore extends ClientConfiguration {
     }
 
     public void doAttachBaseContext(Context context, ClientConfiguration clientConfiguration) {
-        if (clientConfiguration == null) {
-            throw new IllegalArgumentException("ClientConfiguration is null!");
-        }
         initPineHooker();
         sContext = context;
         mClientConfiguration = clientConfiguration;
@@ -359,8 +356,8 @@ public class BBCore extends ClientConfiguration {
 
     private void initNotificationManager() {
         NotificationManager nm = (NotificationManager) BBCore.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-        String CHANNEL_ONE_ID = BBCore.getContext().getPackageName() + ".blackbox_core";
-        String CHANNEL_ONE_NAME = "blackbox_core";
+        String CHANNEL_ONE_ID = BBCore.getContext().getPackageName() + ".core";
+        String CHANNEL_ONE_NAME = "core";
         if (BuildCompat.isOreo()) {
             NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ONE_ID,
                     CHANNEL_ONE_NAME, NotificationManager.IMPORTANCE_HIGH);

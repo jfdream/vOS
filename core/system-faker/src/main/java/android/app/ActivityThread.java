@@ -21,7 +21,7 @@ import java.util.Objects;
  * 此处无Bug
  */
 public class ActivityThread {
-    public H mH = null;
+    public H mH;
     public AppBindData mBoundApplication;
     public Application mInitialApplication;
     public Instrumentation mInstrumentation;
