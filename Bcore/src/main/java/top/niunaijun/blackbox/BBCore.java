@@ -208,9 +208,10 @@ public class BBCore extends ClientConfiguration {
         try {
             // 通过系统 API 获取该包名对应的 PackageInfo
             PackageInfo packageInfo = getPackageManager().getPackageInfo(packageName, 0);
-            Log.i(TAG, "getPackageInfo:" + packageName + " sourceDir:" + packageInfo.applicationInfo.sourceDir);
+            String sourceDir = packageInfo.applicationInfo.sourceDir;
+            Log.i(TAG, "getPackageInfo:" + packageName + " sourceDir:" + sourceDir);
             // 通过 BPackageManager 安装 APK
-            return getBPackageManager().installPackageAsUser(packageInfo.applicationInfo.sourceDir, InstallOption.installBySystem(), userId);
+            return getBPackageManager().installPackageAsUser(sourceDir, InstallOption.installBySystem(), userId);
         } catch (PackageManager.NameNotFoundException e) {
             e.printStackTrace();
             return new InstallResult().installError(e.getMessage());
