@@ -81,7 +81,7 @@ void enableIO(JNIEnv *env, jclass clazz) {
 
     BaseHook::init(env);
     UnixFileSystemHook::init(env);
-//    RuntimeHook::init(env);
+    RuntimeHook::init(env);
     BinderHook::init(env);
 }
 
@@ -95,7 +95,7 @@ int registerNativeMethods(JNIEnv *env, const char *className,
                           JNINativeMethod *gMethods, int numMethods) {
     jclass clazz;
     clazz = env->FindClass(className);
-    if (clazz == nullptr || env->RegisterNatives(clazz, gMethods, numMethods) < 0) {
+    if (env->RegisterNatives(clazz, gMethods, numMethods) < 0) {
         return JNI_FALSE;
     }
     return JNI_TRUE;

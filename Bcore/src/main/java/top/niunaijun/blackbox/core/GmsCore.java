@@ -47,18 +47,18 @@ public class GmsCore {
     }
 
     private static InstallResult installPackages(Set<String> list, int userId) {
-        BBCore BBCore = BBCore.get();
+        BBCore core = BBCore.get();
         for (String packageName : list) {
-            if (BBCore.isInstalled(packageName, userId)) {
+            if (core.isInstalled(packageName, userId)) {
                 continue;
             }
             try {
-                BBCore.getContext().getPackageManager().getApplicationInfo(packageName, 0);
+                core.getContext().getPackageManager().getApplicationInfo(packageName, 0);
             } catch (PackageManager.NameNotFoundException e) {
                 // Ignore
                 continue;
             }
-            InstallResult installResult = BBCore.installPackageAsUser(packageName, userId);
+            InstallResult installResult = core.installPackageAsUser(packageName, userId);
             if (!installResult.success) {
                 return installResult;
             }
@@ -67,9 +67,9 @@ public class GmsCore {
     }
 
     private static void uninstallPackages(Set<String> list, int userId) {
-        BBCore BBCore = BBCore.get();
+        BBCore core = BBCore.get();
         for (String packageName : list) {
-            BBCore.uninstallPackageAsUser(packageName, userId);
+            core.uninstallPackageAsUser(packageName, userId);
         }
     }
 
