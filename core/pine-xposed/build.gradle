@@ -30,6 +30,6 @@ android {
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(':android-mirror')
-    implementation project(':Bcore:black-fake')
-    compileOnly project(':Bcore:pine-core')
+    implementation project(':core:system-faker')
+    compileOnly project(':core:pine-core')
 }

@@ -61,9 +61,9 @@ dependencies {
 
     implementation "com.github.CodingGay.BlackReflection:core:$rootProject.ext.blackReflection"
 
-    implementation project(':Bcore:black-fake')
+    implementation project(':core:system-faker')
     implementation project(':android-mirror')
 
-    implementation project(':Bcore:pine-core')
-    implementation project(':Bcore:pine-xposed')
+    implementation project(':core:pine-core')
+    implementation project(':core:pine-xposed')
 }

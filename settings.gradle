@@ -1,8 +1,8 @@
-include ':Bcore'
+include ':core'
 include ':app'
-include ':Bcore:black-fake'
-include ':Bcore:pine-xposed'
-include ':Bcore:pine-core'
+include ':core:system-faker'
+include ':core:pine-xposed'
+include ':core:pine-core'
 include ':android-mirror'
 
 rootProject.name = "BlackBox"
