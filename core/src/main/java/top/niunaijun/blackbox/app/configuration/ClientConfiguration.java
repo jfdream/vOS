@@ -17,10 +17,6 @@ public abstract class ClientConfiguration {
     }
 
     public abstract String getHostPackageName();
-
-    public boolean isEnableDaemonService() {
-        return true;
-    }
     /**
      * This method is called when an internal application requests to install a new application.
      *

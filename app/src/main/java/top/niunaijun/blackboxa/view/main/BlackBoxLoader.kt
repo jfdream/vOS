@@ -90,7 +90,6 @@ class BlackBoxLoader {
     }
 
     fun attachBaseContext(context: Context) {
-        Log.i(TAG, "attachBaseContext:" + context.packageName);
         BBCore.get().doAttachBaseContext(context, object : ClientConfiguration() {
             override fun getHostPackageName(): String {
                 return context.packageName
@@ -113,8 +112,6 @@ class BlackBoxLoader {
     }
 
     fun doOnCreate(context: Context) {
-        BBCore.get().doCreate()
-
-        Log.i(TAG, "doOnCreate:" + context.packageName);
+        BBCore.get().doCreate(context)
     }
 }

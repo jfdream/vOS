@@ -28,6 +28,6 @@ public abstract class MethodHook {
     protected abstract Object hook(Object who, Method method, Object[] args) throws Throwable;
 
     protected boolean isEnable() {
-        return BBCore.get().isBlackProcess();
+        return BBCore.get().isAppProcess();
     }
 }

@@ -75,7 +75,7 @@ public class HookManager {
     }
 
     public void init() {
-        if (BBCore.get().isBlackProcess() || BBCore.get().isServerProcess()) {
+        if (BBCore.get().isAppProcess() || BBCore.get().isServerProcess()) {
             addInjector(new IDisplayManagerProxy());
             addInjector(new OsStub());
             addInjector(new IActivityManagerProxy());

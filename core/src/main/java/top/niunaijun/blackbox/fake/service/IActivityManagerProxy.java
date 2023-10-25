@@ -275,7 +275,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
 
         @Override
         protected boolean isEnable() {
-            return BBCore.get().isBlackProcess() || BBCore.get().isServerProcess();
+            return BBCore.get().isAppProcess() || BBCore.get().isServerProcess();
         }
     }
 

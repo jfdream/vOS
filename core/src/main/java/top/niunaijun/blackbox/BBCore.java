@@ -128,26 +128,24 @@ public class BBCore extends ClientConfiguration {
         } else {
             mProcessType = ProcessType.BAppClient;
         }
-        if (BBCore.get().isBlackProcess()) {
+        if (BBCore.get().isAppProcess()) {
             BEnvironment.load();
         }
         if (isServerProcess()) {
-            if (clientConfiguration.isEnableDaemonService()) {
-                Intent intent = new Intent();
-                intent.setClass(getContext(), DaemonService.class);
-                if (BuildCompat.isOreo()) {
-                    getContext().startForegroundService(intent);
-                } else {
-                    getContext().startService(intent);
-                }
+            Intent intent = new Intent();
+            intent.setClass(getContext(), DaemonService.class);
+            if (BuildCompat.isOreo()) {
+                getContext().startForegroundService(intent);
+            } else {
+                getContext().startService(intent);
             }
         }
         HookManager.get().init();
     }
 
-    public void doCreate() {
+    public void doCreate(Context context) {
         // fix contentProvider
-        if (isBlackProcess()) {
+        if (isAppProcess()) {
             ContentProviderDelegate.init();
         }
         if (!isServerProcess()) {
@@ -311,7 +309,7 @@ public class BBCore extends ClientConfiguration {
         Main,
     }
 
-    public boolean isBlackProcess() {
+    public boolean isAppProcess() {
         return mProcessType == ProcessType.BAppClient;
     }
 
