@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import top.niunaijun.blackbox.app.BActivityThread;
-import top.niunaijun.blackbox.core.system.ServiceManager;
+import top.niunaijun.blackbox.core.system.BServiceManager;
 import top.niunaijun.blackbox.core.system.location.IBLocationManagerService;
 import top.niunaijun.blackbox.entity.location.BCell;
 import top.niunaijun.blackbox.entity.location.BLocation;
@@ -28,7 +28,7 @@ public class BLocationManager extends BlackManager<IBLocationManagerService> {
 
     @Override
     protected String getServiceName() {
-        return ServiceManager.LOCATION_MANAGER;
+        return BServiceManager.LOCATION_MANAGER;
     }
 
     public static boolean isFakeLocationEnable() {

@@ -5,7 +5,7 @@ import android.os.RemoteException;
 import java.util.Collections;
 import java.util.List;
 
-import top.niunaijun.blackbox.core.system.ServiceManager;
+import top.niunaijun.blackbox.core.system.BServiceManager;
 import top.niunaijun.blackbox.core.system.user.BUserInfo;
 import top.niunaijun.blackbox.core.system.user.IBUserManagerService;
 
@@ -26,7 +26,7 @@ public class BUserManager extends BlackManager<IBUserManagerService> {
 
     @Override
     protected String getServiceName() {
-        return ServiceManager.USER_MANAGER;
+        return BServiceManager.USER_MANAGER;
     }
 
     public BUserInfo createUser(int userId) {

@@ -9,7 +9,7 @@ import android.os.RemoteException;
 import java.util.Map;
 
 import top.niunaijun.blackbox.app.BActivityThread;
-import top.niunaijun.blackbox.core.system.ServiceManager;
+import top.niunaijun.blackbox.core.system.BServiceManager;
 import top.niunaijun.blackbox.core.system.accounts.IBAccountManagerService;
 
 /**
@@ -24,7 +24,7 @@ public class BAccountManager extends BlackManager<IBAccountManagerService> {
 
     @Override
     protected String getServiceName() {
-        return ServiceManager.ACCOUNT_MANAGER;
+        return BServiceManager.ACCOUNT_MANAGER;
     }
 
     public String getPassword(Account account) {

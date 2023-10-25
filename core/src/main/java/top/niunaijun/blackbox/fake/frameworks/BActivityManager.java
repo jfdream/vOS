@@ -9,7 +9,7 @@ import android.os.IBinder;
 import android.os.RemoteException;
 
 import top.niunaijun.blackbox.app.BActivityThread;
-import top.niunaijun.blackbox.core.system.ServiceManager;
+import top.niunaijun.blackbox.core.system.BServiceManager;
 import top.niunaijun.blackbox.core.system.am.IBActivityManagerService;
 import top.niunaijun.blackbox.entity.AppConfig;
 import top.niunaijun.blackbox.entity.UnbindRecord;
@@ -34,7 +34,7 @@ public class BActivityManager extends BlackManager<IBActivityManagerService> {
 
     @Override
     protected String getServiceName() {
-        return ServiceManager.ACTIVITY_MANAGER;
+        return BServiceManager.ACTIVITY_MANAGER;
     }
 
     public AppConfig initProcess(String packageName, String processName, int userId) {

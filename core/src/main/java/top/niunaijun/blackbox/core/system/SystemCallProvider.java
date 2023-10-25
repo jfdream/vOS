@@ -42,8 +42,6 @@ import top.niunaijun.blackbox.utils.compat.BundleCompat;
  */
 public class SystemCallProvider extends ContentProvider {
     public static final String TAG = "iOS";
-
-    private final List<ISystemService> mServices = new ArrayList<>();
     private final static AtomicBoolean isStartup = new AtomicBoolean(false);
 
     @Override
@@ -75,7 +73,7 @@ public class SystemCallProvider extends ContentProvider {
             Bundle bundle = new Bundle();
             if (extras != null) {
                 String name = extras.getString("_B_|_server_name_");
-                BundleCompat.putBinder(bundle, "_B_|_server_", ServiceManager.getService(name));
+                BundleCompat.putBinder(bundle, "_B_|_server_", BServiceManager.getService(name));
             }
             return bundle;
         }
@@ -116,6 +114,7 @@ public class SystemCallProvider extends ContentProvider {
             return;
         BEnvironment.load();
 
+        List<ISystemService> mServices = new ArrayList<>();
         mServices.add(BPackageManagerService.get());
         mServices.add(BUserManagerService.get());
         mServices.add(BActivityManagerService.get());

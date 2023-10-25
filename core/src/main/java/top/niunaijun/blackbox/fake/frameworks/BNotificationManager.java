@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import top.niunaijun.blackbox.app.BActivityThread;
-import top.niunaijun.blackbox.core.system.ServiceManager;
+import top.niunaijun.blackbox.core.system.BServiceManager;
 import top.niunaijun.blackbox.core.system.notification.IBNotificationManagerService;
 
 /**
@@ -24,7 +24,7 @@ public class BNotificationManager extends BlackManager<IBNotificationManagerServ
 
     @Override
     protected String getServiceName() {
-        return ServiceManager.NOTIFICATION_MANAGER;
+        return BServiceManager.NOTIFICATION_MANAGER;
     }
 
     public NotificationChannel getNotificationChannel(String channelId) {

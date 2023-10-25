@@ -16,7 +16,7 @@ import java.util.List;
 
 import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.app.BActivityThread;
-import top.niunaijun.blackbox.core.system.ServiceManager;
+import top.niunaijun.blackbox.core.system.BServiceManager;
 import top.niunaijun.blackbox.core.system.pm.IBPackageManagerService;
 import top.niunaijun.blackbox.entity.pm.InstallOption;
 import top.niunaijun.blackbox.entity.pm.InstallResult;
@@ -39,7 +39,7 @@ public class BPackageManager extends BlackManager<IBPackageManagerService> {
 
     @Override
     protected String getServiceName() {
-        return ServiceManager.PACKAGE_MANAGER;
+        return BServiceManager.PACKAGE_MANAGER;
     }
 
     public Intent getLaunchIntentForPackage(String packageName, int userId) {

@@ -4,7 +4,7 @@ import android.net.Uri;
 import android.os.RemoteException;
 import android.os.storage.StorageVolume;
 
-import top.niunaijun.blackbox.core.system.ServiceManager;
+import top.niunaijun.blackbox.core.system.BServiceManager;
 import top.niunaijun.blackbox.core.system.os.IBStorageManagerService;
 
 /**
@@ -24,7 +24,7 @@ public class BStorageManager extends BlackManager<IBStorageManagerService> {
 
     @Override
     protected String getServiceName() {
-        return ServiceManager.STORAGE_MANAGER;
+        return BServiceManager.STORAGE_MANAGER;
     }
 
     public StorageVolume[] getVolumeList(int uid, String packageName, int flags, int userId) {

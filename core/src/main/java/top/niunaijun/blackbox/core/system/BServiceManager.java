@@ -12,6 +12,7 @@ import top.niunaijun.blackbox.core.system.am.BJobManagerService;
 import top.niunaijun.blackbox.core.system.location.BLocationManagerService;
 import top.niunaijun.blackbox.core.system.notification.BNotificationManagerService;
 import top.niunaijun.blackbox.core.system.os.BStorageManagerService;
+import top.niunaijun.blackbox.core.system.pm.BPackageInstallerService;
 import top.niunaijun.blackbox.core.system.pm.BPackageManagerService;
 import top.niunaijun.blackbox.core.system.user.BUserManagerService;
 
@@ -23,8 +24,8 @@ import top.niunaijun.blackbox.core.system.user.BUserManagerService;
  * しーＪ
  * 此处无Bug
  */
-public class ServiceManager {
-    private static ServiceManager sServiceManager = null;
+public class BServiceManager {
+    private static BServiceManager sServiceManager = null;
     public static final String ACTIVITY_MANAGER = "activity_manager";
     public static final String JOB_MANAGER = "job_manager";
     public static final String PACKAGE_MANAGER = "package_manager";
@@ -36,11 +37,11 @@ public class ServiceManager {
 
     private final Map<String, IBinder> mCaches = new HashMap<>();
 
-    public static ServiceManager get() {
+    public static BServiceManager get() {
         if (sServiceManager == null) {
-            synchronized (ServiceManager.class) {
+            synchronized (BServiceManager.class) {
                 if (sServiceManager == null) {
-                    sServiceManager = new ServiceManager();
+                    sServiceManager = new BServiceManager();
                 }
             }
         }
@@ -51,7 +52,7 @@ public class ServiceManager {
         return get().getServiceInternal(name);
     }
 
-    private ServiceManager() {
+    private BServiceManager() {
         mCaches.put(ACTIVITY_MANAGER, BActivityManagerService.get());
         mCaches.put(JOB_MANAGER, BJobManagerService.get());
         mCaches.put(PACKAGE_MANAGER, BPackageManagerService.get());

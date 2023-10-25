@@ -4,7 +4,7 @@ import android.app.job.JobInfo;
 import android.os.RemoteException;
 
 import top.niunaijun.blackbox.app.BActivityThread;
-import top.niunaijun.blackbox.core.system.ServiceManager;
+import top.niunaijun.blackbox.core.system.BServiceManager;
 import top.niunaijun.blackbox.core.system.am.IBJobManagerService;
 import top.niunaijun.blackbox.entity.JobRecord;
 
@@ -25,7 +25,7 @@ public class BJobManager extends BlackManager<IBJobManagerService> {
 
     @Override
     protected String getServiceName() {
-        return ServiceManager.JOB_MANAGER;
+        return BServiceManager.JOB_MANAGER;
     }
 
     public JobInfo schedule(JobInfo info) {
