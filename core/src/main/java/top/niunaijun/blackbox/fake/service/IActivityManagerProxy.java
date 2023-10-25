@@ -112,24 +112,23 @@ public class IActivityManagerProxy extends ClassInvocationStub {
             Object auth = args[authIndex];
             Object content;
 
-            if (auth instanceof String) {
-                if (ProxyManifest.isProxy((String) auth)) {
-                    return method.invoke(who, args);
-                }
-
-                if (BuildCompat.isQ()) {
-                    args[1] = BBCore.getHostPkg();
-                }
-
-                if (auth.equals("settings") || auth.equals("media") || auth.equals("telephony")) {
-                    content = method.invoke(who, args);
-                    ContentProviderDelegate.update(content, (String) auth);
-                    return content;
-                } else {
-                    Log.d(TAG, "hook getContentProvider: " + auth);
-
-                    ProviderInfo providerInfo = BBCore.getBPackageManager().resolveContentProvider((String) auth, GET_META_DATA, BActivityThread.getUserId());
-                    if (providerInfo == null) {
+            if (!(auth instanceof String)) {
+                return method.invoke(who, args);
+            }
+            if (ProxyManifest.isProxy((String) auth)) {
+                return method.invoke(who, args);
+            }
+            if (BuildCompat.isQ()) {
+                args[1] = BBCore.getHostPkg();
+            }
+            if (auth.equals("settings") || auth.equals("media") || auth.equals("telephony")) {
+                content = method.invoke(who, args);
+                ContentProviderDelegate.update(content, (String) auth);
+                return content;
+            } else {
+                Log.d(TAG, "hook getContentProvider: " + auth);
+                ProviderInfo providerInfo = BBCore.getBPackageManager().resolveContentProvider((String) auth, GET_META_DATA, BActivityThread.getUserId());
+                if (providerInfo == null) {
 //                        Log.d(TAG, "hook system: " + auth);
 //                        Object invoke = method.invoke(who, args);
 //                        if (invoke != null) {
@@ -142,34 +141,35 @@ public class IActivityManagerProxy extends ClassInvocationStub {
 //                                        .set(new SettingsProviderStub().wrapper((IInterface) provider, BlackBoxCore.getHostPkg()));
 //                            }
 //                        }
-                        return null;
-                    }
-
-                    Log.d(TAG, "hook app: " + auth);
-                    IBinder providerBinder = null;
-                    if (BActivityThread.getAppPid() != -1) {
-                        AppConfig appConfig = BBCore.getBActivityManager().initProcess(providerInfo.packageName, providerInfo.processName, BActivityThread.getUserId());
-                        if (appConfig.bpid != BActivityThread.getAppPid()) {
-                            providerBinder = BBCore.getBActivityManager().acquireContentProviderClient(providerInfo);
-                        }
-                        args[authIndex] = ProxyManifest.getProxyAuthorities(appConfig.bpid);
-                        args[getUserIndex()] = BBCore.getHostUserId();
-                    }
-                    if (providerBinder == null)
-                        return null;
-
-                    content = method.invoke(who, args);
-                    Reflector.with(content)
-                            .field("info")
-                            .set(providerInfo);
-                    Reflector.with(content)
-                            .field("provider")
-                            .set(new ContentProviderStub().wrapper(BRContentProviderNative.get().asInterface(providerBinder), BActivityThread.getAppPackageName()));
+                    return null;
                 }
 
-                return content;
+                Log.d(TAG, "hook app: " + auth);
+                IBinder providerBinder = null;
+                if (BActivityThread.getAppPid() != -1) {
+                    AppConfig appConfig = BBCore.getBActivityManager().initProcess(providerInfo.packageName, providerInfo.processName, BActivityThread.getUserId());
+                    if (appConfig.bpid != BActivityThread.getAppPid()) {
+                        providerBinder = BBCore.getBActivityManager().acquireContentProviderClient(providerInfo);
+                    }
+                    args[authIndex] = ProxyManifest.getProxyAuthorities(appConfig.bpid);
+                    args[getUserIndex()] = BBCore.getHostUserId();
+                }
+                if (providerBinder == null)
+                    return null;
+
+                content = method.invoke(who, args);
+                Reflector.with(content)
+                        .field("info")
+                        .set(providerInfo);
+
+                Object provider = new ContentProviderStub().wrapper(BRContentProviderNative.get().asInterface(providerBinder), BActivityThread.getAppPackageName());
+
+                Reflector.with(content)
+                        .field("provider")
+                        .set(provider);
             }
-            return method.invoke(who, args);
+
+            return content;
         }
 
         private int getAuthIndex() {

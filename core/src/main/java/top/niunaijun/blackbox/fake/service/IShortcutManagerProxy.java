@@ -3,9 +3,11 @@ package top.niunaijun.blackbox.fake.service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ShortcutInfo;
+import com.android.internal.infra.AndroidFuture;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import black.android.content.pm.BRIShortcutServiceStub;
 import black.android.os.BRServiceManager;
@@ -82,16 +84,13 @@ public class IShortcutManagerProxy extends BinderInvocationStub {
     public static class SetDynamicShortcuts extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            return null;
-        }
-    }
-
-    @ProxyMethod("GetFutureOrThrow")
-    public static class getFutureOrThrow extends MethodHook {
-        @Override
-        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            //TODO: badwin, 先临时返回不可用，避免崩溃问题
-            throw new RuntimeException("Not support getFutureOrThrow");
+            if (Objects.equals(method.getReturnType(), AndroidFuture.class)) {
+                return AndroidFuture.completedFuture(Boolean.TRUE);
+            }
+            else if (Objects.equals(Boolean.class, method.getReturnType())) {
+                return Boolean.TRUE;
+            }
+            return true;
         }
     }
 
