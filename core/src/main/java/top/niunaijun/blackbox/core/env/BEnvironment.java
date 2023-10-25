@@ -2,6 +2,7 @@ package top.niunaijun.blackbox.core.env;
 
 import java.io.File;
 import java.util.Locale;
+import java.util.Objects;
 
 import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.app.BActivityThread;
@@ -21,8 +22,7 @@ public class BEnvironment {
     private static final File sExternalVirtualRoot = BBCore.getContext().getExternalFilesDir("sdcard");
     public static void load() {
         FileUtils.mkdirs(sVirtualRoot);
-        assert sExternalVirtualRoot != null;
-        FileUtils.mkdirs(sExternalVirtualRoot);
+        FileUtils.mkdirs(Objects.requireNonNull(sExternalVirtualRoot));
         FileUtils.mkdirs(getSystemDir());
         FileUtils.mkdirs(getCacheDir());
         FileUtils.mkdirs(getProcDir());

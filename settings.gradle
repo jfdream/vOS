@@ -1,6 +1,6 @@
 include ':core'
 include ':app'
-include ':core:system-faker'
+include ':core:system-proxy'
 include ':core:pine-xposed'
 include ':core:pine-core'
 include ':android-mirror'
