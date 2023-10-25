@@ -24,8 +24,7 @@ public abstract class BlackManager<Service extends IInterface> {
         }
         try {
             String serviceName = getTClass().getName() + "$Stub";
-            mService = Reflector.on(serviceName).method("asInterface", IBinder.class)
-                    .call(BBCore.get().getService(getServiceName()));
+            mService = Reflector.on(serviceName).method("asInterface", IBinder.class).call(BBCore.get().getService(getServiceName()));
             mService.asBinder().linkToDeath(new IBinder.DeathRecipient() {
                 @Override
                 public void binderDied() {

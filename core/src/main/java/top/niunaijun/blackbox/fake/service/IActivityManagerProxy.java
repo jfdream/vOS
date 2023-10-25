@@ -110,7 +110,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
         protected Object hook(Object who, Method method, Object[] args) throws Exception {
             int authIndex = getAuthIndex();
             Object auth = args[authIndex];
-            Object content = null;
+            Object content;
 
             if (auth instanceof String) {
                 if (ProxyManifest.isProxy((String) auth)) {

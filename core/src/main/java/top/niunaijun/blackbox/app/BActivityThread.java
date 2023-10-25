@@ -53,6 +53,7 @@ import black.android.graphics.BRCompatibility;
 import black.android.security.net.config.BRNetworkSecurityConfigProvider;
 import black.com.android.internal.content.BRReferrerIntent;
 import black.dalvik.system.BRVMRuntime;
+import kotlinx.coroutines.Job;
 import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.app.configuration.AppLifecycleCallback;
 import top.niunaijun.blackbox.app.dispatcher.AppServiceDispatcher;
@@ -239,18 +240,19 @@ public class BActivityThread extends IBActivityThread.Stub {
         }
     }
 
-    public JobService createJobService(ServiceInfo serviceInfo) {
+    public Service createJobService(ServiceInfo serviceInfo) {
         if (!BActivityThread.currentActivityThread().isInit()) {
             BActivityThread.currentActivityThread().bindApplication(serviceInfo.packageName, serviceInfo.processName);
         }
         ClassLoader classLoader = BRLoadedApk.get(mBoundApplication.info).getClassLoader();
-        JobService service;
+        Service service;
         try {
-             service = (JobService) classLoader.loadClass(serviceInfo.name).newInstance();
+             service = (Service) classLoader.loadClass(serviceInfo.name).newInstance();
+             if (!(service instanceof JobService)) {
+                 Log.e(TAG, "Unable to create JobService " + serviceInfo.name + ", create a Service");
+             }
         } catch (Exception e) {
             e.printStackTrace();
-            Log.e(TAG, "Unable to create JobService " + serviceInfo.name
-                    + ": " + e);
             return null;
         }
 

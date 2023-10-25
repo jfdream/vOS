@@ -5,4 +5,4 @@ include ':core:pine-xposed'
 include ':core:pine-core'
 include ':android-mirror'
 
-rootProject.name = "BlackBox"
+rootProject.name = "vOS"

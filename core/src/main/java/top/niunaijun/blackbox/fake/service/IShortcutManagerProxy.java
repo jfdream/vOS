@@ -82,7 +82,16 @@ public class IShortcutManagerProxy extends BinderInvocationStub {
     public static class SetDynamicShortcuts extends MethodHook {
         @Override
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
-            return true;
+            return null;
+        }
+    }
+
+    @ProxyMethod("GetFutureOrThrow")
+    public static class getFutureOrThrow extends MethodHook {
+        @Override
+        protected Object hook(Object who, Method method, Object[] args) throws Throwable {
+            //TODO: badwin, 先临时返回不可用，避免崩溃问题
+            throw new RuntimeException("Not support getFutureOrThrow");
         }
     }
 

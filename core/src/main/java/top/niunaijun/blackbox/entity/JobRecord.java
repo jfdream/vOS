@@ -1,5 +1,6 @@
 package top.niunaijun.blackbox.entity;
 
+import android.app.Service;
 import android.app.job.JobInfo;
 import android.app.job.JobService;
 import android.content.pm.ServiceInfo;
@@ -20,7 +21,7 @@ public class JobRecord implements Parcelable {
     public JobInfo mJobInfo;
     public ServiceInfo mServiceInfo;
 
-    public JobService mJobService;
+    public Service mJobService;
 
     public JobRecord() {
     }

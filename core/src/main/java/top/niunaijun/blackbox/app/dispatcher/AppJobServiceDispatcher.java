@@ -1,5 +1,6 @@
 package top.niunaijun.blackbox.app.dispatcher;
 
+import android.app.Service;
 import android.app.job.JobParameters;
 import android.app.job.JobService;
 import android.content.res.Configuration;
@@ -29,10 +30,11 @@ public class AppJobServiceDispatcher {
 
     public boolean onStartJob(JobParameters params) {
         try {
-            JobService jobService = getJobService(params.getJobId());
-            if (jobService == null)
+            Service jobService = getJobService(params.getJobId());
+            if (!(jobService instanceof JobService))
                 return false;
-            return jobService.onStartJob(params);
+            JobService jbs = (JobService) jobService;
+            return jbs.onStartJob(params);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -40,10 +42,11 @@ public class AppJobServiceDispatcher {
     }
 
     public boolean onStopJob(JobParameters params) {
-        JobService jobService = getJobService(params.getJobId());
-        if (jobService == null)
+        Service jobService = getJobService(params.getJobId());
+        if (!(jobService instanceof JobService))
             return false;
-        boolean b = jobService.onStopJob(params);
+        JobService jbs = (JobService) jobService;
+        boolean b = jbs.onStopJob(params);
         jobService.onDestroy();
         synchronized (mJobRecords) {
             mJobRecords.remove(params.getJobId());
@@ -83,7 +86,7 @@ public class AppJobServiceDispatcher {
         }
     }
 
-    JobService getJobService(int jobId) {
+    Service getJobService(int jobId) {
         synchronized (mJobRecords) {
             JobRecord jobRecord = mJobRecords.get(jobId);
             if (jobRecord != null && jobRecord.mJobService != null) {
