@@ -96,7 +96,10 @@ public class BPackageManagerService extends IBPackageManagerService.Stub impleme
 
     @Override
     public ApplicationInfo getApplicationInfo(String packageName, int flags, int userId) {
-        if (!sUserManager.exists(userId)) return null;
+        if (!sUserManager.exists(userId)) {
+            Log.i(TAG, "Invalid userId, not created:" + userId);
+            return null;
+        }
         if (Objects.equals(packageName, BBCore.getHostPkg())) {
             try {
                 return BBCore.getPackageManager().getApplicationInfo(packageName, flags);

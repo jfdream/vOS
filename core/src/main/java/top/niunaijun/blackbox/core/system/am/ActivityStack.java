@@ -52,7 +52,7 @@ import static android.content.pm.PackageManager.GET_ACTIVITIES;
  * 此处无Bug
  */
 public class ActivityStack {
-    public static final String TAG = "iOS";
+    public static final String TAG = "ActivityStack.iOS";
 
     private final ActivityManager mActivityManagerService;
     private final Map<Integer, TaskRecord> mTasks = new LinkedHashMap<>();
@@ -111,13 +111,13 @@ public class ActivityStack {
         Log.i(TAG, "startActivityLocked : " + resolveInfo.activityInfo);
         ActivityInfo activityInfo = resolveInfo.activityInfo;
 
-        ActivityRecord sourceRecord = findActivityRecordByToken(userId, resultTo);
-        if (sourceRecord == null) {
+        ActivityRecord activityRecord = findActivityRecordByToken(userId, resultTo);
+        if (activityRecord == null) {
             resultTo = null;
         }
         TaskRecord sourceTask = null;
-        if (sourceRecord != null) {
-            sourceTask = sourceRecord.task;
+        if (activityRecord != null) {
+            sourceTask = activityRecord.task;
         }
 
         String taskAffinity = ComponentUtils.getTaskAffinity(activityInfo);
@@ -269,7 +269,8 @@ public class ActivityStack {
         ProxyActivityRecord stubRecord = new ProxyActivityRecord(userId, info, intent, record);
         ProcessRecord targetApp = BProcessManagerService.get().startProcessLocked(info.packageName, info.processName, userId, -1, Binder.getCallingPid());
         if (targetApp == null) {
-            throw new RuntimeException("Unable to create process, name:" + info.name);
+            Log.e(TAG, "Unable to create process, name:" + info.name);
+            return null;
         }
         return getStartStubActivityIntentInner(intent, targetApp.bpid, userId, stubRecord, info);
     }

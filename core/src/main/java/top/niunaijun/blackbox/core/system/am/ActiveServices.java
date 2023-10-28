@@ -59,14 +59,11 @@ public class ActiveServices {
 
         runningServiceRecord.getAndIncrementStartId();
         final Intent stubServiceIntent = createStubServiceIntent(intent, serviceInfo, processRecord, runningServiceRecord);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    BBCore.getContext().startService(stubServiceIntent);
-                } catch (Throwable e) {
-                    e.printStackTrace();
-                }
+        new Thread(() -> {
+            try {
+                BBCore.getContext().startService(stubServiceIntent);
+            } catch (Throwable e) {
+                e.printStackTrace();
             }
         }).start();
     }
