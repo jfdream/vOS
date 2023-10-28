@@ -346,9 +346,9 @@ public class BActivityManagerService extends IBActivityManagerService.Stub imple
     @Override
     public void startActivity(Intent intent, int userId) {
         UserSpace userSpace = getOrCreateSpaceLocked(userId);
-        Log.i(TAG, "startActivity:" + Process.myPid());
         synchronized (userSpace.mStack) {
-            userSpace.mStack.startActivityLocked(userId, intent, null, null, null, -1, -1, null);
+            int status = userSpace.mStack.startActivityLocked(userId, intent, null, null, null, -1, -1, null);
+            Log.i(TAG, "startActivity, myPid:" + Process.myPid() + " status:" + status);
         }
     }
 
