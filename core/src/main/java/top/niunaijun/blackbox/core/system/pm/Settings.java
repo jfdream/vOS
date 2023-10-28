@@ -71,7 +71,7 @@ import top.niunaijun.blackbox.utils.compat.PackageParserCompat;
     }
 
     private boolean registerAppIdLPw(BPackageSettings p) {
-        boolean createdNew = false;
+        boolean createdNew;
         String sharedUserId = p.pkg.mSharedUserId;
         SharedUserSetting sharedUserSetting = null;
         if (sharedUserId != null) {
@@ -171,6 +171,7 @@ import top.niunaijun.blackbox.utils.compat.PackageParserCompat;
             File appRootDir = BEnvironment.getAppRootDir();
             FileUtils.mkdirs(appRootDir);
             File[] apps = appRootDir.listFiles();
+            if (apps == null) return;
             for (File app : apps) {
                 if (!app.isDirectory()) {
                     continue;

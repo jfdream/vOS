@@ -20,7 +20,7 @@ import java.io.File
  * @CreateDate: 2021/5/6 23:38
  */
 class BlackBoxLoader {
-    val TAG: String = "iOS"
+    val TAG = "iOS"
     private var mHideRoot by AppSharedPreferenceDelegate(App.getContext(), false)
     private var mDaemonEnable by AppSharedPreferenceDelegate(App.getContext(), false)
     private var mShowShortcutPermissionDialog by AppSharedPreferenceDelegate(App.getContext(),true)
@@ -97,10 +97,6 @@ class BlackBoxLoader {
 
             override fun isHideRoot(): Boolean {
                 return mHideRoot
-            }
-
-            override fun isEnableDaemonService(): Boolean {
-                return mDaemonEnable
             }
 
             override fun requestInstallPackage(file: File?): Boolean {

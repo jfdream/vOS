@@ -3,10 +3,11 @@ package top.niunaijun.blackbox.fake.delegate;
 import android.net.Uri;
 import android.os.Build;
 import android.os.IInterface;
-import android.util.ArrayMap;
+import android.util.Log;
 
 import java.lang.reflect.Proxy;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 import black.android.app.BRActivityThread;
@@ -22,6 +23,7 @@ import black.android.providers.BRSettingsSystem;
 import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.fake.service.context.providers.ContentProviderStub;
 import top.niunaijun.blackbox.fake.service.context.providers.SettingsProviderStub;
+import top.niunaijun.blackbox.utils.StringUtils;
 import top.niunaijun.blackbox.utils.compat.BuildCompat;
 
 /**
@@ -33,7 +35,7 @@ import top.niunaijun.blackbox.utils.compat.BuildCompat;
  * 此处无Bug
  */
 public class ContentProviderDelegate {
-    public static final String TAG = "ContentProviderDelegate";
+    public static final String TAG = "ContentProviderDelegate.iOS";
     private static final Set<String> sInjected = new HashSet<>();
 
     public static void update(Object holder, String auth) {
@@ -61,22 +63,23 @@ public class ContentProviderDelegate {
 
     public static void init() {
         clearSettingProvider();
-
         BBCore.getContext().getContentResolver().call(Uri.parse("content://settings"), "", null, null);
         Object activityThread = BBCore.mainThread();
-        ArrayMap<Object, Object> map = (ArrayMap<Object, Object>) BRActivityThread.get(activityThread).mProviderMap();
-
+        Map<?, ?> map = BRActivityThread.get(activityThread).mProviderMap();
         for (Object value : map.values()) {
             String[] mNames = BRActivityThreadProviderClientRecordP.get(value).mNames();
-            if (mNames == null || mNames.length <= 0) {
+            if (StringUtils.isEmpty(mNames)) {
                 continue;
             }
-            String providerName = mNames[0];
-            if (!sInjected.contains(providerName)) {
-                sInjected.add(providerName);
-                final IInterface iInterface = BRActivityThreadProviderClientRecordP.get(value).mProvider();
-                BRActivityThreadProviderClientRecordP.get(value)._set_mProvider(new ContentProviderStub().wrapper(iInterface, BBCore.getHostPkg()));
-                BRActivityThreadProviderClientRecordP.get(value)._set_mNames(new String[]{providerName});
+            String hostPkg = BBCore.getHostPkg();
+            for (String providerName : mNames) {
+                Log.i(TAG, "providerName:" + providerName + " hostPkg:" + hostPkg);
+                if (!sInjected.contains(providerName)) {
+                    sInjected.add(providerName);
+                    final IInterface iInterface = BRActivityThreadProviderClientRecordP.get(value).mProvider();
+                    BRActivityThreadProviderClientRecordP.get(value)._set_mProvider(new ContentProviderStub().wrapper(iInterface, hostPkg));
+                    BRActivityThreadProviderClientRecordP.get(value)._set_mNames(new String[]{providerName});
+                }
             }
         }
     }
