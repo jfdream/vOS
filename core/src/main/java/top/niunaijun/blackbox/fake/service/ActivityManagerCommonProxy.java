@@ -6,6 +6,7 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -32,7 +33,7 @@ import static android.content.pm.PackageManager.GET_META_DATA;
  * 此处无Bug
  */
 public class ActivityManagerCommonProxy {
-    public static final String TAG = "CommonStub";
+    public static final String TAG = "CommonStub.iOS";
 
     @ProxyMethod("startActivity")
     public static class StartActivity extends MethodHook {
@@ -40,7 +41,7 @@ public class ActivityManagerCommonProxy {
         protected Object hook(Object who, Method method, Object[] args) throws Throwable {
             MethodParameterUtils.replaceFirstAppPkg(args);
             Intent intent = getIntent(args);
-            Slog.d(TAG, "Hook in : " + intent);
+            Log.i(TAG, "Hook in : " + intent);
             assert intent != null;
             if (intent.getParcelableExtra("_B_|_target_") != null) {
                 return method.invoke(who, args);
@@ -76,6 +77,10 @@ public class ActivityManagerCommonProxy {
                         StartActivityCompat.getResolvedType(args),
                         BActivityThread.getUserId());
                 if (resolveInfo == null) {
+                    Uri data = intent.getData();
+                    if (data != null) {
+                        intent.setData(FileProviderHandler.convertFileUri(BActivityThread.getApplication(), data));
+                    }
                     intent.setPackage(origPackage);
                     return method.invoke(who, args);
                 }

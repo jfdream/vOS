@@ -8,7 +8,7 @@ import black.android.os.BRProcess;
 
 public class VirtualRuntime {
 
-    private static final String TAG = "iOS";
+    private static final String TAG = "VirtualRuntime.iOS";
 
     private static String sInitialPackageName;
     private static String sProcessName;

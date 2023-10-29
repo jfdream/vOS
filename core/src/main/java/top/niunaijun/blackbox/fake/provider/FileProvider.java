@@ -15,6 +15,7 @@ import android.os.Environment;
 import android.os.ParcelFileDescriptor;
 import android.provider.OpenableColumns;
 import android.text.TextUtils;
+import android.util.Log;
 import android.webkit.MimeTypeMap;
 
 import androidx.core.content.ContextCompat;
@@ -41,6 +42,8 @@ import static org.xmlpull.v1.XmlPullParser.START_TAG;
 public class FileProvider extends ContentProvider {
     private static final String[] COLUMNS = {
             OpenableColumns.DISPLAY_NAME, OpenableColumns.SIZE };
+
+    private static final String TAG = "FileProvider.iOS";
 
     private static final String
             META_DATA_FILE_PROVIDER_PATHS = "android.support.FILE_PROVIDER_PATHS";
@@ -157,6 +160,7 @@ public class FileProvider extends ContentProvider {
     public Cursor query(Uri uri, String[] projection, String selection,
                         String[] selectionArgs,
                         String sortOrder) {
+        Log.i(TAG, "query:" + uri);
         // ContentProvider has already checked granted permissions
         final File file = mStrategy.getFileForUri(uri);
 
@@ -197,12 +201,12 @@ public class FileProvider extends ContentProvider {
     @Override
     public String getType(Uri uri) {
         // ContentProvider has already checked granted permissions
-        final File file = mStrategy.getFileForUri(uri);
-
-        final int lastDot = file.getName().lastIndexOf('.');
+        File file = mStrategy.getFileForUri(uri);
+        int lastDot = file.getName().lastIndexOf('.');
         if (lastDot >= 0) {
-            final String extension = file.getName().substring(lastDot + 1);
-            final String mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+            String extension = file.getName().substring(lastDot + 1);
+            String mime = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+            Log.i(TAG, "mime type:" + mime);
             if (mime != null) {
                 return mime;
             }

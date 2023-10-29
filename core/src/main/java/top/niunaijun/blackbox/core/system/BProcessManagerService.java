@@ -91,14 +91,14 @@ public class BProcessManagerService implements ISystemService {
             mPidsSelfLocked.add(app);
 
             mProcessMap.put(buid, bProcess);
-            if (!initAppProcessL(app)) {
+            boolean initApp =  initAppProcessL(app);
+            if (!initApp) {
                 //init process fail
                 bProcess.remove(processName);
                 mPidsSelfLocked.remove(app);
-                app = null;
-            } else {
-                app.pid = getPid(BBCore.getContext(), ProxyManifest.getProcessName(app.bpid));
+                return null;
             }
+            app.pid = getPid(BBCore.getContext(), ProxyManifest.getProcessName(app.bpid));
         }
         return app;
     }
@@ -158,9 +158,11 @@ public class BProcessManagerService implements ISystemService {
         AppConfig appConfig = record.getClientConfig();
         Bundle bundle = new Bundle();
         bundle.putParcelable(AppConfig.KEY, appConfig);
+        // 设计的精妙之处，通过 ProxyContentProvider 实现进程的创建并通过 Binder 方式返回进程的 App 线程
         Bundle init = ProviderCall.callSafely(record.getProviderAuthority(), "_Black_|_init_process_", null, bundle);
         IBinder appThread = BundleCompat.getBinder(init, "_Black_|_client_");
         if (appThread == null || !appThread.isBinderAlive()) {
+            Log.e(TAG, "Application:" + record.getPackageName() + " launch failure");
             return false;
         }
         attachClientL(record, appThread);
@@ -169,18 +171,18 @@ public class BProcessManagerService implements ISystemService {
         return true;
     }
 
-    private void attachClientL(final ProcessRecord app, final IBinder appThread) {
-        IBActivityThread activityThread = IBActivityThread.Stub.asInterface(appThread);
+    private void attachClientL(final ProcessRecord app, final IBinder applicationThreadBinder) {
+        IBActivityThread activityThread = IBActivityThread.Stub.asInterface(applicationThreadBinder);
         if (activityThread == null) {
             app.kill();
             return;
         }
         try {
-            appThread.linkToDeath(new IBinder.DeathRecipient() {
+            applicationThreadBinder.linkToDeath(new IBinder.DeathRecipient() {
                 @Override
                 public void binderDied() {
-                    Log.i(TAG, "App Died: " + app.processName);
-                    appThread.unlinkToDeath(this, 0);
+                    Log.e(TAG, "Application did terminate: " + app.processName);
+                    applicationThreadBinder.unlinkToDeath(this, 0);
                     onProcessDie(app);
                 }
             }, 0);

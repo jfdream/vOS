@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -26,6 +27,7 @@ import android.view.MotionEvent;
 import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.app.BActivityThread;
 import top.niunaijun.blackbox.app.configuration.AppLifecycleCallback;
+import top.niunaijun.blackbox.fake.provider.FileProviderHandler;
 import top.niunaijun.blackbox.utils.Reflector;
 
 public class BaseInstrumentationDelegate extends Instrumentation {
@@ -388,7 +390,12 @@ public class BaseInstrumentationDelegate extends Instrumentation {
 //            dat=content://com.android.example.camera2.video.provider/files/VID_2023_08_24_14_16_56_812.mp4 flg=0x4000001 }
 //            at android.app.Instrumentation.checkStartActivityResult(Instrumentation.java:2076)
 //        try {
-            return reflector.callByCaller(mBaseInstrumentation, new Object[]{context, binder, binder1, activity, intent, i, bundle});
+        Log.i(TAG, "execStartActivity:" + activity);
+        Uri uri = intent.getData();
+        if (uri != null) {
+            intent.setData(FileProviderHandler.convertFileUri(BActivityThread.getApplication(), uri));
+        }
+        return reflector.callByCaller(mBaseInstrumentation, new Object[]{context, binder, binder1, activity, intent, i, bundle});
 //        }
 //        catch (Exception e) {
 //            Log.e(TAG, "callByCaller exception:" + e + " activity:" + activity);

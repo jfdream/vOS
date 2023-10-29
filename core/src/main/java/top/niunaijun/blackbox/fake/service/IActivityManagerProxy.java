@@ -126,7 +126,7 @@ public class IActivityManagerProxy extends ClassInvocationStub {
                 ContentProviderDelegate.update(content, (String) auth);
                 return content;
             } else {
-                Log.d(TAG, "hook getContentProvider: " + auth);
+                Log.i(TAG, "hook getContentProvider: " + auth);
                 ProviderInfo providerInfo = BBCore.getBPackageManager().resolveContentProvider((String) auth, GET_META_DATA, BActivityThread.getUserId());
                 if (providerInfo == null) {
 //                        Log.d(TAG, "hook system: " + auth);
@@ -158,15 +158,10 @@ public class IActivityManagerProxy extends ClassInvocationStub {
                     return null;
 
                 content = method.invoke(who, args);
-                Reflector.with(content)
-                        .field("info")
-                        .set(providerInfo);
+                Reflector.with(content).field("info").set(providerInfo);
 
                 Object provider = new ContentProviderStub().wrapper(BRContentProviderNative.get().asInterface(providerBinder), BActivityThread.getAppPackageName());
-
-                Reflector.with(content)
-                        .field("provider")
-                        .set(provider);
+                Reflector.with(content).field("provider").set(provider);
             }
 
             return content;
