@@ -49,8 +49,6 @@ public class AppServiceDispatcher {
         if (intent == null || serviceInfo == null)
             return null;
 
-//        Log.d(TAG, "onBind: " + component.toString());
-
         Service service = getOrCreateService(serviceRecord);
         if (service == null)
             return null;
@@ -111,7 +109,6 @@ public class AppServiceDispatcher {
             }
         }
         mService.clear();
-//        Log.d(TAG, "onDestroy: ");
     }
 
     public void onConfigurationChanged(Configuration newConfig) {
@@ -124,7 +121,6 @@ public class AppServiceDispatcher {
                 }
             }
         }
-//        Log.d(TAG, "onConfigurationChanged");
     }
 
     public void onLowMemory() {
@@ -137,7 +133,6 @@ public class AppServiceDispatcher {
                 }
             }
         }
-//        Log.d(TAG, "onLowMemory");
     }
 
     public void onTrimMemory(int level) {
@@ -150,7 +145,6 @@ public class AppServiceDispatcher {
                 }
             }
         }
-        // Log.d(TAG, "onTrimMemory");
     }
 
     public boolean onUnbind(Intent proxyIntent) {
