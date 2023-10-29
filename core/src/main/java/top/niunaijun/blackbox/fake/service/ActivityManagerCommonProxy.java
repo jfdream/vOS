@@ -77,10 +77,6 @@ public class ActivityManagerCommonProxy {
                         StartActivityCompat.getResolvedType(args),
                         BActivityThread.getUserId());
                 if (resolveInfo == null) {
-                    Uri data = intent.getData();
-                    if (data != null) {
-                        intent.setData(FileProviderHandler.convertFileUri(BActivityThread.getApplication(), data));
-                    }
                     intent.setPackage(origPackage);
                     return method.invoke(who, args);
                 }
