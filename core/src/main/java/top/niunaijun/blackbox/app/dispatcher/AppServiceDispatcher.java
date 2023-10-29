@@ -6,6 +6,7 @@ import android.content.pm.ServiceInfo;
 import android.content.res.Configuration;
 import android.os.Handler;
 import android.os.IBinder;
+import android.util.Log;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -68,6 +69,9 @@ public class AppServiceDispatcher {
         try {
             IBinder iBinder = service.onBind(intent);
             record.addBinder(intent, iBinder);
+            if (iBinder == null) {
+                Log.e(TAG, "Service " + service + " onBind is return empty");
+            }
             return iBinder;
         } catch (Throwable e) {
             e.printStackTrace();

@@ -78,6 +78,9 @@ public class ServiceRecord {
             mBounds.put(filterComparison, boundInfo);
         }
         boundInfo.setIBinder(iBinder);
+        if (iBinder == null) {
+            return;
+        }
         try {
             iBinder.linkToDeath(new IBinder.DeathRecipient() {
                 @Override
