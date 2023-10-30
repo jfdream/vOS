@@ -17,7 +17,6 @@ import top.niunaijun.blackbox.utils.FileUtils;
  * 此处无Bug
  */
 public class BEnvironment {
-    private static final String TAG = "iOS";
     private static final File sVirtualRoot = new File(BBCore.getContext().getCacheDir().getParent(), "rootfs");
     private static final File sExternalVirtualRoot = BBCore.getContext().getExternalFilesDir("sdcard");
     public static void load() {

@@ -31,8 +31,10 @@ public class AppJobServiceDispatcher {
     public boolean onStartJob(JobParameters params) {
         try {
             Service jobService = getJobService(params.getJobId());
-            if (!(jobService instanceof JobService))
-                return false;
+            // 有一些傻逼 App 不遵循 Google 规则，将普通 Service bind 到 JobService 会导致异常出现，不过不会引起崩溃
+            if (!(jobService instanceof JobService)) {
+                return true;
+            }
             JobService jbs = (JobService) jobService;
             return jbs.onStartJob(params);
         } catch (Exception e) {
@@ -43,8 +45,10 @@ public class AppJobServiceDispatcher {
 
     public boolean onStopJob(JobParameters params) {
         Service jobService = getJobService(params.getJobId());
-        if (!(jobService instanceof JobService))
-            return false;
+        // 有一些傻逼 App 不遵循 Google 规则，将普通 Service bind 到 JobService 会导致异常出现，不过不会引起崩溃
+        if (!(jobService instanceof JobService)) {
+            return true;
+        }
         JobService jbs = (JobService) jobService;
         boolean b = jbs.onStopJob(params);
         jobService.onDestroy();

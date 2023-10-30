@@ -164,7 +164,7 @@ public class HCallbackProxy implements IInjectHook, Handler.Callback {
                 return true;
             }
             // bind
-            if (!BActivityThread.currentActivityThread().isInit()) {
+            if (!BActivityThread.currentActivityThread().initialized()) {
                 BActivityThread.currentActivityThread().bindApplication(activityInfo.packageName,
                         activityInfo.processName);
                 return true;

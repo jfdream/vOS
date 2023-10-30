@@ -26,11 +26,6 @@ public class ContentProviderStub extends ClassInvocationStub implements BContent
         mBase = contentProviderProxy;
         mAppPkg = appPkg;
         injectHook();
-
-        hello :{
-            break hello;
-        }
-
         return (IInterface) getProxyInvocation();
     }
 

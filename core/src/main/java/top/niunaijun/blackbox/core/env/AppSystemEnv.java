@@ -58,10 +58,7 @@ public class AppSystemEnv {
     }
 
     public static boolean isBlackPackage(String packageName) {
-        if (BBCore.get().isHideRoot() && sSuPackages.contains(packageName)) {
-            return true;
-        }
-        return false;
+        return BBCore.get().isHideRoot() && sSuPackages.contains(packageName);
     }
 
     public static List<String> getPreInstallPackages() {

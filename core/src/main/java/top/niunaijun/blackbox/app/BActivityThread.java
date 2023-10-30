@@ -94,7 +94,7 @@ public class BActivityThread extends IBActivityThread.Stub {
     private final Handler mH = BBCore.get().getHandler();
     private static final Object mConfigLock = new Object();
 
-    public static boolean isThreadInit() {
+    public static boolean isThreadInitialized() {
         return sBActivityThread != null;
     }
 
@@ -198,12 +198,12 @@ public class BActivityThread extends IBActivityThread.Stub {
         }
     }
 
-    public boolean isInit() {
+    public boolean initialized() {
         return mBoundApplication != null;
     }
 
     public Service createService(ServiceInfo serviceInfo, IBinder token) {
-        if (!BActivityThread.currentActivityThread().isInit()) {
+        if (!BActivityThread.currentActivityThread().initialized()) {
             BActivityThread.currentActivityThread().bindApplication(serviceInfo.packageName, serviceInfo.processName);
         }
         ClassLoader classLoader = BRLoadedApk.get(mBoundApplication.info).getClassLoader();
@@ -241,7 +241,7 @@ public class BActivityThread extends IBActivityThread.Stub {
     }
 
     public Service createJobService(ServiceInfo serviceInfo) {
-        if (!BActivityThread.currentActivityThread().isInit()) {
+        if (!BActivityThread.currentActivityThread().initialized()) {
             BActivityThread.currentActivityThread().bindApplication(serviceInfo.packageName, serviceInfo.processName);
         }
         ClassLoader classLoader = BRLoadedApk.get(mBoundApplication.info).getClassLoader();
@@ -295,7 +295,7 @@ public class BActivityThread extends IBActivityThread.Stub {
     }
 
     public synchronized void handleBindApplication(String packageName, String processName) {
-        if (isInit())
+        if (initialized())
             return;
         try {
             CrashHandler.create();
@@ -445,7 +445,7 @@ public class BActivityThread extends IBActivityThread.Stub {
 
     @Override
     public void bindApplication() {
-        if (!isInit()) {
+        if (!initialized()) {
             bindApplication(getAppPackageName(), getAppProcessName());
         }
     }
@@ -462,7 +462,7 @@ public class BActivityThread extends IBActivityThread.Stub {
 
     @Override
     public IBinder acquireContentProviderClient(ProviderInfo providerInfo) throws RemoteException {
-        if (!isInit()) {
+        if (!initialized()) {
             bindApplication(BActivityThread.getAppConfig().packageName, BActivityThread.getAppConfig().processName);
         }
         String[] split = providerInfo.authority.split(";");
@@ -532,7 +532,7 @@ public class BActivityThread extends IBActivityThread.Stub {
 
     @Override
     public void scheduleReceiver(ReceiverData data) throws RemoteException {
-        if (!isInit()) {
+        if (!initialized()) {
             bindApplication();
         }
         mH.post(() -> {
