@@ -17,7 +17,7 @@ import top.niunaijun.blackbox.utils.compat.ContextCompat;
  * しーＪ
  * 此处无Bug
  */
-public class ContentProviderStub extends ClassInvocationStub implements BContentProvider {
+public class ContentProviderStub extends ClassInvocationStub {
     public static final String TAG = "ContentProviderStub";
     private IInterface mBase;
     private String mAppPkg;
