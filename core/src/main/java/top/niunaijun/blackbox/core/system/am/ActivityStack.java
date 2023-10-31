@@ -278,6 +278,7 @@ public class ActivityStack {
     private int startActivityInNewTaskLocked(int userId, Intent intent, ActivityInfo
             activityInfo, IBinder resultTo, int launchMode) {
         ActivityRecord record = newActivityRecord(intent, activityInfo, resultTo, userId);
+        // 启动应用程序进程，通过 ProxyContentProvider 来创建进程，然后获取启动 ActivityInfo，通过 Context 来启动 Activity
         Intent shadow = startActivityProcess(userId, intent, activityInfo, record);
         if (shadow == null) return -1;
 

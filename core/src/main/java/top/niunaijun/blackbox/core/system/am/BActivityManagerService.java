@@ -348,7 +348,7 @@ public class BActivityManagerService extends IBActivityManagerService.Stub imple
         UserSpace userSpace = getOrCreateSpaceLocked(userId);
         synchronized (userSpace.mStack) {
             int status = userSpace.mStack.startActivityLocked(userId, intent, null, null, null, -1, -1, null);
-            Log.i(TAG, "startActivity, myPid:" + Process.myPid() + " status:" + status);
+            Log.i(TAG, "startActivity, myPid:" + Process.myPid() + " status:" + status + " intent:" + intent);
         }
     }
 
