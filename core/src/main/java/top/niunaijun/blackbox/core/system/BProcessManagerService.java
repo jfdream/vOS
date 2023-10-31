@@ -157,6 +157,7 @@ public class BProcessManagerService implements ISystemService {
         Bundle bundle = new Bundle();
         bundle.putParcelable(AppConfig.KEY, appConfig);
         // 设计的精妙之处，通过 ProxyContentProvider 实现进程的创建并通过 Binder 方式返回进程的 App 线程
+        // 通过该接口可以启动 ContentProvider
         Bundle init = ProviderCall.callSafely(record.getProviderAuthority(), "_Black_|_init_process_", null, bundle);
         IBinder appThread = BundleCompat.getBinder(init, "_Black_|_client_");
         if (appThread == null || !appThread.isBinderAlive()) {

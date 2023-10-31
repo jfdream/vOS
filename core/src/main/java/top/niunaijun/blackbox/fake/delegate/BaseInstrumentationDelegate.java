@@ -1,8 +1,4 @@
 package top.niunaijun.blackbox.fake.delegate;
-
-
-import static android.app.Activity.RESULT_OK;
-
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Application;
@@ -28,12 +24,11 @@ import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.app.BActivityThread;
 import top.niunaijun.blackbox.app.configuration.AppLifecycleCallback;
 import top.niunaijun.blackbox.fake.provider.FileProviderHandler;
-import top.niunaijun.blackbox.utils.BundleUtils;
 import top.niunaijun.blackbox.utils.Reflector;
 
 public class BaseInstrumentationDelegate extends Instrumentation {
 
-    private static final String TAG = "iOS";
+    private static final String TAG = "BaseInstrumentationDelegate.iOS";
     protected Instrumentation mBaseInstrumentation;
 
 
