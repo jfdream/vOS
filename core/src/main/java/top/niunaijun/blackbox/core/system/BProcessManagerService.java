@@ -93,7 +93,6 @@ public class BProcessManagerService implements ISystemService {
             mProcessMap.put(buid, bProcess);
             boolean initApp =  initAppProcessL(app);
             if (!initApp) {
-                //init process fail
                 bProcess.remove(processName);
                 mPidsSelfLocked.remove(app);
                 return null;
@@ -140,9 +139,8 @@ public class BProcessManagerService implements ISystemService {
         String prefix;
         if (stubProcessName == null) {
             return -1;
-        } else {
-            prefix = BBCore.getHostPkg() + ":p";
         }
+        prefix = BBCore.getHostPkg() + ":p";
         if (stubProcessName.startsWith(prefix)) {
             try {
                 return Integer.parseInt(stubProcessName.substring(prefix.length()));
@@ -154,7 +152,7 @@ public class BProcessManagerService implements ISystemService {
     }
 
     private boolean initAppProcessL(ProcessRecord record) {
-        Log.d(TAG, "initProcess: " + record.processName);
+        Log.i(TAG, "initProcess: " + record.processName);
         AppConfig appConfig = record.getClientConfig();
         Bundle bundle = new Bundle();
         bundle.putParcelable(AppConfig.KEY, appConfig);
@@ -198,7 +196,7 @@ public class BProcessManagerService implements ISystemService {
         app.initLock.open();
     }
 
-    public void onProcessDie(ProcessRecord record) {
+    private void onProcessDie(ProcessRecord record) {
         synchronized (mProcessLock) {
             record.kill();
             Map<String, ProcessRecord> process = mProcessMap.get(record.buid);

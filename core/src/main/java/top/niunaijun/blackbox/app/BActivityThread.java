@@ -234,9 +234,7 @@ public class BActivityThread extends IBActivityThread.Stub {
             service.onCreate();
             return service;
         } catch (Exception e) {
-            throw new RuntimeException(
-                    "Unable to create service " + serviceInfo.name
-                            + ": " + e, e);
+            throw new RuntimeException("Unable to create service " + serviceInfo.name + ": " + e, e);
         }
     }
 
@@ -556,9 +554,7 @@ public class BActivityThread extends IBActivityThread.Stub {
                 BBCore.getBActivityManager().finishBroadcast(data.data);
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
-                Log.e(TAG,
-                        "Error receiving broadcast " + intent
-                                + " in " + mReceiver);
+                Log.e(TAG,"Error receiving broadcast " + intent + " in " + mReceiver);
             }
         });
     }
