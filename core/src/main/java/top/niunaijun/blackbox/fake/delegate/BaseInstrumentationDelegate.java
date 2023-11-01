@@ -370,7 +370,20 @@ public class BaseInstrumentationDelegate extends Instrumentation {
     public UiAutomation getUiAutomation() {
         return mBaseInstrumentation.getUiAutomation();
     }
-    public ActivityResult execStartActivity(Context context, IBinder binder, IBinder binder1, Activity activity, Intent intent, int i, Bundle bundle) throws Throwable {
+
+    /**
+     *
+     * @param who The Context from which the activity is being started.
+     * @param contextThread The main thread of the Context from which the activity is being started.
+     * @param token Internal token identifying to the system who is starting the activity; may be null.
+     * @param activity Which activity is performing the start (and thus receiving any result); may be null if this call is not being made from an activity.
+     * @param intent The actual Intent to start.
+     * @param requestCode Identifier for this request's result; less than zero if the caller is not expecting a result.
+     * @param options Addition options.
+     * @return
+     * @throws Throwable
+     */
+    public ActivityResult execStartActivity(Context who, IBinder contextThread, IBinder token, Activity activity, Intent intent, int requestCode, Bundle options) throws Throwable {
         Reflector reflector = invokeExecStartActivity(mBaseInstrumentation,
                 Context.class,
                 IBinder.class,
@@ -385,15 +398,15 @@ public class BaseInstrumentationDelegate extends Instrumentation {
 //            dat=content://com.android.example.camera2.video.provider/files/VID_2023_08_24_14_16_56_812.mp4 flg=0x4000001 }
 //            at android.app.Instrumentation.checkStartActivityResult(Instrumentation.java:2076)
 //        try {
-        Log.i(TAG, "execStartActivity:" + activity + " intent:" + intent + " extra:" + intent.getExtras() + " bundle:" + bundle);
+        Log.i(TAG, "execStartActivity:" + activity + " intent:" + intent + " extra:" + intent.getExtras() + " options:" + options);
         Uri uri = intent.getData();
         if (uri != null) {
             intent.setData(FileProviderHandler.convertFileUri(BActivityThread.getApplication(), uri));
         }
-        return reflector.callByCaller(mBaseInstrumentation, new Object[]{context, binder, binder1, activity, intent, i, bundle});
+        return reflector.callByCaller(mBaseInstrumentation, new Object[]{who, contextThread, token, activity, intent, requestCode, options});
     }
 
-    public ActivityResult execStartActivity(Context context, IBinder binder, IBinder binder1, String str, Intent intent, int i, Bundle bundle) throws Throwable {
+    public ActivityResult execStartActivity(Context context, IBinder contextThread, IBinder token, String str, Intent intent, int i, Bundle bundle) throws Throwable {
         return invokeExecStartActivity(mBaseInstrumentation,
                 Context.class,
                 IBinder.class,
@@ -401,30 +414,30 @@ public class BaseInstrumentationDelegate extends Instrumentation {
                 String.class,
                 Intent.class,
                 Integer.TYPE,
-                Bundle.class).callByCaller(mBaseInstrumentation, new Object[]{context, binder, binder1, str, intent, i, bundle});
+                Bundle.class).callByCaller(mBaseInstrumentation, new Object[]{context, contextThread, token, str, intent, i, bundle});
     }
 
-    public ActivityResult execStartActivity(Context context, IBinder binder, IBinder binder1, Fragment fragment, Intent intent, int i) throws Throwable {
+    public ActivityResult execStartActivity(Context context, IBinder contextThread, IBinder token, Fragment fragment, Intent intent, int i) throws Throwable {
         return invokeExecStartActivity(mBaseInstrumentation,
                 Context.class,
                 IBinder.class,
                 IBinder.class,
                 Fragment.class,
                 Intent.class,
-                Integer.TYPE).callByCaller(mBaseInstrumentation, new Object[]{context, binder, binder1, fragment, intent, i});
+                Integer.TYPE).callByCaller(mBaseInstrumentation, new Object[]{context, contextThread, token, fragment, intent, i});
     }
 
-    public ActivityResult execStartActivity(Context context, IBinder binder, IBinder binder1, Activity activity, Intent intent, int i) throws Throwable {
+    public ActivityResult execStartActivity(Context context, IBinder contextThread, IBinder token, Activity activity, Intent intent, int i) throws Throwable {
         return invokeExecStartActivity(mBaseInstrumentation,
                 Context.class,
                 IBinder.class,
                 IBinder.class,
                 Activity.class,
                 Intent.class,
-                Integer.TYPE).callByCaller(mBaseInstrumentation, new Object[]{context, binder, binder1, activity, intent, i});
+                Integer.TYPE).callByCaller(mBaseInstrumentation, new Object[]{context, contextThread, token, activity, intent, i});
     }
 
-    public ActivityResult execStartActivity(Context context, IBinder binder, IBinder binder1, Fragment fragment, Intent intent, int i, Bundle bundle) throws Throwable {
+    public ActivityResult execStartActivity(Context context, IBinder contextThread, IBinder token, Fragment fragment, Intent intent, int i, Bundle bundle) throws Throwable {
         return invokeExecStartActivity(mBaseInstrumentation,
                 Context.class,
                 IBinder.class,
@@ -432,11 +445,11 @@ public class BaseInstrumentationDelegate extends Instrumentation {
                 Fragment.class,
                 Intent.class,
                 Integer.TYPE,
-                Bundle.class).callByCaller(mBaseInstrumentation, new Object[]{context, binder, binder1, fragment, intent, i, bundle});
+                Bundle.class).callByCaller(mBaseInstrumentation, new Object[]{context, contextThread, token, fragment, intent, i, bundle});
     }
 
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
-    public ActivityResult execStartActivity(Context context, IBinder iBinder, IBinder iBinder2, Activity activity, Intent intent, int i, Bundle bundle, UserHandle userHandle) throws Throwable {
+    public ActivityResult execStartActivity(Context context, IBinder contextThread, IBinder token, Activity activity, Intent intent, int i, Bundle bundle, UserHandle userHandle) throws Throwable {
         return invokeExecStartActivity(mBaseInstrumentation,
                 Context.class,
                 IBinder.class,
@@ -445,7 +458,7 @@ public class BaseInstrumentationDelegate extends Instrumentation {
                 Intent.class,
                 Integer.TYPE,
                 Bundle.class,
-                UserHandle.class).callByCaller(mBaseInstrumentation, new Object[]{context, iBinder, iBinder2, activity, intent, i, bundle, userHandle});
+                UserHandle.class).callByCaller(mBaseInstrumentation, new Object[]{context, contextThread, token, activity, intent, i, bundle, userHandle});
     }
 
     private static Reflector invokeExecStartActivity(Object obj, Class<?>... args) throws NoSuchMethodException {
