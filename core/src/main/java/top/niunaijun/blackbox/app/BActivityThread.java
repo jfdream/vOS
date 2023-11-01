@@ -84,7 +84,7 @@ import top.niunaijun.blackbox.utils.compat.StrictModeCompat;
  * 此处无Bug
  */
 public class BActivityThread extends IBActivityThread.Stub {
-    public static final String TAG = "BActivityThread";
+    public static final String TAG = "BActivityThread.iOS";
 
     private static BActivityThread sBActivityThread;
     private AppBindData mBoundApplication;
@@ -179,6 +179,7 @@ public class BActivityThread extends IBActivityThread.Stub {
             }
             this.mAppConfig = appConfig;
             IBinder iBinder = asBinder();
+            Log.i(TAG, "Process:" + appConfig.packageName + " processName:" + appConfig.processName + " launched");
             try {
                 iBinder.linkToDeath(new DeathRecipient() {
                     @Override

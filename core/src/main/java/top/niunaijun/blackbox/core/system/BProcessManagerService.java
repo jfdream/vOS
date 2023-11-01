@@ -152,7 +152,7 @@ public class BProcessManagerService implements ISystemService {
     }
 
     private boolean initAppProcessL(ProcessRecord record) {
-        Log.i(TAG, "initProcess: " + record.processName);
+        Log.i(TAG, "initProcess: " + record.processName + " packageName:" + record.getPackageName());
         AppConfig appConfig = record.getClientConfig();
         Bundle bundle = new Bundle();
         bundle.putParcelable(AppConfig.KEY, appConfig);

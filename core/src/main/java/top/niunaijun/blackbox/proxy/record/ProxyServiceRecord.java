@@ -3,6 +3,7 @@ package top.niunaijun.blackbox.proxy.record;
 import android.content.Intent;
 import android.content.pm.ServiceInfo;
 import android.os.IBinder;
+import android.util.Log;
 
 import top.niunaijun.blackbox.utils.compat.BundleCompat;
 
@@ -20,6 +21,7 @@ public class ProxyServiceRecord {
     public IBinder mToken;
     public int mUserId;
     public int mStartId;
+    private static final String TAG = "ProxyServiceRecord.iOS";
 
     public ProxyServiceRecord(Intent serviceIntent, ServiceInfo serviceInfo, IBinder token, int userId, int startId) {
         mServiceIntent = serviceIntent;
@@ -38,6 +40,9 @@ public class ProxyServiceRecord {
     }
 
     public static ProxyServiceRecord create(Intent intent) {
+        if (intent == null) {
+            Log.e(TAG, "Proxy Service Intent is empty");
+        }
         Intent target = intent.getParcelableExtra("_B_|_target_");
         ServiceInfo serviceInfo = intent.getParcelableExtra("_B_|_service_info_");
         int userId = intent.getIntExtra("_B_|_user_id_", 0);

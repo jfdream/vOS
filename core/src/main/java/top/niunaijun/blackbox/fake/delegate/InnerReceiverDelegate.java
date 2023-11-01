@@ -68,6 +68,7 @@ public class InnerReceiverDelegate extends IIntentReceiver.Stub {
 //        TODO: 此处由于 App 未启动完成，所以可能会出现异常
         if (application == null) {
             Log.e(TAG, "performReceive application is not initialized");
+            Thread.dumpStack();
         }
         ClassLoader classLoader = application != null ? application.getClassLoader() : BActivityThread.currentActivityThread().getClass().getClassLoader();
         intent.setExtrasClassLoader(classLoader);
