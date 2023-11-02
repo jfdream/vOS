@@ -24,6 +24,7 @@ import android.os.Handler;
 import android.os.IBinder;
 import android.os.IInterface;
 import android.os.Looper;
+import android.os.Process;
 import android.os.RemoteException;
 import android.os.StrictMode;
 import android.util.Log;
@@ -187,7 +188,7 @@ public class BActivityThread extends IBActivityThread.Stub {
             }
             this.mAppConfig = appConfig;
             IBinder iBinder = asBinder();
-            Log.i(TAG, "Process:" + appConfig.packageName + " processName:" + appConfig.processName + " launched");
+            Log.i(TAG, "Launch process packageName:" + appConfig.packageName + " processName:" + appConfig.processName + " pid:" + Process.myPid());
             try {
                 iBinder.linkToDeath(new DeathRecipient() {
                     @Override

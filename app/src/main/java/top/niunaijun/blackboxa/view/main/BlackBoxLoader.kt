@@ -57,7 +57,7 @@ class BlackBoxLoader {
                 context: Context?,
                 userId: Int
             ) {
-                Log.d(TAG, "beforeCreateApplication: pkg $packageName, processName $processName,userID:${BActivityThread.getUserId()}")
+                Log.i(TAG, "beforeCreateApplication: pkg $packageName, processName $processName,userID:${BActivityThread.getUserId()}")
             }
 
 
@@ -67,7 +67,7 @@ class BlackBoxLoader {
                 application: Application?,
                 userId: Int
             ) {
-                Log.d(TAG, "beforeApplicationOnCreate: pkg $packageName, processName $processName")
+                Log.i(TAG, "beforeApplicationOnCreate: pkg $packageName, processName $processName")
             }
 
             override fun afterApplicationOnCreate(
@@ -76,7 +76,7 @@ class BlackBoxLoader {
                 application: Application?,
                 userId: Int
             ) {
-                Log.d(TAG, "afterApplicationOnCreate: pkg $packageName, processName $processName")
+                Log.i(TAG, "afterApplicationOnCreate: pkg $packageName, processName $processName")
             }
 
             override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
