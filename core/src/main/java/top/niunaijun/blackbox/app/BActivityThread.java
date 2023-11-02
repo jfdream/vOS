@@ -1,6 +1,7 @@
 package top.niunaijun.blackbox.app;
 
 import android.app.Activity;
+import android.app.ActivityThread;
 import android.app.Application;
 import android.app.Instrumentation;
 import android.app.Service;
@@ -45,6 +46,7 @@ import black.android.app.BRActivityThreadAppBindData;
 import black.android.app.BRActivityThreadNMR1;
 import black.android.app.BRActivityThreadQ;
 import black.android.app.BRContextImpl;
+import black.android.app.BRInstrumentation;
 import black.android.app.BRLoadedApk;
 import black.android.app.BRService;
 import black.android.content.BRBroadcastReceiver;
@@ -398,6 +400,7 @@ public class BActivityThread extends IBActivityThread.Stub {
             onAfterApplicationOnCreate(packageName, processName, application);
 
             HookManager.get().checkEnv(HCallbackProxy.class);
+            Log.w(TAG, "bindApplication:" + application + " classLoader:" + application.getClassLoader().hashCode() + " finish");
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("Unable to makeApplication", e);

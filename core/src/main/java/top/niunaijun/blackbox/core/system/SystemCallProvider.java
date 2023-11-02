@@ -42,7 +42,7 @@ import top.niunaijun.blackbox.utils.compat.BundleCompat;
  * 此处无Bug
  */
 public class SystemCallProvider extends ContentProvider {
-    public static final String TAG = "iOS";
+    public static final String TAG = "SystemCallProvider.iOS";
     private final static AtomicBoolean isStartup = new AtomicBoolean(false);
 
     @Override

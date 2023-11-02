@@ -15,7 +15,7 @@ import top.niunaijun.blackbox.app.BActivityThread
  */
 class App : Application() {
 
-    private val TAG = "BlackBoxCore";
+    private val TAG = "App";
 
     companion object {
 

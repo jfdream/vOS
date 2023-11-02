@@ -415,8 +415,14 @@ public class IActivityManagerProxy extends ClassInvocationStub {
                 // bugfix
                 // 微信 App 打开之后会发送广播，广播发送会触发该方法，此时由于应用程序并未完全初始化成功，故 application 为空，所以此处需要判断一下
                 Application application = BActivityThread.getApplication();
-                Log.i(TAG, "broadcastIntent application is created:" + (application != null));
-                ClassLoader loader = application != null ? application.getClassLoader() : getClass().getClassLoader();
+                ClassLoader loader = application.getClassLoader();
+                if (loader == null) {
+                    loader = BActivityThread.currentActivityThread().getApplicationClassLoader();
+                }
+                if (loader == null) {
+                    loader = getClass().getClassLoader();
+                    Log.w(TAG, "broadcastIntent use class loader:" + loader);
+                }
                 proxyIntent.setExtrasClassLoader(loader);
                 ProxyBroadcastRecord.saveStub(proxyIntent, intent, BActivityThread.getUserId());
                 args[intentIndex] = proxyIntent;

@@ -12,7 +12,7 @@ import top.niunaijun.blackbox.utils.Reflector;
  * Created by BlackBox on 2022/3/23.
  */
 public abstract class BlackManager<Service extends IInterface> {
-    public static final String TAG = "iOS";
+    public static final String TAG = "BlackManager.iOS";
 
     private Service mService;
 

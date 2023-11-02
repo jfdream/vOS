@@ -67,15 +67,15 @@ public class ContentProviderDelegate {
         Object activityThread = BBCore.mainThread();
         Map<?, ?> map = BRActivityThread.get(activityThread).mProviderMap();
         for (Object value : map.values()) {
-            String[] mNames = BRActivityThreadProviderClientRecordP.get(value).mNames();
-            if (StringUtils.isEmpty(mNames)) {
+            String[] providerNames = BRActivityThreadProviderClientRecordP.get(value).mNames();
+            if (StringUtils.isEmpty(providerNames)) {
                 continue;
             }
             String hostPkg = BBCore.getHostPkg();
-            for (String providerName : mNames) {
-                Log.i(TAG, "providerName:" + providerName + " hostPkg:" + hostPkg);
+            for (String providerName : providerNames) {
                 if (!sInjected.contains(providerName)) {
                     sInjected.add(providerName);
+                    Log.i(TAG, "providerName:" + providerName + " hostPkg:" + hostPkg);
                     final IInterface iInterface = BRActivityThreadProviderClientRecordP.get(value).mProvider();
                     BRActivityThreadProviderClientRecordP.get(value)._set_mProvider(new ContentProviderStub().wrapper(iInterface, hostPkg));
                     BRActivityThreadProviderClientRecordP.get(value)._set_mNames(new String[]{providerName});

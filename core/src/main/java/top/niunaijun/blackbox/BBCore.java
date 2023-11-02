@@ -60,7 +60,7 @@ import top.niunaijun.blackbox.utils.provider.ProviderCall;
  */
 @SuppressLint({"StaticFieldLeak", "NewApi"})
 public class BBCore extends ClientConfiguration {
-    public static final String TAG = "iOS";
+    public static final String TAG = "BBCore.iOS";
 
     private static final BBCore S_BB_CORE = new BBCore();
     private static Context sContext;

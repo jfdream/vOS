@@ -13,7 +13,7 @@ import top.niunaijun.blackbox.BBCore;
  * 此处无Bug
  */
 public class CrashHandler implements Thread.UncaughtExceptionHandler {
-    private static final String TAG = "iOS";
+    private static final String TAG = "CrashHandler.iOS";
     private Thread.UncaughtExceptionHandler mDefaultHandler;
 
     public static void create() {
