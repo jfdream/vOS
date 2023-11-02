@@ -26,7 +26,7 @@ import top.niunaijun.blackbox.utils.compat.ContextCompat;
 
 public final class AppInstrumentation extends BaseInstrumentationDelegate implements IInjectHook {
 
-    private static final String TAG = AppInstrumentation.class.getSimpleName();
+    private static final String TAG = "AppInstrumentation.iOS";
 
     private static AppInstrumentation sAppInstrumentation;
 
@@ -50,6 +50,7 @@ public final class AppInstrumentation extends BaseInstrumentationDelegate implem
             if (mInstrumentation == this || checkInstrumentation(mInstrumentation))
                 return;
             mBaseInstrumentation = (Instrumentation) mInstrumentation;
+            Log.i(TAG, "inject mInstrumentation hook: " + this + " mBaseInstrumentation:" + mBaseInstrumentation);
             BRActivityThread.get(BBCore.mainThread())._set_mInstrumentation(this);
         } catch (Exception e) {
             e.printStackTrace();
