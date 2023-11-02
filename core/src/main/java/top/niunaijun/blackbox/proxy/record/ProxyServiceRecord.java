@@ -42,6 +42,7 @@ public class ProxyServiceRecord {
     public static ProxyServiceRecord create(Intent intent) {
         if (intent == null) {
             Log.e(TAG, "Proxy Service Intent is empty");
+            return null;
         }
         Intent target = intent.getParcelableExtra("_B_|_target_");
         ServiceInfo serviceInfo = intent.getParcelableExtra("_B_|_service_info_");

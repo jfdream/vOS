@@ -79,7 +79,7 @@ public class AppServiceDispatcher {
 
     public int onStartCommand(Intent proxyIntent, int flags, int startId) {
         ProxyServiceRecord stubRecord = ProxyServiceRecord.create(proxyIntent);
-        if (stubRecord.mServiceIntent == null || stubRecord.mServiceInfo == null) {
+        if (stubRecord == null || stubRecord.mServiceIntent == null || stubRecord.mServiceInfo == null) {
             return START_NOT_STICKY;
         }
         Service service = getOrCreateService(stubRecord);

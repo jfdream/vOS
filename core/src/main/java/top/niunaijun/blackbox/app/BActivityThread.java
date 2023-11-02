@@ -94,6 +94,8 @@ public class BActivityThread extends IBActivityThread.Stub {
     private final Handler mH = BBCore.get().getHandler();
     private static final Object mConfigLock = new Object();
 
+    private ClassLoader mApplicationClassLoader = null;
+
     public static boolean isThreadInitialized() {
         return sBActivityThread != null;
     }
@@ -107,6 +109,10 @@ public class BActivityThread extends IBActivityThread.Stub {
             }
         }
         return sBActivityThread;
+    }
+
+    public ClassLoader getApplicationClassLoader(){
+        return mApplicationClassLoader;
     }
 
     public static AppConfig getAppConfig() {
@@ -377,9 +383,10 @@ public class BActivityThread extends IBActivityThread.Stub {
 //            Log.e(TAG, "appClass:" + appClass);
 //            Object app1 = BRActivityThread.get(mActivityThread).mInstrumentation().newApplication(
 //                    cl, appClass, (Context) appContext);
-
+            mApplicationClassLoader = BRLoadedApk.get(loadedApk).getClassLoader();
+            Log.w(TAG,"LoadedApk ClassLoader:" + mApplicationClassLoader.hashCode() + " BCore:" + BBCore.class.getClassLoader().hashCode());
             application = BRLoadedApk.get(loadedApk).makeApplication(false, null);
-            Log.w(TAG, "makeApplication:" + application);
+            Log.w(TAG, "makeApplication:" + application + " classLoader:" + application.getClassLoader().hashCode());
             mInitialApplication = application;
             BRActivityThread.get(BBCore.mainThread())._set_mInitialApplication(mInitialApplication);
             ContextCompat.fix((Context) BRActivityThread.get(BBCore.mainThread()).getSystemContext());

@@ -1,6 +1,7 @@
 package top.niunaijun.blackbox.fake.delegate;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.ActivityThread;
 import android.app.Application;
 import android.app.Fragment;
 import android.app.Instrumentation;
@@ -20,6 +21,8 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
+import black.android.app.BRActivityThread;
+import black.android.app.BRInstrumentation;
 import top.niunaijun.blackbox.BBCore;
 import top.niunaijun.blackbox.app.BActivityThread;
 import top.niunaijun.blackbox.app.configuration.AppLifecycleCallback;

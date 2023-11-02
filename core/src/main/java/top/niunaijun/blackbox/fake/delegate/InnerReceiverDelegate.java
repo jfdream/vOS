@@ -34,10 +34,6 @@ public class InnerReceiverDelegate extends IIntentReceiver.Stub {
         this.mIntentReceiver = new WeakReference<>(iIntentReceiver);
     }
 
-    public static InnerReceiverDelegate getDelegate(IBinder iBinder) {
-        return sInnerReceiverDelegate.get(iBinder);
-    }
-
     public static IIntentReceiver createProxy(IIntentReceiver base) {
         if (base instanceof InnerReceiverDelegate) {
             return base;
@@ -64,13 +60,8 @@ public class InnerReceiverDelegate extends IIntentReceiver.Stub {
 
     @Override
     public void performReceive(Intent intent, int resultCode, String data, Bundle extras, boolean ordered, boolean sticky, int sendingUser) throws RemoteException {
-        Application application = BActivityThread.getApplication();
-//        TODO: 此处由于 App 未启动完成，所以可能会出现异常
-        if (application == null) {
-            Log.e(TAG, "performReceive application is not initialized");
-            Thread.dumpStack();
-        }
-        ClassLoader classLoader = application != null ? application.getClassLoader() : BActivityThread.currentActivityThread().getClass().getClassLoader();
+        ClassLoader classLoader = BActivityThread.currentActivityThread().getApplicationClassLoader();
+        Log.i(TAG, "performReceive classLoader:" + classLoader.hashCode() + " intent:" + intent);
         intent.setExtrasClassLoader(classLoader);
         ProxyBroadcastRecord proxyBroadcastRecord = ProxyBroadcastRecord.create(intent);
         Intent perIntent;
