@@ -33,7 +33,7 @@ class App : Application() {
         super.attachBaseContext(base)
         mContext = base!!
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            Log.i(TAG, "onCreate attachBaseContext:${packageName} processName:${getProcessName()}");
+            Log.i(TAG, "onCreate attachBaseContext:${packageName} processName:${getProcessName()}, app:${this}");
         }
         AppManager.doAttachBaseContext(base)
     }
@@ -42,7 +42,7 @@ class App : Application() {
         super.onCreate()
         AppManager.doOnCreate(mContext)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            Log.i(TAG, "onCreate packageName:${packageName} processName:${getProcessName()}");
+            Log.i(TAG, "onCreate packageName:${packageName} processName:${getProcessName()}, app:${this}");
         }
     }
 }

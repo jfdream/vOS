@@ -48,7 +48,6 @@ public class SystemCallProvider extends ContentProvider {
     @Override
     public boolean onCreate() {
         startServiceUp();
-        Log.i(TAG, "SystemCallProvider start up success");
         return true;
     }
 
@@ -100,6 +99,7 @@ public class SystemCallProvider extends ContentProvider {
     private void startServiceUp() {
         if (isStartup.getAndSet(true))
             return;
+        Log.i(TAG, "SystemCallProvider start up successfully");
         BEnvironment.load();
 
         List<ISystemService> mServices = new ArrayList<>();
