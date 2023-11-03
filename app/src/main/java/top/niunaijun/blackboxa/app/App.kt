@@ -5,7 +5,6 @@ import android.app.Application
 import android.content.Context
 import android.os.Build
 import android.util.Log
-import com.umeng.commonsdk.UMConfigure
 
 /**
  *
@@ -44,13 +43,5 @@ class App : Application() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             Log.i(TAG, "onCreate packageName:${packageName} processName:${getProcessName()}, app:${this}");
         }
-        initUMeng();
-    }
-
-
-    private fun initUMeng(){
-        UMConfigure.setLogEnabled(true)
-        //添加注释
-        UMConfigure.init(this, "65436e9858a9eb5b0afe5200", "umeng", UMConfigure.DEVICE_TYPE_PHONE, "")
     }
 }
