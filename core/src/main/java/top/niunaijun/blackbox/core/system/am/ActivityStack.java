@@ -145,6 +145,7 @@ public class ActivityStack {
 
         // 如果还没有 Task 则新启动一个 Task
         if (taskRecord == null || taskRecord.needNewTask()) {
+            Log.w(TAG, "startActivityInNewTaskLocked, userId:" + userId + " intent:" + intent + " activityInfo:" + activityInfo + " launchModeFlags:" + launchModeFlags);
             return startActivityInNewTaskLocked(userId, intent, activityInfo, resultTo, launchModeFlags);
         }
         // 移至前台

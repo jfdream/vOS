@@ -41,7 +41,7 @@ import top.niunaijun.blackbox.utils.provider.ProviderCall;
  * 此处无Bug
  */
 public class BProcessManagerService implements ISystemService {
-    public static final String TAG = "BProcessManager.iOS";
+    public static final String TAG = "BProcessManagerService.iOS";
 
     public static BProcessManagerService sBProcessManagerService = new BProcessManagerService();
     private final Map<Integer, Map<String, ProcessRecord>> mProcessMap = new HashMap<>();

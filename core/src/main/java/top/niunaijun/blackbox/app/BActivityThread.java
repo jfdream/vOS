@@ -376,16 +376,6 @@ public class BActivityThread extends IBActivityThread.Stub {
         Application application;
         try {
             onBeforeCreateApplication(packageName, processName, packageContext);
-//            BRLoadedApk.get(loadedApk).initializeJavaContextClassLoader();
-//            Object mActivityThread = BRLoadedApk.get(loadedApk).mActivityThread();
-//            Object appContext = BRContextImpl.get().createAppContext(mActivityThread, loadedApk);
-//            Log.e(TAG, "appContext:" + appContext + " mActivityThread:" + mActivityThread);
-//
-//            String appClass = BRLoadedApk.get(loadedApk).mApplicationInfo().className;
-//            java.lang.ClassLoader cl = BRLoadedApk.get(loadedApk).getClassLoader();
-//            Log.e(TAG, "appClass:" + appClass);
-//            Object app1 = BRActivityThread.get(mActivityThread).mInstrumentation().newApplication(
-//                    cl, appClass, (Context) appContext);
             mApplicationClassLoader = BRLoadedApk.get(loadedApk).getClassLoader();
             Log.w(TAG,"LoadedApk ClassLoader:" + mApplicationClassLoader.hashCode() + " BCore:" + BBCore.class.getClassLoader().hashCode());
             application = BRLoadedApk.get(loadedApk).makeApplication(false, null);
@@ -402,10 +392,9 @@ public class BActivityThread extends IBActivityThread.Stub {
             onAfterApplicationOnCreate(packageName, processName, application);
 
             HookManager.get().checkEnv(HCallbackProxy.class);
-            Log.w(TAG, "bindApplication:" + application + " classLoader:" + application.getClassLoader().hashCode() + " finish");
+            Log.w(TAG, "bindApplication:" + application + " finish");
         } catch (Exception e) {
-            e.printStackTrace();
-            throw new RuntimeException("Unable to makeApplication", e);
+            Log.e(TAG, "Unable to makeApplication: " + e);
         }
     }
 
