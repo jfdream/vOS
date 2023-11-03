@@ -389,7 +389,8 @@ public class BActivityThread extends IBActivityThread.Stub {
             mApplicationClassLoader = BRLoadedApk.get(loadedApk).getClassLoader();
             Log.w(TAG,"LoadedApk ClassLoader:" + mApplicationClassLoader.hashCode() + " BCore:" + BBCore.class.getClassLoader().hashCode());
             application = BRLoadedApk.get(loadedApk).makeApplication(false, null);
-//            Log.w(TAG, "makeApplication:" + application + " classLoader:" + application.getClassLoader().hashCode());
+            Log.w(TAG, "makeApplication:" + application + " classLoader:" + application.getClassLoader().hashCode());
+            HookManager.get().checkEnv(AppInstrumentation.class);
             mInitialApplication = application;
             BRActivityThread.get(BBCore.mainThread())._set_mInitialApplication(mInitialApplication);
             ContextCompat.fix((Context) BRActivityThread.get(BBCore.mainThread()).getSystemContext());

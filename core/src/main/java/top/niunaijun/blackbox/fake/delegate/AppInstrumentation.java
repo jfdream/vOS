@@ -49,7 +49,7 @@ public final class AppInstrumentation extends BaseInstrumentationDelegate implem
             Instrumentation mInstrumentation = currentInstrumentation();
             if (mInstrumentation == this || checkInstrumentation(mInstrumentation))
                 return;
-            mBaseInstrumentation = (Instrumentation) mInstrumentation;
+            mBaseInstrumentation = mInstrumentation;
             Log.i(TAG, "inject mInstrumentation hook: " + this + " mBaseInstrumentation:" + mBaseInstrumentation);
             BRActivityThread.get(BBCore.mainThread())._set_mInstrumentation(this);
         } catch (Exception e) {

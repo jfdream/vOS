@@ -418,8 +418,8 @@ public class IActivityManagerProxy extends ClassInvocationStub {
                 ClassLoader loader = application != null ? application.getClassLoader() : BActivityThread.currentActivityThread().getApplicationClassLoader();
                 if (loader == null) {
                     loader = getClass().getClassLoader();
-                    Log.w(TAG, "broadcastIntent use class loader:" + loader);
                 }
+                Log.w(TAG, "broadcastIntent use class loader:" + loader);
                 proxyIntent.setExtrasClassLoader(loader);
                 ProxyBroadcastRecord.saveStub(proxyIntent, intent, BActivityThread.getUserId());
                 args[intentIndex] = proxyIntent;

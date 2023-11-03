@@ -242,6 +242,10 @@ public class BaseInstrumentationDelegate extends Instrumentation {
 
     @Override
     public Activity newActivity(ClassLoader cl, String className, Intent intent) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+        if (BRInstrumentation.get(mBaseInstrumentation).mThread() == null) {
+            BRInstrumentation.get(mBaseInstrumentation).basicInit((ActivityThread) BRActivityThread.get().currentActivityThread());
+            Log.w(TAG, "newActivity mThread is empty, so ues basicInit");
+        }
         return mBaseInstrumentation.newActivity(cl, className, intent);
     }
 

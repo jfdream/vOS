@@ -23,18 +23,19 @@ import top.niunaijun.blackbox.utils.Slog;
  * 此处无Bug
  */
 public class ProxyActivity extends Activity {
-    public static final String TAG = "ProxyActivity";
+    public static final String TAG = "ProxyActivity.iOS";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d(TAG, "onCreate");
+
         finish();
 
         HookManager.get().checkEnv(HCallbackProxy.class);
 //        HookManager.get().checkEnv(AppInstrumentation.class);
 
         ProxyActivityRecord record = ProxyActivityRecord.create(getIntent());
+        Log.i(TAG, "ProxyActivity: " + record);
         if (record.mTarget != null) {
             record.mTarget.setExtrasClassLoader(BActivityThread.getApplication().getClassLoader());
             startActivity(record.mTarget);

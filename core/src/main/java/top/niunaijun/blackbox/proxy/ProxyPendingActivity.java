@@ -3,6 +3,7 @@ package top.niunaijun.blackbox.proxy;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 
@@ -19,14 +20,14 @@ import top.niunaijun.blackbox.utils.Slog;
  * 此处无Bug
  */
 public class ProxyPendingActivity extends Activity {
-    public static final String TAG = "ProxyPendingActivity";
+    public static final String TAG = "ProxyPendingActivity.iOS";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         finish();
         ProxyPendingRecord pendingActivityRecord = ProxyPendingRecord.create(getIntent());
-        Slog.d(TAG, "ProxyPendingActivity: " + pendingActivityRecord);
+        Log.i(TAG, "ProxyPendingActivity: " + pendingActivityRecord);
         if (pendingActivityRecord.mTarget == null)
             return;
         pendingActivityRecord.mTarget.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
