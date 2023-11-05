@@ -305,10 +305,6 @@ public class BActivityThread extends IBActivityThread.Stub {
     public synchronized void handleBindApplication(String packageName, String processName) {
         if (initialized())
             return;
-        try {
-            CrashHandler.create();
-        } catch (Throwable ignored) {
-        }
 
         PackageInfo packageInfo = BBCore.getBPackageManager().getPackageInfo(packageName, PackageManager.GET_PROVIDERS, BActivityThread.getUserId());
         ApplicationInfo applicationInfo = packageInfo.applicationInfo;
@@ -395,6 +391,10 @@ public class BActivityThread extends IBActivityThread.Stub {
             Log.w(TAG, "bindApplication:" + application + " finish");
         } catch (Exception e) {
             Log.e(TAG, "Unable to makeApplication: " + e);
+        }
+        try {
+            CrashHandler.create();
+        } catch (Throwable ignored) {
         }
     }
 

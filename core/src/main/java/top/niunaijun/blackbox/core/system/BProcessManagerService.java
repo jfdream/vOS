@@ -180,6 +180,7 @@ public class BProcessManagerService implements ISystemService {
             applicationThreadBinder.linkToDeath(new IBinder.DeathRecipient() {
                 @Override
                 public void binderDied() {
+                    Thread.dumpStack();
                     Log.e(TAG, "Application did terminate: " + app.processName);
                     applicationThreadBinder.unlinkToDeath(this, 0);
                     onProcessDie(app);

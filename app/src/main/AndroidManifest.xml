@@ -5,6 +5,39 @@
     <!-- Android 11 需要 -->
     <uses-permission android:name="android.permission.QUERY_ALL_PACKAGES" />
 
+    <queries>
+        <package android:name="com.ss.android.ugc.aweme"/>
+        <package android:name="com.zhiliaoapp.musically"/>
+        <package android:name="com.tencent.mm"/>
+        <package android:name="com.tencent.mobileqq"/>
+        <package android:name="com.whatsapp"/>
+        <package android:name="com.whatsapp.w4b"/>
+        <package android:name="com.smile.gifmaker"/>
+        <package android:name="com.plusme.live"/>
+        <package android:name="com.cmcm.live"/>
+        <package android:name="com.europe.live"/>
+        <package android:name="com.highlive.live"/>
+        <package android:name="com.alive.android"/>
+        <package android:name="com.mingin.xhs"/>
+        <package android:name="org.telegram.messenger.web"/>
+        <package android:name="com.xingin.xhs"/>
+        <package android:name="com.ss.android.lark"/>
+        <package android:name="com.facebook.katana"/>
+        <package android:name="com.twitter.android"/>
+        <package android:name="com.ss.android.ugc.trill"/>
+        <package android:name="com.linkv.live"/>
+        <package android:name="com.facebook.orca"/>
+        <package android:name="jp.naver.line.android"/>
+        <package android:name="com.shopee.id"/>
+        <package android:name="com.shopee.sg"/>
+
+        <package android:name="com.android.providers.settings"/>
+        <package android:name="com.android.dynsystem"/>
+        <package android:name="com.android.localtransport"/>
+        <package android:name="com.android.settings"/>
+        <package android:name="com.android.keychain"/>
+    </queries>
+
     <application
         android:name=".app.App"
         android:allowBackup="true"
@@ -14,7 +47,8 @@
         android:roundIcon="@drawable/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/Theme.BlackBox"
-        tools:targetApi="n">
+        android:usesCleartextTraffic="true"
+        tools:targetApi="31">
         <activity
             android:name=".view.fake.FollowMyLocationOverlay"
             android:exported="false" />
