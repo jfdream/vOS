@@ -85,4 +85,5 @@ lint/tmp/
 # lint/reports/
 
 # mac
-*.DS_Store
+.DS_Store
+.vscode
